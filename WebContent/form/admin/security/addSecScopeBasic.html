@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加编辑权限范围</title>
+<script type="text/javascript" src="../../../form/html5/admin/html5Head.js"></script>
+<script>
+	window.onload = function(){
+		var opType = getUrlParam("opType");		
+		var formUuid = getUrlParam("formUuid");
+		document.getElementById("opType").value = opType;
+		document.getElementById("formUuid").value = formUuid;
+		
+		if(opType == 'update'){ //修改时
+			var index = getUrlParam("index");
+			var uuid = getUrlParam("uuid");
+			document.getElementById("index").value = index;
+			document.getElementById("uuid").value = uuid;
+			
+			var url = webpath + 'formSecScope/loadUpdateSecScopeBasic';
+			var synJson = {};
+			synJson.uuid = uuid;
+			synJson.formUuid = formUuid;
+			
+			Matrix.sendRequest(url,synJson,function(data){
+				debugger;
+				if(data != null && data.data != null){
+					var jsonData = data.data;
+					var scopeName = jsonData.scopeName;
+					var scopeDesc = jsonData.scopeDesc;
+					scopeDesc = scopeDesc.replace(/<br\/>/g, '\n').replace(/\&nbsp\;/g, ' '); //转换格式
+					
+					document.getElementById("name").value = scopeName;
+					document.getElementById("desc").value = scopeDesc;
+				}
+			});
+		}
+	}
+</script>
+</head>
+<body>
+	<div style="width: 100%; height: 100%; overflow: auto; position: relative; margin: 0 auto; zoom: 1; padding: 10px 10px;">
+		<form id="form0" name="form0" eventProxy="Mform0" method="post" action="" style="margin: 0px; position: relative; overflow: hidden; width: 100%; height: 100%;" enctype="application/x-www-form-urlencoded">
+			<!-- Matrix平台校验 -->
+			<input type="hidden" id="validateType" name="validateType" value="jquery" />
+			<!-- add:添加  update:修改 -->
+			<input type="hidden" id="opType" name="opType"/>
+			<!-- 表单编码主键-->
+			<input type="hidden" id="formUuid" name="formUuid"/>
+			<!-- 修改权限范围时主键-->
+			<input type="hidden" id="uuid" name="uuid"/>
+			<!-- 修改权限范围时表格行索引-->
+			<input type="hidden" id="index" name="index"/>
+			
+			<div style="height:calc(100% - 54px);width: 100%;overflow: auto;">
+				<table id="table001" class="tableLayout" style="width: 100%;">
+					<tr>
+						<td class="tdLayout" style="width: 40%; text-align: center; vertical-align: middle; background-color: rgb(248, 248, 248)"
+							<label class="control-label ">名称：</label>
+						</td>
+						<td class="tdLayout" style="width: 60%;">
+							<div class="input-group col-md-12 " style="display: inline-table; vertical-align: middle; width: 100%;">
+								<input id="name" name="name" type="text"
+									class="form-control "
+									style="width: 100%; height: 100%; padding-left: 5px;"
+									autocomplete="off" required="required">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="tdLayout" style="width: 40%; text-align: center; vertical-align: middle; background-color: rgb(248, 248, 248)">
+							<label class="control-label ">描述：</label>
+						</td>
+						<td class="tdLayout" style="height: 108px;width: 60%;">
+							<div id="inputTextArea001_div" class="col-md-12 input-group " style="height: 100%;width: 100%;white-space: pre-wrap;">
+								<textarea id="desc" name="desc" class="form-control "
+									style="width: 100%; height: 100%;resize: none;"></textarea>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="cmdLayout">
+				<button type="button" id="button001" class="x-btn ok-btn ">保存</button>
+				<button type="button" id="button002" class="x-btn cancel-btn ">关闭</button>
+
+				<script>
+				$('#button001').click(function(){
+					debugger;
+					Matrix.showMask2();
+		    		//表单验证
+		    		if (!Matrix.validateForm('form0')) {
+		    			Matrix.hideMask2();
+		    			return false;
+		    		}
+		    		
+					var opType = document.getElementById("opType").value;
+					var formUuid = document.getElementById("formUuid").value;
+					var name = document.getElementById("name").value;
+					var desc = document.getElementById("desc").value;
+					desc = desc.replace(/\r{0,}\n/g, '<br/>').replace(/\s/g, '&nbsp;');
+					
+					var validUrl = webpath + "formSecScope/validateScopeName";
+					var str = "";
+					str += "{\"name\":\""+name+"\"";
+					str += ",\"desc\":\""+desc+"\"";
+					str += ",\"formUuid\":\""+formUuid+"\"";
+					if(opType == 'update'){ //修改时
+						var uuid = document.getElementById("uuid").value;
+						str += ",\"uuid\":\""+uuid+"\"";
+					}
+					str += "}";
+					
+					var validJson = {'data':str};
+					Matrix.sendRequest(validUrl,validJson,function(data){
+						debugger;
+						if(data != null && data.data != null){
+							var jsonData = data.data;
+							if(jsonData.message=='true'){
+								//保存
+								var url = null;
+								var synJson = {};
+								if(opType == 'add'){     //添加
+									url = webpath + "formSecScope/addSecScopeBasic";
+									synJson.formUuid = formUuid;
+									synJson.name = name;
+									synJson.desc = desc;
+								}else{   //修改
+									url = webpath + "formSecScope/updateSceScopeBasic";	
+									synJson = {'data':str, 'formUuid': formUuid};
+								}										
+
+								Matrix.sendRequest(url,synJson,function(data){
+									debugger;
+									if(data != null && data.data != null){
+										var jsonData = data.data;
+										if(jsonData.message=='true'){	
+											var item = parent.Matrix.getGridData('DataGrid001');   //所有数据
+											if(opType == 'add'){     //添加												
+												var record = {};
+												record.name = name;
+												record.uuid = jsonData.scopeUuid;
+												record.formUuid = formUuid;												
+												record.overWrite = null;
+												parent.$("#DataGrid001_table").bootstrapTable('insertRow',{index:item.length,row:record});
+												parent.Matrix.say('保存成功');
+											}else{  //修改
+												//构造修改后的数据
+												var index = document.getElementById("index").value;
+												var record = item[index];
+												record.name = name;																							
+												parent.$("#DataGrid001_table").bootstrapTable('updateRow',{index:index,row:record});
+												parent.Matrix.say("更新成功");
+											}
+											Matrix.hideMask2();
+											//parent.Matrix.refreshDataGridData('DataGrid001');
+											var index = parent.layer.getFrameIndex(window.name);
+											parent.layer.close(index);
+											
+										}else{
+											Matrix.warn("服务器异常!");
+											Matrix.hideMask2();
+											return false;
+										}
+									}
+								});	
+							}else if(jsonData.message=='repeat'){
+								Matrix.warn("授权范围名称重复!");
+								Matrix.hideMask2();
+			    	 			return false;
+							}else{
+								Matrix.warn("服务器异常!");
+								Matrix.hideMask2();
+								return false;
+							}
+						}
+					});
+				});
+				
+				$('#button002').click(function() {
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);
+				});
+				</script>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

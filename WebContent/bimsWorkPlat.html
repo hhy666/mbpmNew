@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>中检业务信息管理系统——工作台</title>
+    <link rel="stylesheet" href="resource/html5/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="resource/html5/css/bootstrap.css">
+    <link rel="stylesheet" href="resource/bims/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="resource/bims/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="resource/css/css/layer.css" />
+    <link rel="stylesheet" href="resource/html5/iconfonts/iconfont.css">
+    <script type="text/javascript" src="resource/bims/js/common-css.js"></script>
+    <link rel="stylesheet" href="resource/bims/css/global-zh-CN.css">
+    <link rel="stylesheet" href="resource/bims/css/workPlat.css">
+    <link rel="stylesheet" href='resource/html5/assets/toastr-master/toastr.min.css'  />
+
+    <!-- <link rel="stylesheet" href="../css/global.css?v=0.0.1-SNAPSHOT-20200917071126"> -->
+<!--    <link rel="stylesheet" href="../css/workPlat.css?v=0.0.1-SNAPSHOT-20200917071126">-->
+    <style>
+        .viewMore {
+            cursor: pointer;
+            text-align: center;
+            margin-top: 2%;
+            color: #999999;
+        }
+        .url-span {
+            display: none;
+        }
+        .isLook {
+            cursor: pointer;
+        }
+        .notDisplay {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="contentDiv">
+    <div class="mainInforDiv">
+        <div class="userInforDiv">
+            <p class="userImg">
+                <i class="fa fa-user-circle" aria-hidden="true"></i>
+            </p>
+            <div>
+                <p class="name" id="userName">{{userName}}</p>
+                <p class="type" id="position"></p>
+            </div>
+        </div>
+        <div class="taskInforDiv">
+            <div class="taskDataDiv">
+                <div class="item">
+                    <p>委托单</p>
+                    <p class="number">20</p>
+                </div>
+                <div class="item">
+                    <p>委托单</p>
+                    <p class="number">18</p>
+                </div>
+                <div class="item">
+                    <p>已开工</p>
+                    <p class="number">2</p>
+                </div>
+                <div class="item">
+                    <p>工作单</p>
+                    <p class="number">30</p>
+                </div>
+                <div class="item">
+                    <p>任务单</p>
+                    <p class="number">13</p>
+                </div>
+                <div class="item">
+                    <p>待签发</p>
+                    <p class="number">9</p>
+                </div>
+                <div class="item">
+                    <p>待发放</p>
+                    <p class="number">6</p>
+                </div>
+            </div>
+            <div class="taskBtnDiv">
+                <!--      todo 存在是否显示 在workPlat.js中          -->
+                <button type="button" class="primary" id="addOrder" style="display: none;" data-locale="workPlat_newOrder">+ 新建委托单</button>
+            </div>
+        </div>
+    </div>
+    <div class="inforDiv">
+        <div class="itemDiv todoList" style="background: #fff;">
+            <div class="itemTtl">
+                <p class="ttlName" data-locale="workPlat_myTodo">我的待办</p>
+                <a class="iconfont icon-shuaxin" id="todoRefresh" @click="refreshUndo" data-locale data-locale-title="workPlat_refresh"  title="刷新"  style="cursor: pointer;"> </a>
+                <!-- <a href="##">更多</a> -->
+            </div>
+            <div class="contDiv" id="todoListDiv">
+                <table class="table table-md table-hover" id="todoResult">
+                    <thead class="thead-light">
+                    <tr>
+                        <th data-locale="workPlat_date">日期</th>
+                        <th data-locale="workPlat_todoList">待办详情</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="todoContent">
+                    <!-- <tr id="noTodoList" style="display:none;"><td>
+                                                                      无
+                      </td></tr>
+                      <tr style="color:#BFB8B8">
+                            <td>todo-createDate</td>
+                            <td>
+                                todo-customerName，todo-idType
+                                <span class="isLook">(todo-workId)</span>
+                                <span class="url-span">todo-taskUrl</span>
+                                <span class="url-span">todo-id</span>
+                                <span class="url-span">tod-workType</span>
+                                ，workTypeName
+                            </td>
+                        </tr>-->
+                        <tr v-for="undoOne in undoArray" v-cloak style="color:#BFB8B8">
+                            <td>{{undoOne.startTime}}</td>
+                            <td>
+                                {{undoOne.processName}}，{{undoOne.starterName}}，{{undoOne.taskNodeName}}
+                                <span class="isLook" @click="showUndoTask(undoOne.url,undoOne.tiid)">{{undoOne.title}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div id="viewMoreTodo" @click="addUndo" class="viewMore" data-locale="workPlat_more">查看更多</div>
+            </div>
+        </div>
+
+
+        <div class="itemDiv" style="background: #fff;">
+            <!-- <div class="itemDiv1" style="margin-bottom: 16px;overflow: auto;" > -->
+            <div class="itemTtl">
+                <p class="ttlName" data-locale="workPlat_myMes">我的消息</p>
+                <a class="iconfont icon-shuaxin" id="rejectRefresh" @click="refreshMsg"  data-locale data-locale-title="workPlat_refresh" title="刷新" style="cursor: pointer;"> </a>
+                <!-- <a href="##">更多</a> -->
+            </div>
+            <div class="contDiv">
+                <table class="table table-md table-hover">
+                    <thead class="thead-light">
+                    <tr>
+                        <th data-locale="workPlat_date">日期</th>
+                        <th data-locale="workPlat_messageList">消息详情</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="rejectContent">
+                    <!-- <tr id="noRejectList" style="display:none;"><td>
+                                                                      无
+                      </td></tr> -->
+                        <tr style="color:#BFB8B8">
+                            <td>todo-createDate</td>
+                            <td>
+                                todo-customerName，todo-idType
+                                <span class="isLook">(todo-workId)</span>
+                                <span class="url-span">todo-taskUrl</span>
+                                <span class="url-span">todo-id</span>
+                                <span class="url-span">tod-workType</span>
+                                ，workTypeName
+                            </td>
+                        </tr>
+                        <tr v-for="msgOne in msgArray" v-cloak style="color:#BFB8B8">
+                            <td>{{msgOne.createdDate}}</td>
+                            <td>
+                                {{msgOne.userName}}，
+                                <span class="isLook" @click="showMsg(msgOne.urlValue,msgOne.messageId)">{{msgOne.subjectValue}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div id="viewMoreReject" @click="addMsg" class="viewMore" data-locale="workPlat_more">查看更多</div>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript" src='resource/html5/js/jquery.min.js'></script>
+<script type="text/javascript" src="resource/html5/js/jquery.i18n.properties.js"></script>
+<script type="text/javascript" src="resource/bims/js/contabsForBims.js"></script>
+<script type="text/javascript" src='resource/html5/js/matrix_runtime.js'></script>
+<script type="text/javascript" src='resource/html5/lang/matrix_lang.js'></script>
+<script type="text/javascript" src="resource/html5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="resource/html5/js/bootstrap-select.js"></script>
+<script type="text/javascript" src="resource/html5/js/layer.min.js"></script>
+<script type="text/javascript" src="resource/html5/js/axios.min.js"></script>
+<script type="text/javascript" src="resource/html5/js/vue.js"></script>
+<script type="text/javascript" SRC='resource/html5/assets/toastr-master/toastr.min.js'></script>
+
+<script type="text/javascript" src="resource/bims/js/Popper.js"></script>
+<!--<script type="text/javascript" src="resource/bims/js/bootstrap-table-locale-all.min.js"></script>-->
+<script type="text/javascript" src="resource/bims/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="resource/bims/js/webuploader.min.js"></script>
+<script type="text/javascript" src="resource/bims/js/bootstrap3-typeahead.js"></script>
+<script type="text/javascript" src="resource/bims/js/jquery.ztree.all.min.js"></script>
+<script type="text/javascript" src="resource/bims/js/jquery.ztree.exhide.js"></script>
+<script type="text/javascript" src="resource/bims/js/pagination.min.js"></script>
+<script type="text/javascript" src="resource/bims/js/api.js"></script>
+<script type="text/javascript" src="resource/bims/js/jquery.validate.js"></script>
+<script type="text/javascript" src="resource/bims/js/util.js"></script>
+<script type="text/javascript" src="resource/bims/js/additional-methods.js"></script>
+<script type="text/javascript" src="resource/bims/js/global.js"></script>
+<script type="text/javascript" src='office/html5/assets/bootstrap-table/src/bootstrap-table.js'></script>
+<script src="resource/bims/js/workPlat.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    // TODO 原始js 赋值都在 workPlat.js
+    const app = new Vue({
+        el:"#app",
+        data: {
+            userName: "aaa",
+            undoArray: new Array(),
+            msgArray: new Array()
+        },
+        methods: {
+            loadList: function (loadType,undoIndex,msgIndex){
+                const synJson = {}
+                synJson["loadType"] = loadType // 0：全部加载；1。加载代办列表；2。加载信息列表
+                synJson["undoListStartIndex"] = undoIndex
+                synJson["msgListStartIndex"] = msgIndex
+                axios.get('homePage/pageList', {
+                    params:synJson
+                }).then(function (res) {
+                    if (res != "") {
+                        const dataJson = res.data;
+                        if (dataJson.status) {
+                            // isc.say(dataJson.msg);
+                            const result = JSON.parse(dataJson.dataStr);
+                            app.userName = result.userName
+                            const reqUndoList = result.undo
+                            if (typeof reqUndoList != "undefined" && reqUndoList!="" && reqUndoList!=null && reqUndoList.length>0){
+                                if (typeof app.undoArray != "undefined" && undoIndex!=0){
+                                    app.undoArray = app.undoArray.concat(reqUndoList)
+                                }else {
+                                    app.undoArray = reqUndoList
+                                }
+                            }
+                            const reqMsgList = result.msg
+                            if (typeof reqMsgList != "undefined" && reqMsgList!="" && reqMsgList!=null && reqMsgList.length>0){
+                                if (typeof app.msgArray != "undefined" && msgIndex!=0){
+                                    app.msgArray = app.msgArray.concat(reqMsgList)
+                                }else {
+                                    app.msgArray = reqMsgList
+                                }
+                            }
+                        } else {
+                            parent.isc.warn(dataJson.msg);
+                        }
+                    }
+                })
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
+            refreshUndo:function(){
+                this.loadList(1,0,0)
+            },
+            refreshMsg:function(){
+                this.loadList(2,0,0)
+            },
+            addMsg:function(){
+                this.loadList(2,0,this.msgArray.length)
+            },
+            addUndo:function() {
+                this.loadList(1,this.undoArray.length,0)
+            },
+            parentDialogShow:function(url,dialogType){
+                let dialogTitle = ""
+                if (dialogType == 1){
+                    dialogTitle = "任务"
+                }else if (dialogType == 2){
+                    dialogTitle = "信息"
+                }
+                parent.layer.open({
+                    id: 'msgDialog',
+                    type: 2,
+                    title: [dialogTitle],
+                    closeBtn: 1,
+                    shadeClose: false,
+                    area: ['95%', '95%'],
+                    content: url
+                })
+                this.loadList(dialogType,0,0)
+            },
+            showMsg:function(msgUrl,msgId){
+                if (msgUrl != null && msgUrl.length > 0) {
+                    if (msgUrl.indexOf("FlowFrame") >= 0) {
+                        try {
+                            axios.put("homePage/message/" + msgId).then(function (res) {
+                                if (res != "") {
+                                    const dataJson = res.data;
+                                    if (dataJson.status) {
+                                        msgUrl = msgUrl + "&mHtml5Flag=true";
+                                        app.parentDialogShow(msgUrl,2);
+                                        // const result = JSON.parse(dataJson.dataStr);
+                                    } else {
+                                        parent.isc.warn(dataJson.msg);
+                                    }
+                                }
+                            })
+                                .catch(function (error) { // 请求失败处理
+                                    console.log(error);
+                                });
+
+                        } catch (error) {
+                            Matrix.warn("该任务不存在！");
+                            return false;
+                        }
+                    } else if (msgUrl.indexOf("readMessage=true") >= 0) {
+                        msgUrl = msgUrl + "&mHtml5Flag=true&messageId=" + msgId;
+                        app.parentDialogShow(msgUrl,2);
+                    } else {
+                        msgUrl = msgUrl + "&mHtml5Flag=true";
+                        app.parentDialogShow(msgUrl,2);
+                    }
+                }
+            },
+            showUndoTask:function(msgUrl,tiid){
+                //
+                app.parentDialogShow(msgUrl,1);
+            }
+        },
+        mounted() {
+            // 初始加载数据
+            this.loadList(0,0,0)
+        }
+    })
+</script>
+</html>

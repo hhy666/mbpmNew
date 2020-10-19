@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>授权空白列表</title>
+<script type="text/javascript" src="../../../form/html5/admin/html5Head.js"></script>
+<style type="text/css">
+	.setComType{
+		width: 120px;
+	}
+	 .isDisplay,.isEdit,.isRequired,.isBusOper{
+		width: 70px;
+		text-align: center;
+	}
+	.setCondit{
+		width: 70px;
+		text-align: center;
+	}
+	.setStatus{
+		width: 50px;
+		text-align: center;
+	}
+	.setIndex{
+		width: 50px;
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+	<div style="height: 35px;line-height: 35px;width: 100%;padding-left: 5px;background: #F8F8F8;">
+		<div style="position: absolute;right: 5px;top: 0px;">
+			<button type="button" id="button001" class="x-btn ok-btn" disabled="disabled">保存</button>
+		</div>	
+	</div>
+	<div class="bootstrap-table">
+		<div class="fixed-table-toolbar"></div>
+		<div class="fixed-table-container table-no-bordered" style="padding-bottom: 0px;">
+			<div class="fixed-table-header" style="display: none;"></div>
+			<div class="fixed-table-body">
+				<table class="table table-hover table-no-bordered">
+			        <thead>
+			            <tr>
+			            	<th class="setIndex"><div class="th-inner"></div></th>
+			                <th><div class="th-inner">控件名称</div></th>
+			                <th class="setComType"><div class="th-inner">控件类型</div></th>
+			                <th class="isDisplay"><div class="th-inner" style="text-align: center;">可显示</div></th>
+			                <th class="isEdit"><div class="th-inner" style="text-align: center;">可编辑</div></th>
+			                <th class="isRequired"><div class="th-inner" style="text-align: center;">必填项</div></th>
+			                <th class="isBusOper"><div class="th-inner" style="text-align: center;">默认值</div></th>
+			                <th class="setCondit"><div class="th-inner">操作设置</div></th>
+			                <th class="setStatus"><div class="th-inner">状态</div></th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr>
+			             	 <td colspan="9" style="text-align: center;">无数据显示</td>
+			            </tr>
+			        </tbody>
+		    	</table>
+		     </div>
+		 </div>
+    </div>
+</body>
+</html>

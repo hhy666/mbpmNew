@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实体对象vueHtml</title>
+    <script src="../../../resource/html5/js/vue.js"></script>
+    <script src="../../../resource/html5/js/axios.min.js"></script>
+
+    <link href='../../../resource/html5/css/matrix_runtime.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/font-awesome.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/flat/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/square/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap-select.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/select2.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/clockpicker.css' rel="stylesheet"/>
+    <link href='../../../resource/css/filecss.css' rel="stylesheet"/>
+    <link href='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/google-code-prettify/bin/prettify.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/custom.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/skin/mCustom_primary.css' rel="stylesheet"/>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.i18n.properties.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/lang/matrix_lang.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.inputmask.bundle.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/bootstrap/dist/js/bootstrap.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/icheck.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-select.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/select2.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/layer.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/autosize.min.js'></SCRIPT>
+    <script src="../../../resource/html5/js/demo.js"></script>
+    <SCRIPT SRC='../../../resource/html5/js/laydate/laydate.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/clockpicker.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.hotkeys/jquery.hotkeys.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/google-code-prettify/src/prettify.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/filejs.js'></SCRIPT>
+    <script src='../../../resource/html5/js/jstree.min.js'></script>
+    <link rel='stylesheet' href='../../../resource/css/themes/default/style.min.css'/>
+    <script src='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.js'></script>
+    <SCRIPT SRC='../../../resource/html5/assets/toastr-master/toastr.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/validator.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/matrix_runtime.js'></SCRIPT>
+    <link href='../../../resource/html5/assets/toastr-master/toastr.min.css' rel="stylesheet"/>
+
+    <link href='../../../resource/html5/css/jquery-editable-select.min.css' rel="stylesheet"></link>
+    <script src='../../../resource/html5/js/jquery-editable-select.min.js'></script>
+
+    <style>
+        #dataTable tbody {
+            display: inline-block;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="app" style=" overflow: auto; height: 100%;">
+    <form id="form0" name="form0">
+        <input type='hidden' id='validateType' name='validateType' value='jquery'/>
+
+        <div id="toolBar" style="background: #f8f8f8;text-align: left;border: 1px solid #E6E9ED ">
+            <table class="query_form_content"
+                   style="height:100%;width:100%;overflow:hidden;border-collapse: collapse;border-spacing:0px;table-layout:fixed;">
+                <tr style=" height: 0px">
+                    <td class="query_form_toolbar" icolspan="2" style="padding: 3px">
+                        <div style="padding-left: 15px;padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/add.png">
+                            <input type="button" value="添加" class="btn  btn-default toolBarItem" id="toolBarItemAdd"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemAdd">
+                        </div>
+                        <div style="padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/delete.png">
+                            <input type="button" value="删除" class="btn  btn-default toolBarItem"
+                                   id="toolBarItemDel"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemDel">
+                        </div>
+                        <div style="padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/save.png">
+                            <input type="button" value="保存" class="btn  btn-default toolBarItem"
+                                   id="toolBarItemSave"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemSave">
+                        </div>
+                        <div style="padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/copy.png">
+                            <input type="button" value="复制" class="btn  btn-default toolBarItem"
+                                   id="toolBarItemCopy"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemCopy">
+                        </div>
+                        <div style="padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/cut.png">
+                            <input type="button" value="剪切" class="btn  btn-default toolBarItem"
+                                   id="toolBarItemCut"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemCut">
+                        </div>
+                        <div style="padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/paste.png">
+                            <input type="button" value="粘贴" class="btn  btn-default toolBarItem"
+                                   id="toolBarItemPua"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemPau">
+                        </div>
+                        <div style="padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/move_up.png">
+                            <input type="button" value="上移" class="btn  btn-default toolBarItem"
+                                   id="toolBarItemUp"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemUp">
+                        </div>
+                        <div style="padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/move_down.png">
+                            <input type="button" value="下移" class="btn  btn-default toolBarItem"
+                                   id="toolBarItemDown"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemDown">
+                        </div>
+                        <div style="padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/import_hd.png">
+                            <input type="button" value="导入" class="btn  btn-default toolBarItem"
+                                   id="toolBarItemImport"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemImport">
+                        </div>
+                        <div style="padding-right: 15px;display: inline-block;">
+                            <img style="VERTICAL-ALIGN: middle" align="absMiddle" width="16" height="16"
+                                 src="../../../matrix/resource/isomorphic/skins/Enterprise/images/matrix/actions/save_hd.png">
+                            <input type="button" value="导出" class="btn  btn-default toolBarItem"
+                                   id="toolBarItemExport"
+                                   style="padding:0px;margin:0px;border:0;background: transparent"
+                                   @click="itemExport">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <table id="dataTable" class="maintain_form_content" style="width:100%;">
+            <thead style="display: inline-block;">
+            <tr>
+                <td class="subtableHeadStyle" style="width:40px;text-align:center;">
+                    <label style="text-align:center;white-space: normal;" class="control-label ">
+                        序号
+                    </label>
+                </td>
+                <td class="subtableHeadStyle" style="width:50px;text-align:center;">
+                    <div class="form-group;" style="display: inline-table;min-height:34px;  "
+                    >
+                        <input id="allCheck" type="checkbox" class="box"
+                               style="position: absolute; opacity: 0;"
+                               name="rowHeadCheck"
+                        />
+                    </div>
+                </td>
+                <td class="subtableHeadStyle" :style="headDataOne.style" v-for="headDataOne in headData">
+                    <label style="text-align:center;white-space: normal;" class="control-label ">
+                        {{headDataOne.title}}
+                    </label>
+                </td>
+            </tr>
+            </thead>
+            <tbody :style="{width:bodyWidth+'px', maxHeight:bodyMaxHeight+'px'}">
+            <tr>
+                <td :colspan="headData.length+2">
+                    <div :style="{textAlign: 'center', display: displayLoadDiv}">
+                        <label>数据加载中</label>
+                    </div>
+                </td>
+            </tr>
+            <tr v-for="(rowData,index) in allData" v-cloak>
+                <td class="tdLayout" style="width:40px;text-align:center;">
+                    <label style="text-align:center;white-space: normal;" class="control-label ">
+                        {{index + 1}}
+                    </label>
+                </td>
+                <td class="tdLayout" style="width:50px;text-align:center;">
+                    <div class="form-group;" style="display: inline-table;min-height:34px;  "
+                    >
+                        <input type="checkbox" class="box"
+                               style="position: absolute; opacity: 0;"
+                               :value="index"
+                               name="rowHeadCheck"
+                               :id="'rowHeadCheck_'+index"
+                        />
+                    </div>
+                </td>
+                <td class="tdLayout" :style="headDataOne.style" v-for="(headDataOne,headIndex) in headData">
+                    <div class="matrixInline" style="width:100%"
+                         v-if="headDataOne.editorType == 'Text' "
+                         :id="headDataOne.cellId+'_'+index+'_div'"
+                         :name="headDataOne.cellId+'_div_name'"
+                    >
+                        <input class="form-control"
+                               style="WIDTH:90%;HEIGHT:30px;"
+                               :required="headDataOne.required"
+                               v-model.lazy="rowData[headDataOne.cellId]"
+                               :type="headDataOne.type"
+                               :id="headDataOne.cellId+'_'+index"
+                               :name="headDataOne.cellId"
+                        >
+                        <div :id="headDataOne.cellId+'_msg_'+index"
+                             class="alert" style="display: none;">
+                            必填字段
+                        </div>
+                        <div :id="headDataOne.cellId+'_msg_check_'+index"
+                             class="alert" style="display: none;">
+                            必填字段
+                        </div>
+                        <div :id="headDataOne.cellId+'_msg_repeat_'+index"
+                             class="alert" style="display: none;">
+                            重复
+                        </div>
+                    </div>
+                    <div class="form-group;" style="display: inline-table;min-height:34px;  "
+                         v-else-if="headDataOne.editorType == 'Checkbox'"
+                         :id="headDataOne.cellId+'_'+index+'_div'"
+                         :name="headDataOne.cellId+'_div_name'"
+                    >
+                        <input type="checkbox" class="box"
+                               style="position: absolute; opacity: 0;"
+                               :id="headDataOne.cellId+'_'+index"
+                               v-model="rowData[headDataOne.cellId]"
+                        />
+                        <div :id="headDataOne.cellId+'_msg_'+index"
+                             class="alert" style="display: none;">
+                            必填字段
+                        </div>
+                    </div>
+                    <div class="matrixInline" style="width:100%"
+                         v-else-if="headDataOne.editorType == 'select'"
+                         :id="headDataOne.cellId+'_'+index+'_div'"
+                         :name="headDataOne.cellId+'_div_name'"
+                    >
+                        <select
+                                v-model="rowData[headDataOne.cellId]"
+                                :id="headDataOne.cellId+'_'+index"
+                                class="form-control select2-accessible" style=""
+                                @change="eventShunt(headDataOne.changedFun,$event,index)"
+                        >
+                            <option
+                                    v-for="(val,key) in headDataOne.optionVal"
+                                    :value="key"
+                            >
+                                {{val}}
+                            </option>
+                        </select>
+                        <div :id="headDataOne.cellId+'_msg_'+index"
+                             class="alert" style="display: none;">
+                            必填字段
+                        </div>
+
+                    </div>
+                    <div class="input-group default-width "
+                         :style="[{width:'100%'}, {display:(rowData.type == 13 ? '':'none') } ]"
+                         v-else-if="headDataOne.editorType == 'PopupSelect'"
+                         :id="headDataOne.cellId+'_'+index+'_div'"
+                         :name="headDataOne.cellId+'_div_name'"
+                    >
+                        <input class="form-control has-feedback-right"
+                               style="width:100%;height:100%;"
+                               :required="headDataOne.required"
+                               v-model="rowData[headDataOne.cellId]"
+                               :type="headDataOne.type"
+                               :id="headDataOne.cellId+'_'+index"
+                               :name="headDataOne.cellId"
+                               readonly="readonly"
+                        >
+                        <span class="input-group-addon addon-udSelect udSelect" @click="showSelectOptions(index)">
+                        <i class="fa fa-search" aria-hidden="true "></i>
+                        </span>
+                        <div :id="headDataOne.cellId+'_msg_'+index"
+                             class="alert" style="display: none;">
+                            必填字段
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>
+
+<script>
+    // Vue.use(window.vuelidate.default)
+    const headData1 = [
+        {
+            title: "编码",
+            cellId: "mid",
+            canEdit: true,
+            editorType: 'Text',
+            required: true,
+            type: 'text',
+            style: "width:150px",
+        }, {
+            title: "名称",
+            cellId: "name",
+            canEdit: true,
+            editorType: 'Text',
+            type: 'text',
+            style: "width:150px",
+            required: true
+        }, {
+            title: "字段",
+            cellId: "colName",
+            canEdit: true,
+            editorType: 'Text',
+            type: 'text',
+            style: "width:150px",
+            required: true
+        }, {
+            title: "类型",
+            cellId: "type",
+            canEdit: true,
+            editorType: 'select',
+            style: "width:150px",
+            defaultVal: '1',
+            type: 'number',
+            optionVal: {
+                '1': '字符型',
+                '2': '整型',
+                '3': '长整型',
+                // '4':'单精度小数',
+                // '5':'双精度小数',
+                '6': '布尔型',
+                '7': '日期时间',
+                '8': '二进制',
+                '9': '数值',
+                '14': '任意对象',
+                '13': '业务对象'
+            },
+            required: true,
+            changedFun: "controlType"
+        }, {
+            title: "关联对象",
+            cellId: "proEntityUuid",
+            canEdit: false,
+            editorType: 'PopupSelect',
+            style: "width:150px",
+            type: 'boolean',
+            required: false
+        }
+    ]
+    const headData2 = [
+        {
+            title: "编码",
+            cellId: "mid",
+            canEdit: true,
+            editorType: 'Text',
+            required: true,
+            type: 'text',
+            style: "width:150px",
+        }, {
+            title: "名称",
+            cellId: "name",
+            canEdit: true,
+            editorType: 'Text',
+            type: 'text',
+            style: "width:150px",
+            required: true
+        }, {
+            title: "类型",
+            cellId: "type",
+            canEdit: true,
+            editorType: 'select',
+            style: "width:150px",
+            type: 'number',
+            optionVal: {
+                '1': '字符型',
+                '2': '整型',
+                '3': '长整型',
+                // '4':'单精度小数',
+                // '5':'双精度小数',
+                '6': '布尔型',
+                '7': '日期时间',
+                '8': '二进制',
+                '9': '数值',
+                '14': '任意对象',
+                '13': '业务对象'
+            },
+            required: true,
+            changedFun: "controlType"
+        }, {
+            title: "关联对象",
+            cellId: "proEntityUuid",
+            canEdit: false,
+            editorType: 'PopupSelect',
+            style: "width:150px",
+            type: 'boolean',
+            required: false
+        }
+    ]
+    const app = new Vue({
+        el: "#app",
+        // name: 'entityForm',
+        // componentName: 'entityForm',
+        data: {
+            entityUuid: "",
+            entityType: "",
+            mid: "",
+            entityName: "",
+            headData: "",
+            allData: [],
+            thisSelectIndex: 0,
+            checkRows: [],
+            displayLoadDiv: 'block',
+            bodyMaxHeight: 100,
+            bodyWidth: 100
+        },
+        validations() {
+            const syn = {}
+            const dataRequired = function () {
+                const validationsOb = {}
+                for (let i = 0; i < app.headData.length; i++) {
+                    const headDataRow = app.headData[i];
+                    if (headDataRow.required) {
+                        validationsOb[headDataRow.cellId] = {
+                            required: window.validators.required,
+                            minLength: window.validators.minLength(1)
+                        }
+                    }
+                }
+                return validationsOb
+            }
+            const a = dataRequired();
+            syn['$each'] = a;
+            const syn1 = {}
+            syn1['allData'] = syn
+            return syn1
+        },
+        mounted() {
+            this.bodyMaxHeight = document.documentElement.clientHeight - $('#toolBar').height() - $("thead").height()
+            console.log(this.bodyMaxHeight)
+            this.bodyWidth = document.documentElement.clientWidth
+            console.log(this.bodyWidth)
+            const entityUuid = decodeURIComponent((new RegExp('[?|&]entityUuid=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+            this.entityUuid = entityUuid;
+            const entityType = decodeURIComponent((new RegExp('[?|&]entityType=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+            this.entityType = entityType;
+            const mid0 = decodeURIComponent((new RegExp('[?|&]mid0=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+            this.mid = mid0;
+            const entity = decodeURIComponent((new RegExp('[?|&]entity=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+            this.entityName = entity;
+            if (entityType == 2) {
+                this.headData = headData1
+            } else {
+                this.headData = headData2
+            }
+            axios.get("/" + location.pathname.split("/")[1] + "/entityProperty/" + entityUuid)
+                .then(data => {
+                    if (data != "") {
+                        const dataJson = data.data;
+                        const result = JSON.parse(dataJson.dataStr);
+                        // const result = dataJson.dataObj;
+                        if (dataJson.status) {
+                            this.allData = result;
+                        } else {
+
+                        }
+                    }
+                })
+        },
+        methods: {
+            showSelectOptions(index) {
+                // 记录当前操作行索引
+                this.thisSelectIndex = index;
+                layer.open({
+                    type: 2,
+                    area: ['80%', '80%'],
+                    title: ['选择项'],
+                    // content:"/"+location.pathname.split("/")[1]+'/form/admin/custom/queryList/options.jsp?iframewindowid=DataGrid0_optionsDialog&mHtml5Flag=true'
+                    content: "/" + location.pathname.split("/")[1] + '/common/common_loadCommonTreePage.action?componentType=16&iframewindowid=Dialog0'
+                });
+            },
+            itemAdd() {
+                const addObj = {};
+                this.headData.forEach(headDataOne => {
+                    if (typeof headDataOne.defaultVal != "undefined") {
+                        addObj[headDataOne.cellId] = headDataOne.defaultVal;
+                    } else {
+                        addObj[headDataOne.cellId] = "";
+                    }
+                })
+                this.allData.push(addObj);
+            },
+            itemDel() {
+                const selectRows = $(`input[name="rowHeadCheck"]:checked`);
+                const indexArr = [];
+                for (let i = 0; i < selectRows.length; i++) {
+                    const selectRow = selectRows[i];
+                    indexArr.push($(selectRow).val())
+                }
+                const endRow = [];
+                this.allData.forEach((rowData, index) => {
+                    for (i in indexArr) {
+                        if (index == indexArr[i]) {
+                            return
+                        }
+                    }
+                    endRow.push(rowData)
+                })
+                this.allData = endRow;
+                $("input[name='rowHeadCheck']").iCheck("uncheck");
+            },
+            itemSave() {
+                if (!this.validatorForm()) {
+                    return;
+                }
+                // if (!this.keyValidator()){
+                //     return;
+                // }
+                axios.post("/" + location.pathname.split("/")[1] + "/entityProperty?entityType="
+                    + this.entityType
+                    + "&entityUuid="
+                    + this.entityUuid
+                    + "&entityName="
+                    + this.entityName
+                    + "&mid="
+                    + this.mid,
+                    JSON.stringify(this.allData)
+                    ,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json;charset=UTF-8'  //如果写成contentType会报错
+                        }
+                    }
+                )
+                    .then(data => {
+                        if (data != "") {
+                            const dataJson = data.data;
+                            if (dataJson.status) {
+                                isc.say(dataJson.msg);
+                            } else {
+                                isc.warn(dataJson.msg);
+                            }
+                        } else {
+                            isc.warn("保存失败，服务器异常，请联系管理员！");
+                        }
+                    })
+            },
+            itemCopy() {
+                const selectRows = $(`input[name="rowHeadCheck"]:checked`);
+                this.checkRows = [];
+                const indexArr = [];
+                for (let i = 0; i < selectRows.length; i++) {
+                    const selectRow = selectRows[i];
+                    indexArr.push($(selectRow).val())
+                }
+                const endRow = [];
+                this.allData.forEach((rowData, index) => {
+                    for (i in indexArr) {
+                        if (index == indexArr[i]) {
+                            this.checkRows.push(rowData)
+                            return
+                        }
+                    }
+                })
+                isc.say("复制成功！");
+            },
+            itemCut() {
+                const selectRows = $(`input[name="rowHeadCheck"]:checked`);
+                this.checkRows = [];
+                const indexArr = [];
+                for (let i = 0; i < selectRows.length; i++) {
+                    const selectRow = selectRows[i];
+                    indexArr.push($(selectRow).val())
+                }
+                const endRow = [];
+                this.allData.forEach((rowData, index) => {
+                    for (i in indexArr) {
+                        if (index == indexArr[i]) {
+                            this.checkRows.push(rowData)
+                            return
+                        }
+                    }
+                    endRow.push(rowData)
+                })
+                this.allData = endRow;
+                $("input[name='rowHeadCheck']").iCheck("uncheck");
+            },
+            itemPau() {
+                // this.allData.push.apply(this.allData,this.checkRows)
+                this.checkRows.forEach((rowData, index) => {
+                    const newArr = {}
+                    Object.assign(newArr, rowData)
+                    this.allData.push(newArr)
+                })
+            },
+            itemUp() {
+                const selectRows = $(`input[name="rowHeadCheck"]:checked`);
+                const indexArr = [];
+                for (let i = 0; i < selectRows.length; i++) {
+                    const selectRow = selectRows[i];
+                    indexArr.push($(selectRow).val())
+                }
+                // rowHeadCheck
+                $("input[name='rowHeadCheck']").iCheck("uncheck");
+                let changeRow = false;
+                indexArr.forEach(index => {
+                    if (index != 0) {
+                        this.allData[index] = this.allData.splice(parseInt(index) - 1, 1, this.allData[index])[0]
+                        $("#rowHeadCheck_" + (parseInt(index) - 1)).iCheck("check");
+                        changeRow = true;
+                    }
+                })
+                if (!changeRow) {
+                    $("#rowHeadCheck_" + (parseInt(index))).iCheck("check");
+                }
+            },
+            itemDown() {
+                const selectRows = $(`input[name="rowHeadCheck"]:checked`);
+                const indexArr = [];
+                for (let i = 0; i < selectRows.length; i++) {
+                    const selectRow = selectRows[i];
+                    indexArr.push($(selectRow).val())
+                }
+                $("input[name='rowHeadCheck']").iCheck("uncheck");
+                let changeRow = false;
+                indexArr.forEach(index => {
+                    if (index != this.allData - 1) {
+                        this.allData[index] = this.allData.splice(parseInt(index) + 1, 1, this.allData[index])[0]
+                        $("#rowHeadCheck_" + (parseInt(index) + 1)).iCheck("check");
+                        changeRow = true;
+                    }
+                })
+                if (!changeRow) {
+                    $("#rowHeadCheck_" + (parseInt(index))).iCheck("check");
+                }
+            },
+            itemImport() {
+                // this.thisSelectIndex = index;
+                layer.open({
+                    type: 2,
+                    area: ['40%', '40%'],
+                    title: ['导入实体属性'],
+                    content: "/" + location.pathname.split("/")[1] + '/entity/entityProperty_loadUploadEntityXmlPage.action?iframewindowid=Dialog1&mHtml5Flag=true'
+                });
+            },
+            itemExport() {
+                var entityMid = this.mid;
+                var entityUuid = this.entityUuid;
+                var url = "/" + location.pathname.split("/")[1] + "/file/exportfile?exportType=entity&entityUuid=" + entityUuid + "&mid=" + entityMid + "&entityType=entityObject";
+                window.location.href = url;
+            },
+            itemLoad() {
+                const tableName = parent.document.getElementById("tableName").value;
+                const dsName = parent.document.getElementById("dsName").value;
+                layer.open({
+                    type: 2,
+                    area: ['70%', '70%'],
+                    title: ['选择表字段'],
+                    content: "/" + location.pathname.split("/")[1] + '/entity/importEntity_loadTableColumns.action?iframewindowid=LoadColumnDialog&dsName="+dsName+"&tableName="+tableName'
+                });
+            },
+            itemSys(isSynTable) {
+                if (!this.validatorForm()) {
+                    return;
+                }
+                // if (!this.keyValidator()){
+                //     return;
+                // }
+                const len = this.allData.length;
+                if (len == 0) {
+                    isc.warn("属性数据为空,操作无效！");
+                    return;
+                }
+
+                axios.put("/" + location.pathname.split("/")[1] + "/entityProperty/synchronization?entityType="
+                    + this.entityType
+                    + "&entityUuid="
+                    + this.entityUuid
+                    + "&entityName="
+                    + this.entityName
+                    + "&mid="
+                    + this.mid
+                    + "&isSynTable="
+                    + isSynTable
+                    ,
+                    JSON.stringify(this.allData)
+                    ,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json;charset=UTF-8'  //如果写成contentType会报错
+                        }
+                    }
+                )
+                    .then(data => {
+                        if (data != "") {
+                            const dataJson = data.data;
+                            if (dataJson.status) {
+                                isc.say(dataJson.msg);
+                            } else {
+                                isc.warn(dataJson.msg);
+                            }
+                        } else {
+                            isc.warn("同步失败，服务器异常，请联系管理员！");
+                        }
+                    })
+            },
+            keyValidator() {
+                //主键验证：
+                //至少有一字段为主键,主键必须为实体字段和必填
+                let isEntityCol = true;
+                let isRequiredMsg = true;
+                let count = 0;
+                const dataLength = this.allData.length;
+                if (dataLength > 0) {
+                    const record = null;
+                    let isCol = null;
+                    let isRequired = null;
+                    for (let i = 0; i < dataLength; i++) {
+                        let rowData = this.allData[i];
+                        const isKey = rowData.isKey //获取编辑值如果编辑过
+                        if (isKey) {
+                            count++;
+                            //判断主键是否为实体字段
+                            isCol = rowData.isCol; //获取编辑值如果编辑过
+                            if (!isCol) {
+                                isEntityCol = false;
+                                break;
+                            }
+                            //判断主键是否为必填 isRequired
+                            isRequired = rowData.isRequired; //获取编辑值如果编辑过
+                            if (!isRequired) {
+                                isRequiredMsg = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (count > 0) {
+                        if (!isEntityCol) {
+                            isc.warn("主键必须为实体字段!");
+                            return false;
+                        }
+                        if (!isRequiredMsg) {
+                            isc.warn("主键必须为必填字段!");
+                            return false;
+                        }
+                        return true;
+                    } else {
+                        isc.warn("至少有一个字段为主键!");
+                        return false;
+                    }
+                } else { //属性为空不验证
+                    isc.warn("请编辑数据!");
+                    return false;
+                }
+
+            },
+            eventShunt(methodStr, event, index) {
+                console.log(event)
+                eval("this." + methodStr + "(" + event.target.value + "," + index + ")")
+            },
+            controlType(val, index) {
+                if (val == 13) {
+                    //将当前编辑行的isCol设置为false
+                    this.allData[index].proEntityUuid = ""
+                    $('#proEntityUuid_' + index + '_div').css("display", "")
+                } else {
+                    this.allData[index].proEntityUuid = ""
+                    $('#proEntityUuid_' + index + '_div').css("display", "none")
+
+                    // $('#proEntityUuid_'+index+'_div').attr("readonly","readonly")
+                }
+                if (val == 14) {
+                    $('#colName_' + index).attr("readonly", "readonly")
+                } else {
+                    $('#colName_' + index).removeAttr("readonly")
+                }
+            },
+            controlUiType(val, index) {
+                console.log(val)
+            },
+            validatorForm() {
+                const requiredRowId = []
+                this.headData.forEach(headRow => {
+                    const thisHeadRowRequired = headRow.required
+                    if (thisHeadRowRequired) {
+                        requiredRowId.push(headRow.cellId)
+                    }
+                })
+
+                let canSave = true;
+                const midObj = {}
+                const nameObj = {}
+                const colObj = {}
+                this.allData.forEach((rowData, index) => {
+
+                    this.headData.forEach(headRow => {
+                        const thisHeadRowRequired = headRow.required
+                        if (thisHeadRowRequired && (rowData[headRow.cellId] == '' || rowData[headRow.cellId] == null)) {
+                            if (headRow.cellId == "colName" && rowData["type"] == '14') {
+                                // 任意对象时，字段不可编辑且不可填写
+                            } else {
+                                canSave = false
+                                $("#" + headRow.cellId + "_msg_" + index).css("display", "block");
+                                return
+                            }
+                        }
+                        $("#" + headRow.cellId + "_msg_" + index).css("display", "none");
+                    })
+                    if (typeof midObj[rowData.mid] != "undefined") {
+                        // 存在相同
+                        canSave = false
+                        $("#mid_msg_repeat_" + index).css("display", "block");
+                    } else {
+                        midObj[rowData.mid] = index
+                        $("#mid_msg_repeat_" + index).css("display", "none");
+                    }
+                    if (typeof nameObj[rowData.name] != "undefined") {
+                        // 存在相同
+                        canSave = false
+                        $("#name_msg_repeat_" + index).css("display", "block");
+                    } else {
+                        nameObj[rowData.name] = index
+                        $("#name_msg_repeat_" + index).css("display", "none");
+                    }
+                    if (typeof colObj[rowData.colName] != "undefined") {
+                        // 存在相同
+                        canSave = false
+                        $("#colName_msg_repeat_" + index).css("display", "block");
+                    } else {
+                        colObj[rowData.colName] = index
+                        $("#colName_msg_repeat_" + index).css("display", "none");
+                    }
+                })
+                return canSave
+            }
+        },
+        updated() {
+            $('input[type=checkbox]').iCheck({
+                labelHover: false,
+                increaseArea: '20%',
+                cursor: true,
+                checkboxClass: 'icheckbox_square-blue'
+            });
+            $("input[name!='rowHeadCheck']").on('ifClicked', function (e) {
+                const domId = $(this).attr("id");
+                const domIdArr = domId.split("_");
+                const dataKey = domIdArr[0];
+                const dataIndex = domIdArr[1];// 数据链索引
+                let isChecked = true;
+                if ($(this).is(':checked')) {
+                    isChecked = false;
+                }
+                app.allData[dataIndex][dataKey] = isChecked;
+            })
+            $("#allCheck").on('ifChanged', function (e) {
+                let isChecked = "uncheck"
+                if ($(this).is(':checked')) {
+                    isChecked = "check";
+                }
+                $("input[name='rowHeadCheck']").iCheck(isChecked)
+            })
+        },
+        watch: {
+            allData: function () {
+                this.$nextTick(function () {
+                    this.displayLoadDiv = 'none';
+                })
+            }
+        }
+    })
+
+    //当关联对象窗口执行关闭时执行此操作
+    function onDialog0Close(data, oType) {
+        if (data != null) {
+            var data = isc.JSON.decode(data);
+            //将数据写入到当前行
+            const index = app.thisSelectIndex;
+            if (data['proEntityType'] != null) {
+                app.allData[index]["proEntityUuid"] = data.proEntityType;
+            }
+        }
+        return true;
+    }
+</script>

@@ -1,0 +1,996 @@
+<!DOCTYPE html><html><head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><link rel="shortcut icon" type=image/x-icon href=./favicon.ico rel="external nofollow"><link href=../resource/html5/css/bootstrap/dist/css/bootstrap.css rel=stylesheet><link href=../resource/html5/css/font-awesome.min.css rel=stylesheet><script src=../resource/html5/js/jquery.js></script><script src=../resource/html5/js/jquery.i18n.properties.js></script><script src=../resource/html5/lang/matrix_lang.js></script><script src=../resource/html5/js/layer.min.js></script><script src=../resource/html5/js/select2.js></script><script src=../resource/html5/js/icheck.min.js></script><script src=../resource/html5/assets/bootstrap-table/src/bootstrap-table.js></script><script src=../resource/html5/js/matrix_dialog.js></script><link href=css/app.bcc3b328.css rel=preload as=style><link href=css/chunk-vendors.e6d7d348.css rel=preload as=style><link href=js/app.fee0de4b.js rel=preload as=script><link href=js/chunk-vendors.f7feac9a.js rel=preload as=script><link href=css/chunk-vendors.e6d7d348.css rel=stylesheet><link href=css/app.bcc3b328.css rel=stylesheet></head><body><div id=app></div><input id=style name=style type=hidden><script>function onHandleSaveForm(){
+		//handleSaveForm();
+		loadModelAndSource();
+	}
+
+
+  var winObj;  //记录一级弹出窗口对象
+  var tmpComponent = null;  //记录dom对象
+  let $vue;  //记录当前vue实例对象
+  let styleType;   //记录属性样式类型名称
+	  
+  //打开选择样式窗口
+  function openStyle(e,dom,vue,type){
+     tmpComponent=dom;
+     $vue = vue;
+	 styleType = type;
+     layer.open({
+        id:'m_style',
+        type : 2,
+        title : ['样式设置'],
+        shade: [0.1, '#000'],
+        shadeClose: false, //开启遮罩关闭
+        area : [ '45%', '40%' ],
+        content : "../form/admin/designer/style/td/h5tdstyle.jsp?iframewindowid=m_style&operation=other&styleType="+type+""
+     });
+  }
+  //选择样式窗口回调 -- formproperty.jsp
+  function onm_styleClose(data){
+     if(data){
+	     $vue.$set(tmpComponent.options, styleType, data.style);
+     }
+     tmpComponent=null;
+  }
+
+  //打开选择数据字典窗口
+  function onselectItemsClick(e,dom,vue){
+    tmpComponent=dom;
+	$vue = vue;
+    layer.open({
+      id:'m_selectItems',
+      type:2,
+      title:['设置下拉选项'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '75%', '90%' ],
+      content:'../form/admin/code/h5CodeManager.jsp?iframewindowid=m_selectItems'
+    });
+  }
+  //选择数据字典回调
+  function onm_selectItemsClose(data) {
+    if(data){
+      if(data.hasOwnProperty('catalogText')) {
+        tmpComponent.optionsText = data.catalogText;
+        tmpComponent.options = data.info;
+      }else {
+        $vue.$set(tmpComponent, "optionsText", data.infoStr);
+        $vue.$set(tmpComponent, "options", data.info);
+      }
+	  //清空高级属性表单变量中的相关配置
+	  $vue.clearPageVar();
+    }
+    tmpComponent=null;
+  }
+
+  //打开选择子表单窗口
+  function openSelectFormTree(e,dom,vue,formId){
+    debugger;
+    tmpComponent=dom;
+    $vue = vue;
+    layer.open({
+      id:'selectForm',
+      type : 2,
+      title : ['选择表单'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '30%', '50%' ],
+      content : '../editor/common/selectFormTree.jsp?iframewindowid=selectForm&rootMid=flowdesign&rootEntityId=flowRoot&optType=gird&formId='+formId+''
+    });
+  }
+
+  //选择表单回调
+  function onselectFormClose(data) {
+    debugger;
+    if(data){
+      var name = data.name;   //表单名称
+      var id = data.id;   //表单编码
+      tmpComponent.options.formName = name;
+      tmpComponent.options.formDid = id;
+
+      var json = {};
+      json.formDid = id;
+      $.ajax({
+        url : '../designerVue/formDesignVue_loadSubFormContent.action',
+        data: json,
+        type : "post",
+        dataType : "json",
+        success : function(result) {
+          debugger;
+          tmpComponent.list = result.list;
+          //$vue.$set(tmpComponent, 'list', result.list)
+		  $vue.$nextTick(() => {
+		      debugger;
+		      $(":radio").iCheck({
+				   radioClass : 'iradio_square-blue',  
+				   increaseArea: '20%'  
+		      });
+		      $(":checkbox").iCheck({ 
+				   checkboxClass: 'icheckbox_square-blue', 
+				   increaseArea: '20%'  
+		      });
+		  })
+        }
+      });
+    }
+  }
+
+
+  //打开数据唯一选择窗口
+  function openDataUniqueFun(dom){
+    tmpComponent=dom;
+    var dataUnique = tmpComponent.value;
+    layer.open({
+      id:'m_dataUnique',
+      type : 2,
+      title : ['数据唯一'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '45%', '75%' ],
+      content : "../form/admin/custom/unionpk/h5Unionpk.jsp?iframewindowid=m_dataUnique&unionPKText="+encodeURI(dataUnique)
+    });
+  }
+
+  //数据唯一选择窗口回调
+  function onm_dataUniqueClose(data){
+    if(data){
+      var dataUnique = data.unionPKText;
+      tmpComponent.value = dataUnique;
+
+      var data2 = {};
+      data2['type'] = 'form';
+      data2['attrName'] = 'dataUnique';
+      data2['attrValue'] = dataUnique;
+      $.ajax({
+        url: '../designer/designProperties_updatePropertiesByType.action',
+        //url: '/api/designer/designProperties_updatePropertiesByType.action',
+        type: "post",
+        dataType: "json",
+        data: data2,
+        success: function(data){
+        }
+      });
+    }
+  }
+  
+  //打开业务对象窗口
+  function onDataObjectClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_dataObject',
+      type:2,
+      title:['设置业务对象'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '65%', '90%' ],
+      content:'../form/html5/admin/foundation/designSelectCatalog.jsp?iframewindowid=m_dataObject'
+    });
+  }
+  //选择业务对象回调
+  function onm_dataObjectClose(data) {
+    if(data){
+    	if(data.proEntityType != null){
+    		tmpComponent.options.dataObject = data.proEntityType;
+    	}
+    }
+    tmpComponent=null;
+  }
+//打开绑定编码窗口
+  function onBindIdClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_bindId',
+      type:2,
+      title:['设置绑定编码'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '75%', '90%' ],
+      content : "../form/admin/foundation/h5SelectFormVar.jsp?iframewindowid=m_bindId"
+    });
+  }
+  //选择绑定编码回调
+  function onm_bindIdClose(data) {
+	  if(data){
+	      data=eval('(' + data + ')');
+	      tmpComponent.options.bindId = data.parentNodeId ;
+	    }
+	    tmpComponent=null;
+  }
+  
+  
+	//打开绑定名称窗口
+	  function onBindNameClick(e,dom){
+		tmpComponent=dom;
+	   layer.open({
+	      id:'m_bindName',
+	      type:2,
+	      title:['设置绑定名称'],
+	      shade: [0.1, '#000'],
+	      shadeClose: false, //开启遮罩关闭
+	      area : [ '75%', '90%' ],
+	      content : "../form/admin/foundation/h5SelectFormVar.jsp?iframewindowid=m_bindName"
+	    });
+      }
+  //选择绑定名称回调
+	  function onm_bindNameClose(data) {
+		  if(data){
+		      data=eval('(' + data + ')');
+		      tmpComponent.options.bindName = data.parentNodeId ;
+		      tmpComponent.name = data.name;
+		      tmpComponent.title = data.name;
+		    }
+		    tmpComponent=null;
+	  }
+  
+  //打开数据绑定窗口
+  function onBindDataValueClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_bindDataValue',
+      type:2,
+      title:['设置数据绑定'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '50%', '60%' ],
+      content : "../form/admin/foundation/h5SelectFormVar.jsp?optType=formVar&iframewindowid=m_bindDataValue"
+    });
+  }
+  //选择数据绑定回调
+  function onm_bindDataValueClose(data) {
+	  if(data){
+	      data=eval('(' + data + ')');
+	      tmpComponent.options.bindDataValue = data.dataObjectEntity ;
+	    }
+	    tmpComponent=null;
+  }
+  //打开关联属性值窗口
+  function onRelationProValueClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_relationProValue',
+      type:2,
+      title:['设置关联属性值'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '75%', '90%' ],
+      content : "../form/admin/foundation/h5SelectFormVar.jsp?iframewindowid=m_relationProValue"
+    });
+  }
+  //选择关联属性值回调
+  function onm_relationProValueClose(data) {
+	  if(data){
+	      data=eval('(' + data + ')');
+	      tmpComponent.options.relationProValue = data.parentNodeId ;
+	    }
+	    tmpComponent=null;
+  }
+  
+  //打开关联属性窗口
+  function onRelationProClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_relationPro',
+      type:2,
+      title:['设置关联属性'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '55%', '90%' ],
+      content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=m_relationPro&entity='+tmpComponent.options.dataObject
+    });
+  }
+  //选择关联属性回调
+  function onm_relationProClose(data) {
+    if(data){
+       tmpComponent.options.relationPro = data.mid;
+    }
+    tmpComponent=null;
+  }
+  
+  //打开关联属性窗口
+  function onRelationProClick(e,dom){
+  	tmpComponent=dom;
+   layer.open({
+      id:'m_relationPro',
+      type:2,
+      title:['设置关联属性'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '55%', '90%' ],
+      content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=m_relationPro&entity='+tmpComponent.options.dataObject
+    });
+  }
+  //选择关联属性回调
+  function onm_relationProClose(data) {
+    if(data){
+       tmpComponent.options.relationPro = data.mid;
+    }
+    tmpComponent=null;
+  }
+  
+  //打开排序属性窗口
+  function onOrderProClick(e,dom){
+  	tmpComponent=dom;
+   layer.open({
+      id:'m_orderPro',
+      type:2,
+      title:['设置排序属性'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '55%', '90%' ],
+      content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=m_orderPro&entity='+tmpComponent.options.dataObject
+    });
+  }
+  //选择关联属性回调
+  function onm_orderProClose(data) {
+    if(data){
+       tmpComponent.options.orderId = data.mid;
+    }
+    tmpComponent=null;
+  }
+  
+  //打开文件编码窗口
+  function onFileIdClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_fileId',
+      type:2,
+      title:['设置文件编码'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '55%', '90%' ],
+      content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=m_fileId&entity='+tmpComponent.options.dataObject
+    });
+  }
+  //选择文件编码回调
+  function onm_fileIdClose(data) {
+    if(data){
+        tmpComponent.options.fileId = data.mid;
+    }
+    tmpComponent=null;
+  }
+  
+  //打开文件名称窗口
+  function onFileNameClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_fileName',
+      type:2,
+      title:['设置文件名称'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '55%', '90%' ],
+      content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=m_fileName&entity='+tmpComponent.options.dataObject
+    });
+  }
+  //选择文件名称回调
+  function onm_fileNameClose(data) {
+    if(data){
+        tmpComponent.options.fileName = data.mid;
+    }
+    tmpComponent=null;
+  }
+  
+  //打开文件大小窗口
+  function onFileSizeClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_fileSize',
+      type:2,
+      title:['设置文件大小'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '55%', '90%' ],
+      content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=m_fileSize&entity='+tmpComponent.options.dataObject
+    });
+  }
+  //选择文件大小回调
+  function onm_fileSizeClose(data) {
+    if(data){
+        tmpComponent.options.fileSizes = data.mid;
+    }
+    tmpComponent=null;
+  }
+  
+  //打开文件类型窗口
+  function onDesignFileTypeClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_designFileType',
+      type:2,
+      title:['设置文件类型'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '55%', '90%' ],
+      content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=m_designFileType&entity='+tmpComponent.options.dataObject
+    });
+  }
+  //选择文件类型回调
+  function onm_designFileTypeClose(data) {
+    if(data){
+        tmpComponent.options.designFileType = data.mid;
+    }
+    tmpComponent=null;
+  }
+  
+  
+  //打开文件内容窗口
+  function onContentsClick(e,dom){
+	tmpComponent=dom;
+   layer.open({
+      id:'m_contents',
+      type:2,
+      title:['设置文件内容'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '55%', '90%' ],
+      content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=m_contents&entity='+tmpComponent.options.dataObject
+    });
+  }
+  //选择文件内容回调
+  function onm_contentsClose(data) {
+    if(data){
+        tmpComponent.options.contents = data.mid;
+    }
+    tmpComponent=null;
+  }
+
+  //打开表单联合校验条件窗口
+  function openJointValidationFun(){
+    var jointValidation = $("#jointValidation").val();
+    layer.open({
+      id:'m_validation',
+      type : 2,
+      title : ['设置条件'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '65%', '80%' ],
+      content : "../valid/valid_getValidationList.action?iframewindowid=m_validation"
+      //content : "/api/valid/valid_getValidationList.action?iframewindowid=m_validation"
+    });
+  }
+
+  //表单联合校验条件窗口回调  -- formproperty.jsp
+  function onm_validationClose(data){
+    if(data){
+      var jointValidation = data.validationValue;
+
+      var data2 = {};
+      data2['type'] = 'form';
+      data2['attrName'] = 'jointValidation2';
+      data2['attrValue'] = jointValidation;
+      $.ajax({
+        url: '../designer/designProperties_updatePropertiesByType.action',
+        //url: '/api/designer/designProperties_updatePropertiesByType.action',
+        type: "post",
+        dataType: "json",
+        data: data2,
+        success: function(data){
+        }
+      });
+    }
+  }
+
+  //打开数据计算列表窗口
+  function openDataFormulaFun(){
+    layer.open({
+      id:'m_dataFormula',
+      type : 2,
+      title : ['计算公式'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '65%', '80%' ],
+      content : "../form/admin/custom/formula/h5FormulaList.jsp?iframewindowid=m_dataFormula"
+    });
+  }
+
+  //打开数据权限窗口
+  function openDataPowerFun(formUuid){
+    layer.open({
+      id:'m_dataPower',
+      type : 2,
+      title : ['数据权限'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '1200px', '700px' ],
+      //content : "../security/formSecurity_loadSecurityIndex.action?iframewindowid=m_dataPower"
+	  content : "../form/admin/security/secScopeList.html?entrance=DesignerOperationSet&formUuid="+formUuid+"&iframewindowid=m_dataPower"
+    });
+  }
+  
+  var rowNum = null;  //当前操作设置行的顺序号
+  //设置条件窗口关闭  
+  function onoperationSetClose(data){	
+  	  winObj.onoperationSetClose(data, rowNum);
+  }
+
+  //打开数据带入窗口
+  function openDataEntryFun(){
+    layer.open({
+      id:'m_dataEntry',
+      type : 2,
+      title : ['数据带入'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '65%', '80%' ],
+      content : "../form/admin/custom/dataInMapping/h5DataInMappingList.jsp?iframewindowid=m_dataEntry"
+    });
+  }
+
+  //打开触发事件窗口
+  function openTriggerActionFun(){
+    layer.open({
+      id:'m_triggerAction',
+      type : 2,
+      title : ['触发事件'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '70%', '80%' ],
+      content : "../form/admin/custom/trigger/h5TriggerList.jsp?iframewindowid=m_triggerAction"
+    });
+  }
+
+  //计算公式设置条件窗口回调  -- h5FormulaList.jsp
+  function onm_formulaClose(data){
+    if(data){
+      var setType = data.setType;   //0.普通设置    1.高级设置
+      var suffixId = data.suffixId;   //选中行字段编码
+      var index = data.index;    //记录的table选中行索引
+      var item = this.winObj.Matrix.getGridData('DataGrid001');   //所有数据
+      var record = item[index];
+
+      if(setType=='0'){
+        this.winObj.document.getElementById('formula_'+suffixId).value = data.conditionText;   //条件文本
+        this.winObj.document.getElementById('formulaSetId').value = data.conditionVal;     //记录当前选择行的计算公式条件编码
+
+        record.formulaType = setType;     //条件类型
+        record.formula = data.conditionText;     //条件
+        record.formulaVal = data.conditionVal;     //条件编码
+        this.winObj.$("#DataGrid001_table").bootstrapTable('updateRow',{index:index,row:record});
+
+      }else if(setType=='1'){
+        this.winObj.document.getElementById('formula_'+suffixId).value = '【高级设置】';   //条件文本
+        var formulaSetId = JSON.stringify(data.conditionVal);
+        this.winObj.document.getElementById('formulaSetId').value = formulaSetId;     //记录当前选择行的计算公式条件编码
+
+        record.formulaType = setType;     //条件类型
+        record.formula = '【高级设置】';     //条件
+        record.formulaVal = formulaSetId;     //条件编码
+        this.winObj.$("#DataGrid001_table").bootstrapTable('updateRow',{index:index,row:record});
+      }
+    }
+  }
+
+  //数据过滤条件窗口回调 -- h5DataInMappingSet.jsp
+  function onm_popupConditionClose(data){
+    this.winObj.onpopupConditionClose(data);
+  }
+
+  //触发事件首次满足条件条件窗口回调 -- h5TriggerSet.jsp
+  function onm_firstConditionClose(data){
+    this.winObj.onfirstConditionClose(data);
+  }
+
+  //触发事件数据拷贝设置窗口回调 -- h5TriggerSet.jsp
+  function onm_dataCopySetClose(data){
+    this.winObj.ondataCopySetClose(data);
+  }
+
+  //触发事件选择消息模板窗口回调 -- h5TriggerSet.jsp
+  function onm_msgContentClose(data){
+    this.winObj.onmsgContentClose(data);
+  }
+
+    //打开属性设置窗口
+    function openAttributeSet(e,dom,vue){
+        debugger;
+        $vue = vue;
+        tmpComponent = dom;
+
+        var componentType = tmpComponent.type;
+        var componentId = tmpComponent.key;
+        layer.open({
+            id:'m_attributeSet',
+            type : 2,
+            title : ['编辑控件属性'],
+            shade: [0.1, '#000'],
+            shadeClose: false, //开启遮罩关闭
+            area : [ '65%', '80%' ],
+            content : "../designer.daction?componentType="+componentType+"&componentId="+componentId+"&command=edit&iframewindowid=m_attributeSet"
+            //content : "/api/designer.daction?componentType="+componentType+"&componentId="+componentId+"&command=edit&iframewindowid=m_attributeSet"
+        });
+    }
+
+    //属性设置窗口回调
+    function onm_attributeSetClose(){
+        debugger;
+        refreshComponent();  //触发修改组件
+
+        var json = {};
+        json.componentType = tmpComponent.type;
+        json.componentId = tmpComponent.key;
+        $.ajax({
+            url : '../designerVue/compAttribute_convertAttributeJson.action',
+            //url : '/api/designerVue/compAttribute_convertAttributeJson.action',
+            data: json,
+            type : "post",
+            dataType : "json",
+            success : function(data) {
+                debugger;
+                Object.keys(data).forEach(function(key){
+                    $vue.$set(tmpComponent, key, data[key])
+                });
+            }
+        });
+    }
+
+    function refreshComponent() {
+        var json = {};
+        json.command = "update";
+        json.componentType = tmpComponent.type;
+        json.componentId = tmpComponent.key;
+        $.ajax({
+            url: "../designer.daction",
+            //url : '/api/designer.daction',
+            data: json,
+            type : "post",
+            dataType : "json",
+            async: false, // 同步
+            success : function(data) {
+
+            }
+        });
+    }
+
+
+  //打开属性编辑
+  function openFormProperty(dom) {
+    tmpComponent = dom;
+    var params = "";
+    var src = "../designer.daction?componentType=form&command=edit"+params;
+    //var src = "/api/designer.daction?componentType=form&command=edit"+params;
+    var propDialog = layer.open({
+      id:"propDialog",
+      type : 2,
+      title : ['编辑表单属性'],
+      closeBtn : 1,//显示关闭按钮风格1 2  0不显示关闭按钮
+      shadeClose: false, //开启遮罩关闭
+      area : [ '85%', '90%' ],
+      content : src
+    });
+  }
+  /*弹出维护后更新页面组件*/
+  function updateComponent(compType) {
+    let param={command: "update"};
+    param.componentType=compType;
+    let url="../designer.daction";
+    if("form"!=compType){
+      //组件更新
+      param.componentType=updateDom.type;
+      param.componentId= updateDom.options.id;
+      param.componentIndex=0;
+      url="../designerVue/compAttribute_resetComponent.action";
+    }
+    $.ajax({
+      //type: "GET",
+      //url: "static/componentsConfigData.json",
+      type: "POST",
+      url: url,//异步工程调用地址
+      data:param ,
+	  async: false, // 同步
+      //url: "/api/designerVue/formDesignVue_getFormDataSourceInfo.action",//开发阶段调用地址
+      success: function (result) {
+        if("form"==compType) {//表单更新
+          tmpComponent._loadComponents();
+        }else{//组件更新
+          tmpComponent.loadComponentBySession();
+        }
+        updateDom=null;
+        tmpComponent=null;
+      }
+    });
+  }
+  //打开数据值窗口
+  function openBindValueClick(e,dom,vueObj){
+    updateDom=dom;
+    tmpComponent=vueObj;
+    layer.open({
+      id:'mValue',
+      type : 2,
+      title : ['绑定值'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area : [ '50%', '60%' ],
+      content : "../form/admin/foundation/h5SelectFormVar.jsp?iframewindowid=mValue"
+    });
+  }
+  //选择绑定值回调
+  function onmValueClose(data) {
+    debugger;
+    if (data) {
+      data = eval('(' + data + ')');
+      tmpComponent.$set(updateDom, "key", data.id);
+      tmpComponent.$set(updateDom, "name", data.name);
+      tmpComponent.$set(updateDom, "title", data.name);
+      if (updateDom.fromComponent&&"DataList" == updateDom.fromComponent.fromType) {
+        let val;
+        const arr = data.parentNodeId.split(".");
+        if (arr.length == 2) {
+          val = "#{rowData." + arr[1];
+        }
+        tmpComponent.$set(updateDom, "value", val);
+      } else {
+        tmpComponent.$set(updateDom, "value", data.parentNodeId);
+      }
+      if (data.precision && data.precision > "0") {
+        tmpComponent.$set(updateDom, "isBigDecimal", true);
+      }
+      //updateDom.type = getType4UIType(data.uiType);
+      updateDom.options.required = data.isRequired;
+      let obj = tmpComponent.setDataSourceItem(updateDom.key);
+      //obj.uiType = getUIType4Type(updateDom.type);
+      tmpComponent.$set(obj, "uiType", updateDom.type);
+     // compoentSetDataSouce(updateDom,obj);
+
+    }
+    tmpComponent = null;
+    updateDom = null;
+  }
+  var formData;
+  var formIndex;
+  var updateDom;
+  //打开编辑控件属性
+  function openCompontentSet(dom,data,vueObj){
+    debugger;
+    formData=data.list;
+    formIndex=data.newIndex;
+    tmpComponent=vueObj;
+    updateDom=dom;
+    let componentId=updateDom.options.id;
+    let url="";
+    if(formIndex!=null&&formData) {
+      url = "../form.daction?componentType="+dom.type+"&id="+componentId+"&name="+updateDom.name+"&entity=undefined&formvar=undefined&componentIndex=1&command=create&vueDesign=true"
+    }else{
+      url = "../form.daction?componentType="+dom.type+"&componentId="+componentId+"&command=edit"
+    }
+    layer.open({
+      id: 'editListSet',
+      type: 2,
+      title: ['编辑控件属性'],
+      shade: [0.1, '#000'],
+      shadeClose: false, //开启遮罩关闭
+      area: ['65%', '80%'],
+      content: url
+    });
+  }
+  /*删除页面组件*/
+  function cancelUpdateComponent(){
+    if(formIndex!=null&&formData){
+      let param={};
+      param.componentId=formData[formIndex].key;
+      $.ajax({
+        //type: "GET",
+        type: "POST",
+        url:"../designerVue/compAttribute_deleComponent.action",
+        data:param ,
+        async: false, // 同步
+        success: function (result) {
+
+        }
+      });
+      formData.splice(formIndex, 1);
+    }
+  }
+  /*
+   *获取编辑类型
+   */
+  function getType4UIType(uiType){
+    let editorType = null;
+    if(uiType==1){//文本框
+      editorType = "input";
+	}else if(uiType==2){//日期框
+	  editorType = "date";
+	}else if(uiType==3){//时间框
+	  editorType = "time";
+    }else if(uiType==4){//数字框
+      editorType = "number";
+	}else if(uiType==5){//下拉框
+	  editorType = "select";
+	}else if(uiType==6){//单选按钮
+	  editorType = "radio";
+	}else if(uiType==7){//复选框
+	  editorType = "checkbox";
+	}else if(uiType==8){//单选框组
+	  editorType = "radiogroup";
+	}else if(uiType==9){//复选框组
+	  editorType = "checkboxgroup";
+    }else if(uiType==10){//文本域
+      editorType = "textarea";
+    }else if(uiType==11){//列表框
+     editorType = "listbox";   
+    }else if(uiType==22){//多选下拉
+      editorType = "multiselect";
+    }else if(uiType==21){//弹出选择
+      editorType = "popupselect";
+    }else if(uiType==23){//单选用户
+      editorType = "SingleUserSelect";
+    }else if(uiType==24){//多选用户
+      editorType = "MultiUserSelect";
+    }else if(uiType==25){//单选部门
+      editorType = "SingleDeptSelect";
+    }else if(uiType==26){//多选部门
+      editorType = "MultiDeptSelect";
+    }else if(uiType==27){//单文件上传
+      editorType = "SingleFileUpload";
+    }else if(uiType==28){//多文件上传
+      editorType = "MultiFileUpload";
+    }else if(uiType==29){//流程意见
+      editorType = "ProcessOpinion";
+    }
+    return editorType;
+  }
+  /*
+  *获取组件类型
+  */
+  function getUIType4Type(type){
+      let editorType = null;
+      if(type=="input"){//文本框
+          editorType = 1;
+	  }else if(type=="date"){//日期框
+	      editorType = 2;
+	  }else if(type=="time"){//时间框
+	      editorType = 3;
+      }else if(type=="number"){//数字框
+          editorType = 4;
+	  }else if(type=="select"){//下拉框
+	      editorType = 5;
+	  }else if(type=="radio"){//单选按钮
+	      editorType = 6;
+	  }else if(type=="checkbox"){//复选框
+	      editorType = 7;
+	  }else if(type=="radiogroup"){//单选框组
+	      editorType = 8;
+	  }else if(type=="checkboxgroup"){//复选框组
+	      editorType = 9;
+      }else if(type=="textarea"){//文本域
+          editorType = 10;
+      }else if(type=="listbox"){//列表框
+          editorType = 11; 
+	  }else if(type=="popupselect"){//弹出选择
+	      editorType = 21;
+      }else if(type=="multiselect"){//多选下拉
+          editorType = 22;
+      }else if(type=="SingleUserSelect"){//单选用户
+          editorType = 23;
+      }else if(type=="MultiUserSelect"){//多选用户
+          editorType = 24;
+      }else if(type=="SingleDeptSelect"){//单选部门
+          editorType = 25;
+      }else if(type=="MultiDeptSelect"){//多选部门
+          editorType = 26;
+      }else if(type=="SingleFileUpload"){//单文件上传
+          editorType = 27;
+      }else if(type=="MultiFileUpload"){//多文件上传
+          editorType = 28;
+      }else if(type=="ProcessOpinion"){//流程意见
+          editorType = 29;
+      }
+      return editorType;
+  }
+  //下拉框数据字典选项配置4个弹出窗口属性
+  //打开表单变量窗口
+  function openFormVar(e,dom,vue){
+      tmpComponent=dom;
+      $vue = vue;
+      layer.open({
+          id:'selectFormVar',
+          type:2,
+          title:['选择表单变量'],
+          shade: [0.1, '#000'],
+          shadeClose: false, //开启遮罩关闭
+          area : [ '75%', '90%' ],
+          content : "../form/admin/foundation/h5SelectFormVar.jsp?optType=formVar&iframewindowid=selectFormVar"
+      });
+  }
+  //选择表单变量回调
+  function onselectFormVarClose(data) {
+      if(data){
+          data=eval('(' + data + ')');
+          //tmpComponent.options.formVar = '#{' + data.id + '}';
+          $vue.$set(tmpComponent.options, 'formVar', '#{' + data.id + '}')
+      }
+      tmpComponent=null;
+  }
+
+  //打开业务对象窗口
+  function openEntity(e,dom,vue){
+      tmpComponent=dom;
+      $vue = vue;
+      layer.open({
+          id:'entity',
+          type:2,
+          title:['选择业务对象'],
+          shade: [0.1, '#000'],
+          shadeClose: false, //开启遮罩关闭
+          area : [ '75%', '90%' ],
+          content:'../form/html5/admin/foundation/designSelectCatalog.jsp?iframewindowid=entity'
+      });
+  }
+  //选择业务对象回调
+  function onentityClose(data) {
+      if(data){
+          if(data.proEntityType != null){
+              //tmpComponent.options.entity = data.proEntityType;
+              $vue.$set(tmpComponent.options, 'entity', data.proEntityType)
+          }
+      }
+      tmpComponent=null;
+  }
+
+  //打开显示名称窗口
+  function openItemLabel(e,dom,vue){
+      tmpComponent=dom;
+      $vue = vue;
+      layer.open({
+          id:'itemLabel',
+          type:2,
+          title:['选择显示名称'],
+          shade: [0.1, '#000'],
+          shadeClose: false, //开启遮罩关闭
+          area : [ '75%', '90%' ],
+          content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=itemLabel&entity='+tmpComponent.options.entity
+      });
+  }
+  //选择显示名称回调
+  function onitemLabelClose(data) {
+      if(data){
+          //tmpComponent.options.itemLabel = data.mid;
+          $vue.$set(tmpComponent.options, 'itemLabel', data.mid)
+      }
+      tmpComponent=null;
+  }
+
+  //打开显示值窗口
+  function openItemValue(e,dom,vue){
+      tmpComponent=dom;
+      $vue = vue;
+      layer.open({
+          id:'itemValue',
+          type:2,
+          title:['选择显示名称'],
+          shade: [0.1, '#000'],
+          shadeClose: false, //开启遮罩关闭
+          area : [ '75%', '90%' ],
+          content:'../vueDesign/vueChooseEntityPro.jsp?iframewindowid=itemValue&entity='+tmpComponent.options.entity
+      });
+  }
+  //选择显示值回调
+  function onitemValueClose(data) {
+      if(data){
+          //tmpComponent.options.itemValue = data.mid;
+          $vue.$set(tmpComponent.options, 'itemValue', data.mid)
+      }
+      tmpComponent=null;
+  }
+  function compoentSetDataSouce(compoent,dataSourceItem){
+    if(compoent.options&&compoent.options.length) {//长度
+      tmpComponent.$set(dataSourceItem, "length", compoent.options.length);
+      tmpComponent.$set(compoent.options, "length", "");
+    }
+    if(compoent.options&&compoent.options.defaultValue) {//默认值
+      tmpComponent.$set(dataSourceItem, "defaultValue", compoent.options.defaultValue);
+      tmpComponent.$set(compoent.options, "defaultValue", "");
+    }
+    if(compoent.options&&compoent.options.catalogText) {//数据字典
+      tmpComponent.$set(dataSourceItem, "optionsText", compoent.options.catalogText);
+      tmpComponent.$set(compoent.options, "catalogText", "");
+      tmpComponent.$set(dataSourceItem, "options", compoent.options.catalogId);
+      tmpComponent.$set(compoent.options, "catalogId", "");
+    }
+    if(compoent.options&&compoent.options.pattern) {//格式
+      tmpComponent.$set(dataSourceItem, "displayFormat", compoent.options.pattern);
+      tmpComponent.$set(compoent.options, "pattern", "");
+    }
+    if(compoent.options&&typeof (compoent.options.precision)!="undefined"&&compoent.options.precision!="") {//精度
+      tmpComponent.$set(dataSourceItem, "precision", compoent.options.precision);
+      tmpComponent.$set(compoent.options, "precision", "");
+    }
+  }</script><script src=js/chunk-vendors.f7feac9a.js></script><script src=js/app.fee0de4b.js></script></body><link href=../resource/html5/css/skin/mCustom_primary.css rel=stylesheet><link href=../resource/html5/css/select2.css rel=stylesheet><link href=../resource/html5/assets/bootstrap-table/src/bootstrap-table.css rel=stylesheet><link href=../resource/html5/css/custom.css rel=stylesheet></html>

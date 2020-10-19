@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+<html lang="en" style=" height: 100%;">
+
+<head>
+	<meta charset="UTF-8">
+	<title>中检业务信息管理系统——主页</title>
+	<link rel="stylesheet" href="resource/html5/iconfonts/iconfont.css">
+	<link rel="stylesheet" href="resource/html5/css/bootstrap.css">
+	<link rel="stylesheet" href="resource/html5/css/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="resource/bims/css/global-zh-CN.css">
+	<link rel="stylesheet" href="form/admin/main/css/style.min.css">
+	<link rel="stylesheet" href="resource/css/reset.css">
+	<link rel="stylesheet" href="matrix/resource/isomorphic/skins/Enterprise/skin_styles.css">
+	<link rel="stylesheet" href="resource/html5/css/skin/mCustom_primary.css">
+	<link rel="stylesheet" href="resource/css/css/layer.css" />
+	<script type="text/javascript" src="resource/bims/js/common-css.js"></script>
+	<link rel="stylesheet" href="resource/bims/css/mainPage.css">
+	<link rel="stylesheet" href='resource/html5/assets/toastr-master/toastr.min.css'  />
+
+	<style>
+		.big-width{
+			width: calc(100% - 70px);
+		}
+		.small-width{
+			width: calc(100% - 200px);
+		}
+	</style>
+</head>
+
+<body style=" height: 100%;">
+<div id="app" class="container" style="width: 100%; height: 100%;">
+	<div class="headerDiv">
+		<div class="logoDiv">
+			<img src="resource/bims/images/logo.png" alt="中检业务信息管理系统">
+			<p style="display: none;">中检业务信息管理系统2.0</p>
+		</div>
+		<div class="sysInforDiv sysInforDiv1">
+			<!--<div class="product_line" id="allProduct">
+				<span class="general" id="nowSelProduct"></span>
+				<div class="product_linelist">
+					<span data-locale="mainPage_moreProcutLines">更多产品线 ></span>
+					<ul id="productList">
+					</ul>
+				</div>
+			</div>-->
+			<p class="cmpyName" id="welcomeUserInfo" v-cloak >{{ userName }}，欢迎回来</p>
+			<p>|</p>
+			<select name="" class="organization" v-cloak id="orgSelect" v-model="orgChecked" @change="changeOrgOption">
+				<option :value="optionObj.id" v-for="optionObj in orgOption" >{{optionObj.name}}</option>
+			</select>
+			<div class="dropdown-container">
+				<!--<div class="current">
+					<span id="selectedLanguage"></span>
+				</div>
+				<div class="lang-list">
+					<ul id="lang-list-ul">
+
+					</ul>
+				</div>-->
+				<!-- TODO 多语言设置
+               <select v-cloak name="" class="languageSelect" id="languageSelect" onchange="MatrixLang.changeLang(value,'user')">
+               </select>-->
+			</div>
+			<div class="btn-group-top">
+				<div class="info-tips">
+					<div class="clock">
+						<i class="iconfont icon-lingdang"></i>
+						<em class="count" id="mesNoticeCount">...</em>
+					</div>
+					<div class="info-panel">
+						<ul id="mes-notice-list">
+						</ul>
+					</div>
+				</div>
+				<p data-locale  data-locale-title="mainPage_logoutTitle" title="退出" id="logout">
+					<i class="iconfont icon-zhuxiao" aria-hidden="true"></i>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="navDiv">
+			<div class="navPart">
+				<div class="mainNavDiv">
+					<div class="itemDiv choosed treeMenu"  id="ROLE_INDEX">
+						<p>
+							<i class="iconfont icon-index" aria-hidden="true"></i>
+						</p>
+						<p  data-locale="mainPage_homePage">首页</p>
+						<i class="stangle"></i>
+					</div>
+					<div class="itemDiv treeMenu " style="" id="ROLE_BUSINESS" >
+						<p>
+							<i class="iconfont icon-business" aria-hidden="true"></i>
+						</p>
+						<p data-locale="mainPage_business">业务</p>
+						<i class="stangle"></i>
+					</div>
+					<div class="itemDiv treeMenu " style="" id="ROLE_CONFIG" v-show="showAdmin">
+						<p>
+							<i class="iconfont icon-config" aria-hidden="true"></i>
+						</p>
+						<p data-locale="mainPage_business">管理</p>
+						<i class="stangle"></i>
+					</div>
+
+				</div>
+				<div class="childNavDiv" style="margin-left: -130px;">
+					<div class="childNav nav_1">
+						<ul>
+							<li>
+								<div class="navName treeMenu" style=" " id="ROLE_WORKSPACE">
+									<p class="name" data-locale="mainPage_workPlat">工作台</p>
+									<p class="arrow">
+										<i class="fa fa-angle-up" aria-hidden="true"></i>
+										<i class="fa fa-angle-down" aria-hidden="true"></i>
+									</p>
+								</div>
+								<div class="navList treeMenu" style=" " id="ROLE_WORKSPACE_WORKSPACE">
+									<p data-url="bimsWorkPlat.html">
+										<span data-locale="mainPage_workPlat">工作台</span>
+									</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="childNav " >
+						<ul style="padding: 0">
+							<li v-for="(menuItem,index) in menuItems" >
+
+								<div class="navName treeMenu" style=" "
+									 :id="'ROLE_BUSINESS_'+menuItem.functionId">
+									<p class="name"
+									   data-locale="mainPage_role">{{menuItem.functionName}}</p>
+									<p class="arrow">
+										<i class="fa fa-angle-up" aria-hidden="true"></i>
+										<i class="fa fa-angle-down" aria-hidden="true"></i>
+									</p>
+								</div>
+								<div class="navList"
+								>
+									<p v-for="(menuItemChild,indexChild) in menuItem.children" class="treeMenu J_menuItem" style=" "
+									   :data-url="menuItemChild.functionValue"
+									   :id="'ROLE_BUSINESS_'+menuItem.functionId+'_'+menuItemChild.functionId">
+										<span data-locale="mainPage_role">{{menuItemChild.functionName}}</span>
+									</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="childNav " >
+						<ul style="padding: 0">
+							<li v-for="(menuItem,index) in adminMenuInfo" >
+
+								<div class="navName treeMenu" style=" "
+									 :id="'ROLE_CONFIG_'+menuItem.functionId">
+									<p class="name"
+									   data-locale="mainPage_role">{{menuItem.functionName}}</p>
+									<p class="arrow">
+										<i class="fa fa-angle-up" aria-hidden="true"></i>
+										<i class="fa fa-angle-down" aria-hidden="true"></i>
+									</p>
+								</div>
+								<div class="navList"
+								>
+									<p v-for="(menuItemChild,indexChild) in menuItem.children" class="treeMenu" style=" margin: 0 "
+									   :data-url="menuItemChild.functionValue"
+									   :id="'ROLE_CONFIG_'+menuItem.functionId+'_'+menuItemChild.functionId">
+										<span data-locale="mainPage_role">{{menuItemChild.functionName}}</span>
+									</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="contentDiv" id="withoutTag" v-show="showIndex || showConfig">
+			<div class="pageTitleDiv">
+				<p class="pageTtl" id="pageTtl" data-locale="mainPage_workPlat">工作台</p>
+			</div>
+			<div class="contentIfmDiv" style="padding: 0">
+				<iframe id="frame" src="bimsWorkPlat.html" frameborder="0" scrolling="false"></iframe>
+			</div>
+		</div>
+		<div class="contentDiv mainContentDiv small-width" id="withTag" v-show="showBusiness">
+
+			<div id="page-wrapper" class="gray-bg dashbard-1"
+				 style="height: 100%; margin-left: 0;padding: 0;">
+				<div class="row content-tabs" style="left: 15px;">
+					<button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>
+					</button>
+					<nav class="page-tabs J_menuTabs">
+						<div class="page-tabs-content">
+							<a href="javascript:;" class="active J_menuTab" data-id="welcome.jsp" data-i18n-text="matrix.homePage">首页</a>
+						</div>
+					</nav>
+					<button class="roll-nav roll-right J_tabRight" style="right: 80px;"><i class="fa fa-forward"></i>
+					</button>
+					<div class="btn-group roll-nav roll-right" style="right:0px;">
+						<button class="dropdown J_tabClose" data-toggle="dropdown" style="top: -6px;">
+							<span data-i18n-text="matrix.tabs.closeOperation">关闭操作</span><span class="caret"></span>
+						</button>
+						<ul role="menu" class="dropdown-menu dropdown-menu-right">
+							<!--   <li class="J_tabShowActive">
+                                 <a>定位当前选项卡</a>
+                             </li>
+                             <li class="divider"></li>-->
+							<li class="J_tabCloseAll">
+								<a data-i18n-text="matrix.tabs.closeAllTabs">关闭全部选项卡</a>
+							</li>
+							<li class="J_tabCloseOther">
+								<a data-i18n-text="matrix.tabs.closeOtherTabs">关闭其他选项卡</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row J_mainContent" id="content-main" style="height: calc(100% - 40px); margin: 0px;">
+
+					<iframe class="J_iframe" id="iframe0" name="iframe0" width="100%" height="100%"
+							src="portal/portalAction_previewPersionOfficePortal.action" frameborder="0"
+							data-id="welcome.jsp" seamless></iframe>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<input hidden="hidden" id="uuid" />
+
+
+
+	<div class="bgll" id="mesListDiv" style="display: none">
+		<div class="popUps">
+			<div class="title">
+				<span class="mes-center-title" data-locale="mainPage_messageCenter">消息中心</span>
+				<i class="iconfont icon-close" id="mesListClose"></i>
+			</div>
+			<div class="msg-center">
+				<div class="msg-category">
+					<ul class="user-list">
+					</ul>
+				</div>
+				<div class="msg-container">
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
+<script type="text/javascript" src='resource/html5/js/jquery.min.js'></script>
+<script type="text/javascript" src="resource/html5/js/jquery.i18n.properties.js"></script>
+<script type="text/javascript" src="resource/bims/js/contabsForBims.js"></script>
+<script type="text/javascript" src='resource/html5/js/matrix_runtime.js'></script>
+<script type="text/javascript" src='resource/html5/lang/matrix_lang.js'></script>
+<script type="text/javascript" src="resource/html5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="resource/html5/js/bootstrap-select.js"></script>
+<script type="text/javascript" src="resource/html5/js/layer.min.js"></script>
+<script type="text/javascript" src="resource/html5/js/axios.min.js"></script>
+<script type="text/javascript" src="resource/html5/js/vue.js"></script>
+<script type="text/javascript" SRC='resource/html5/assets/toastr-master/toastr.min.js'></script>
+
+<script type="text/javascript" src="resource/bims/js/Popper.js"></script>
+<!--<script type="text/javascript" src="resource/bims/js/bootstrap-table-locale-all.min.js"></script>-->
+<script type="text/javascript" src="resource/bims/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="resource/bims/js/webuploader.min.js"></script>
+<script type="text/javascript" src="resource/bims/js/bootstrap3-typeahead.js"></script>
+<script type="text/javascript" src="resource/bims/js/jquery.ztree.all.min.js"></script>
+<script type="text/javascript" src="resource/bims/js/jquery.ztree.exhide.js"></script>
+<script type="text/javascript" src="resource/bims/js/pagination.min.js"></script>
+<script type="text/javascript" src="resource/bims/js/api.js"></script>
+<script type="text/javascript" src="resource/bims/js/jquery.validate.js"></script>
+<script type="text/javascript" src="resource/bims/js/util.js"></script>
+<script type="text/javascript" src="resource/bims/js/additional-methods.js"></script>
+<script type="text/javascript" src="resource/bims/js/global.js"></script>
+<script type="text/javascript" src='office/html5/assets/bootstrap-table/src/bootstrap-table.js'></script>
+
+<script>
+	const app = new Vue({
+		el: "#app",
+		data: {
+			userName: "",
+			menuItems: "",
+			adminMenuInfo: [],
+			portalItems: "",
+			showDesigner: false,
+			showAdmin: "",
+			dropMenu: "",
+			pageTtlMsg:"工作台",
+			orgOption:[],
+			orgChecked:"",
+			showIndex:true,
+			showBusiness:false,
+			showConfig:false
+		},
+		// router: vueRouter,
+		computed: {},
+		methods: {
+			changeOrgOption(){
+				axios.put("/" + location.pathname.split("/")[1] + "/homePage/userOrgId/"+this.orgChecked)
+						.then(data => {
+							if (data != "") {
+								const dataJson = data.data;
+								if (dataJson.status) {
+									isc.say(dataJson.msg);
+								} else {
+									isc.warn(dataJson.msg);
+								}
+							}
+						})
+			},
+			logoff() {   //注销
+				logoff();    //index.js中调用
+			},
+			SetiframeUrl: function (url) {
+				$("#frame").attr('src', url);
+			},
+			logDiv : function (){// 菜单栏效果
+				if ($(".mainNavDiv div:first").hasClass("choosed")) {
+					$(".container .navDiv .navPart .childNavDiv").css({
+						marginLeft: '-130px'
+					});
+				} else {
+					if ($(".container .logoDiv").css('width') == '200px') {
+						$(".container .headerDiv .sysInforDiv").addClass("sysInforDiv1");
+						$(".mainContentDiv").addClass("big-width");
+						$(".container .logoDiv").css({
+							width: '70px'
+						});
+						$(".container .logoDiv p").hide();
+
+						$(".container .navDiv .navPart .childNavDiv").css({
+							marginLeft: '-130px'
+						});
+					} else {
+						$(".container .navDiv .navPart .childNavDiv").css({
+							marginLeft: '0'
+						});
+
+						$(".container .logoDiv").css({
+							width: '200px'
+						});
+						$(".container .logoDiv p").show();
+						$(".container .headerDiv .sysInforDiv").removeClass("sysInforDiv1");
+						$(".mainContentDiv").removeClass("big-width");
+
+					}
+				}
+			}
+		},
+		mounted() {
+			const _self = this;
+			const webpath = _self.webpath;
+			axios.get('homePage/index').then(function (res) {
+				if (res != "") {
+					const dataJson = res.data;
+					if (dataJson.status) {
+						// isc.say(dataJson.msg);
+						const result = JSON.parse(dataJson.dataStr);
+
+						_self.userName = result.userName;  //当前登录人
+						_self.menuItems = result.menuInfo;  //菜单信息
+						_self.adminMenuInfo = result.adminMenuInfo;  //配置菜单信息
+						_self.orgOption = result.orgInfo;  //部门列表信息
+						_self.orgChecked = result.orgChecked;  //当前部门信息
+						_self.portalItems = result.portalInfo;  //部门门户信息
+						_self.showDesigner = result.isDesigner;
+						_self.showAdmin = result.isAdmin;
+
+						console.log(result);
+						const isDesigner = result.isDesigner;
+						const isAdmin = result.isAdmin;
+						const isMainApp = result.isMainApp;
+						const isTenantEnable = result.isTenantEnable;
+
+						let isChrome = false;
+						const userAgent = navigator.userAgent.toLowerCase();  //取得浏览器的userAgent字符串
+						if ((userAgent.indexOf('mozilla') == 0 &&
+								userAgent.indexOf('applewebkit') > 0 &&
+								userAgent.indexOf("edge") == -1 &&
+								userAgent.toLowerCase().indexOf("chrome/") > 0)
+								|| userAgent.indexOf("mac") > 0) {
+							isChrome = true;      //是谷歌内核的浏览器
+						}
+
+						if (isChrome) {
+							var flag = false;
+							if (isDesigner) {
+								// _self.designer = '';
+								flag = true;
+							}
+							if (isAdmin) {
+								// _self.admin = '';
+								flag = true;
+							}
+							if (flag) {    //是管理员或者设计开发人员
+								// _self.dropMenu = '';
+							}
+						}
+					} else {
+						isc.warn(dataJson.msg);
+					}
+				}
+			})
+					.catch(function (error) { // 请求失败处理
+						console.log(error);
+					});
+		},
+		updated (){
+			// 导航
+			// sessionStorage.setItem('pageType', 0);
+			/***选中功能操作开始**/
+			$(".navList").on("click", "p", function(){
+				if ($("#withTag").is(":hidden")){
+					var url = $(this).attr('data-url');
+					app.SetiframeUrl(url);
+					var pageName = $(this).children('span').text();
+					$("#pageTtl").text(pageName);
+					$(".contentDiv .pageTitleDiv .btnDiv button.return").hide();
+					sessionStorage.setItem('pageType', 0);
+				}else{
+					contabsFunC(this)
+				}
+			});
+			$(".J_menuItem").each(function (k) {
+				if (!$(this).attr("data-index")) {
+					$(this).attr("data-index", k)
+				}
+			});
+			$(".J_menuTabs").on("click", ".J_menuTab i", contabsFunH);
+			$(".J_tabCloseOther").on("click", contabsFunA);
+			$(".J_tabShowActive").on("click", contabsFunJ);
+			$(".J_menuTabs").on("click", ".J_menuTab", contabsFunE);
+			$(".J_menuTabs").on("dblclick", ".J_menuTab", contabsFunD);
+			$(".J_tabLeft").on("click", contabsFunA);
+			$(".J_tabRight").on("click", contabsFunB);
+			$(".J_tabCloseAll").on("click", function () {
+				$(".page-tabs-content").children("[data-id]").not(":first").each(function () {
+					$('.J_iframe[data-id="' + $(this).data("id") + '"]').remove();
+					$(this).remove()
+				});
+				$(".page-tabs-content").children("[data-id]:first").each(function () {
+					$('.J_iframe[data-id="' + $(this).data("id") + '"]').show();
+					$(this).addClass("active")
+				});
+				$(".page-tabs-content").css("margin-left", "0")
+			})
+			/***选中功能操作结束**/
+
+
+			$(".contentDiv .pageTitleDiv .btnDiv button.return").click(function() {
+				window.history.back();
+				$("#pageTtl").text(sessionStorage.getItem('pageName' + sessionStorage.getItem('pageType')));
+				var typeNum = sessionStorage.getItem('pageType') - 1;
+				sessionStorage.setItem('pageType', typeNum);
+				if(sessionStorage.getItem('pageType') == 0) {
+					$(this).hide();
+				}
+			});
+			// 最左侧 切换界面
+			$(".container .navDiv .navPart .mainNavDiv .itemDiv").click(function () {
+				$(this).addClass('choosed').siblings().removeClass('choosed');
+				if ( $(this).attr('id') === 'ROLE_BUSINESS' || $(this).attr('id') === 'ROLE_CONFIG') {
+					$(".container .navDiv .navPart .childNavDiv").show();
+					if ($(".container .logoDiv").css('width') == '70px') {
+						$(".container .logoDiv").css({
+							width: '200px'
+						});
+						$(".container .logoDiv p").show();
+						$(".container .headerDiv .sysInforDiv").removeClass("sysInforDiv1");
+					}
+					$(".container .navDiv .navPart .childNavDiv .childNav").eq($(this).index()).show().siblings().hide();
+					$(".container .navDiv .navPart .childNavDiv").css({
+						marginLeft: '0'
+					});
+					if ($(this).attr('id') === 'ROLE_BUSINESS' ){
+						// app.showIndex = false
+						// app.showBusiness = true
+						// app.showConfig = false
+						$("#withoutTag").hide()
+						$("#withTag").show()
+					}else if ($(this).attr('id') === 'ROLE_CONFIG'){
+						$("#pageTtl").html("管理实施")
+						app.SetiframeUrl("form/admin/logon/matrix/welcome.jsp");
+						// app.showIndex = false
+						// app.showBusiness = false
+						// app.showConfig = true
+						$("#withoutTag").show()
+						$("#withTag").hide()
+					}
+				} else if ($(this).attr('id') === 'ROLE_INDEX'){
+					$(".container .navDiv .navPart .childNavDiv").css({
+						marginLeft: '-130px'
+					});
+					$(".container .logoDiv p").hide();
+					$(".container .headerDiv .sysInforDiv").addClass("sysInforDiv1");
+					$(".container .logoDiv").css({
+						width: '70px'
+					});
+					$("#pageTtl").html("工作台")
+					app.SetiframeUrl("bimsWorkPlat.html");
+					// app.showIndex = true
+					// app.showBusiness = false
+					// app.showConfig = false
+					$("#withoutTag").show()
+					$("#withTag").hide()
+				}
+			});
+			// 页面标题点击
+			$(".container .navDiv .navPart .childNavDiv .childNav ul li .navName").click(function() {
+				$(this).parent().toggleClass('choosed').siblings('li').removeClass('choosed');
+				$(this).siblings().slideToggle();
+				$(this).parent().siblings('li').children('.navList').slideUp();
+			});
+			// 切换选中样式
+			$(".container .navDiv .navPart .childNavDiv .childNav ul li .navList p").click(function() {
+				$(this).addClass('chsd').siblings().removeClass('chsd');
+				$(this).parents('li').siblings().children('.navList').children('p').removeClass('chsd');
+				$(this).parents('.childNav').siblings().find('li').removeClass('choosed');
+				$(this).parents('.childNav').siblings().find('.navList').slideUp().children('p').removeClass('chsd');
+			});
+			// 点击logo
+			$(".container .logoDiv").click(function() {
+				app.logDiv();
+			});
+		}
+	})
+</script>
+</body>
+
+</html>

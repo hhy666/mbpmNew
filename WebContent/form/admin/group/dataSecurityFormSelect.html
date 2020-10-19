@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="../../../resource/html5/js/vue.js"></script>
+    <script src="../../../resource/html5/js/axios.min.js"></script>
+
+    <link href='../../../resource/html5/css/matrix_runtime.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/font-awesome.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/flat/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/square/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap-select.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/select2.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/clockpicker.css' rel="stylesheet"/>
+    <link href='../../../resource/css/filecss.css' rel="stylesheet"/>
+    <link href='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/google-code-prettify/bin/prettify.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/custom.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/skin/mCustom_primary.css' rel="stylesheet"/>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.i18n.properties.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/lang/matrix_lang.js'></SCRIPT>
+
+    <SCRIPT SRC='../../../resource/html5/js/jquery.inputmask.bundle.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/bootstrap/dist/js/bootstrap.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/icheck.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-select.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/select2.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/layer.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/autosize.min.js'></SCRIPT>
+    <script src="../../../resource/html5/js/demo.js"></script>
+    <SCRIPT SRC='../../../resource/html5/js/laydate/laydate.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/clockpicker.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.hotkeys/jquery.hotkeys.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/google-code-prettify/src/prettify.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/filejs.js'></SCRIPT>
+    <script src='../../../resource/html5/js/jstree.min.js'></script>
+    <link rel='stylesheet' href='../../../resource/css/themes/default/style.min.css'/>
+    <script src='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.js'></script>
+    <SCRIPT SRC='../../../resource/html5/assets/toastr-master/toastr.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/validator.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/matrix_runtime.js'></SCRIPT>
+    <link href='../../../resource/html5/assets/toastr-master/toastr.min.css' rel="stylesheet"/>
+
+    <style>
+        .jstree-default .jstree-hovered {
+            background: none;
+            border-radius: 0px;
+            color: blue;
+            text-decoration: underline;
+            box-shadow: none
+        }
+
+        .jstree-default .jstree-clicked {
+            background: #DDDDDD;
+            border-radius: 0px;
+            box-shadow: none;
+        }
+
+        .jstree-anchor {
+            padding: 0 4px 0 0px;
+        }
+
+        .jstree-default .jstree-node-online {
+            background: url("../../../office/html5/image/openfoldericon.png") no-repeat #fff;
+            background-position: 50% 50%;
+            background-size: auto;
+        }
+
+        .jstree-default .jstree-node-offline {
+            background: url("../../../office/html5/image/foldericon.png") no-repeat #fff;
+            background-position: 50% 50%;
+            background-size: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app" style="position:relative;_layout:flowlayout;width:100%;height:100%;overflow:auto;">
+    <div id="horizontalContainer0"
+         class="page page-full animation-fade page-data-tables form-group col-xs-12 col-md-12 formItem"
+         style="height:calc( 100% - 50px);width:100%;">
+        <div id="HorizontalContainer001Panel1" class="page-aside" :style="treeWidth"
+             v-show="isShowTree"
+        >
+            <div class="page-aside-switch">
+                <i class="icon wb-chevron-left" aria-hidden="true"></i>
+                <i class="icon wb-chevron-right" aria-hidden="true"></i>
+            </div>
+            <div class="page-aside-inner height-full" data-plugin="slimScroll" style="overflow:hidden;">
+                <div class="normal matrixInline innerHtmlCls " style="width:100%;height:30px;">
+                    <div style="background-color:rgb(248, 248, 248);height:30px;">
+                        <div style="height: 30px;padding: 7px;font-weight:bold;padding-left:30px;">目录树</div>
+                    </div>
+                </div>
+                <div id="container"
+                     style="height:calc(100% - 64px); width:100%;overflow: auto;background: #fff; font-size: 12px;">
+                </div>
+
+            </div>
+        </div>
+        <div id="panelGroup0_div;" class="page-main" :style="tableWidth">
+            <table id="tableLabel" class="tableLayout" style="width:100%;height:100%;border:0">
+                <tr id="trLabel">
+                    <td id="tdLabel" class="tdLayout" style="width:100%;height:30px;vertical-align:bottom;border:0 "><label id="label01Label" name="label01Label" style="font-size:18px;vertical-align:bottom; " class="control-label ">
+                        授权</label></td>
+                </tr>
+                <tr id="trLabel2">
+                    <td id="tdLabel2" class="tdLayout" style="width:100%;height:95%;border:0;vertical-align: top;">
+                        <table id="table001" class="tableLayout" style="width:100%;">
+                            <tr id="tr0011">
+                                <td id="td1101" class="maintain_form_label" colspan="1" style="width:20%;">
+                                    <label id="label1101" name="label1101" class="control-label "> 业务授权</label>
+                                </td>
+                                <td id="td1102" class="maintain_form_input2" colspan="3" rowspan="1" style="width:80%;">
+                                    <div id="radioGroup001_div" class="matrixInline" style="height:34px;line-height: 32px;">
+                                        <table border="0" style="margin:0px;padding: 0px;display: inline;width:200px;"
+                                               cellspacing="0"
+                                               cellpadding="0">
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;;width:110px;">
+                                                    <input type="radio" class="box" id="radioGroup001_1" name="radioGroup001"
+                                                           value="1"
+                                                           checked="checked"/>
+                                                    <label style="color:black;font-weight:normal">不限制业务</label>
+                                                </td>
+                                                <td></td>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;width:200px;">
+                                                    <input type="radio" class="box" id="radioGroup001_2" name="radioGroup001"
+                                                           value="2"/>
+                                                    <label style="color:black;font-weight:normal">指定业务</label>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="inputTextArea001_tr" v-show="alwaysShow">
+                                <td id="td1201" class="maintain_form_label2" colspan="1" style="width:20%;">
+                                    <label id="label1201" name="label1201" class="control-label ">指定业务</label>
+                                </td>
+                                <td id="td1202" class="tdLayout" colspan="3" rowspan="1"
+                                    style="width:836px;white-space:nowrap;word-break:keep-all;">
+                                    <div id="inputTextArea001_div" class="col-md-12 input-group "
+                                         style="display: inline-table; vertical-align: middle; width:100%;height:150px;display: inline-block; ">
+                    <textarea id="inputTextArea001" name="inputTextArea001" class=" form-control " style="
+                    resize:none;outline:none;width:100%;height:150px;" v-model="busData" readonly="readonly "
+                              onclick="openAuthWindow(1);Matrix.hideMask();" autocomplete="off" cols="0"
+                              rows="0"></textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="tr0021">
+                                <td id="td2101" class="maintain_form_label" colspan="1" style="width:20%;">
+                                    <label id="label2101" name="label2101" class="control-label "> 公司授权</label>
+                                </td>
+                                <td id="td2102" class="maintain_form_input2" colspan="3" rowspan="1" style="width:80%;">
+                                    <div id="radioGroup002_div" class="matrixInline" style="height:34px;line-height: 32px;">
+                                        <table border="0" style="margin:0px;padding: 0px;display: inline;width:200px;"
+                                               cellspacing="0"
+                                               cellpadding="0">
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;width:110px;">
+                                                    <input type="radio" class="box" id="radioGroup002_1" name="radioGroup002"
+                                                           value="1"
+                                                           checked="checked"/>
+                                                    <label style="color:black;font-weight:normal">不限制公司</label>
+                                                </td>
+                                                <td></td>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;width:100px;">
+                                                    <input type="radio" class="box" id="radioGroup002_4" name="radioGroup002"
+                                                           value="4"/>
+                                                    <label style="color:black;font-weight:normal">所在公司</label>
+                                                </td>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;width:170px;">
+                                                    <input type="radio" class="box" id="radioGroup002_3" name="radioGroup002"
+                                                           value="3"/>
+                                                    <label style="color:black;font-weight:normal">所在公司及下级公司</label>
+                                                </td>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;width:200px;">
+                                                    <input type="radio" class="box" id="radioGroup002_2" name="radioGroup002"
+                                                           value="2"/>
+                                                    <label style="color:black;font-weight:normal">指定公司</label>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="inputTextArea002_tr" v-show="alwaysShow">
+                                <td id="td2201" class="maintain_form_label2" colspan="1" style="width:20%;">
+                                    <label id="label2201" name="label2201" class="control-label ">指定公司</label>
+                                </td>
+                                <td id="td2202" class="tdLayout" colspan="3" rowspan="1"
+                                    style="width:836px;white-space:nowrap;word-break:keep-all;">
+                                    <div id="inputTextArea002_div" class="col-md-12 input-group "
+                                         style="display: inline-table; vertical-align: middle; width:100%;height:150px;display: inline-block; ">
+                    <textarea id="inputTextArea002" name="inputTextArea002" class=" form-control " style="
+                    resize:none;outline:none;width:100%;height:150px;" v-model="comData" readonly="readonly "
+                              onclick="openAuthWindow(2);Matrix.hideMask();" autocomplete="off" cols="0"
+                              rows="0"></textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="tr0031">
+                                <td id="td3101" class="maintain_form_label" colspan="1" style="width:20%;">
+                                    <label id="label3101" name="label3101" class="control-label "> 部门授权</label>
+                                </td>
+                                <td id="td3102" class="maintain_form_input2" colspan="3" rowspan="1" style="width:80%;">
+                                    <div id="radioGroup003_div" class="matrixInline" style="height:34px;line-height: 32px;">
+                                        <table border="0" style="margin:0px;padding: 0px;display: inline;width:200px;"
+                                               cellspacing="0"
+                                               cellpadding="0">
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;width:110px;">
+                                                    <input type="radio" class="box" id="radioGroup003_1" name="radioGroup003"
+                                                           value="1"
+                                                           checked="checked"/>
+                                                    <label style="color:black;font-weight:normal">不限制部门</label>
+                                                </td>
+                                                <td></td>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;width:100px;">
+                                                    <input type="radio" class="box" id="radioGroup003_4" name="radioGroup003"
+                                                           value="4"/>
+                                                    <label style="color:black;font-weight:normal">所在部门</label>
+                                                </td>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;width:170px;">
+                                                    <input type="radio" class="box" id="radioGroup003_3" name="radioGroup003"
+                                                           value="3"/>
+                                                    <label style="color:black;font-weight:normal">所在部门及下级部门</label>
+                                                </td>
+                                                <td style="padding-left: 2px;padding-top: 2px;border-style:none;width:200px;">
+                                                    <input type="radio" class="box" id="radioGroup003_2" name="radioGroup003"
+                                                           value="2"/>
+                                                    <label style="color:black;font-weight:normal">指定部门</label>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="inputTextArea003_tr" v-show="alwaysShow">
+                                <td id="td3201" class="maintain_form_label2" colspan="1" style="width:20%;">
+                                    <label id="label3201" name="label3201" class="control-label ">指定部门</label>
+                                </td>
+                                <td id="td3202" class="tdLayout" colspan="3" rowspan="1"
+                                    style="width:836px;white-space:nowrap;word-break:keep-all;">
+                                    <div id="inputTextArea003_div" class="col-md-12 input-group "
+                                         style="display: inline-table; vertical-align: middle; width:100%;height:150px;display: inline-block; ">
+                    <textarea id="inputTextArea003" name="inputTextArea003" class=" form-control " style="
+                    resize:none;outline:none;width:100%;height:150px;" v-model="depData" readonly="readonly "
+                              onclick="openAuthWindow(3);Matrix.hideMask();" autocomplete="off" cols="0"
+                              rows="0"></textarea>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="toolBar001" style=" text-align: center;" class="x_panel panel_color"
+         v-show="isShowTree"
+    >
+        <button type="button" id="saveBtn" class="x-btn ok-btn " @click="btnFunction(1)">保存</button>
+        <button type="button" id="cancelBtn" class="x-btn cancel-btn " @click="btnFunction(2)">取消</button>
+    </div>
+</div>
+</body>
+</html>
+
+
+<script>
+    const app = new Vue({
+        el: "#app",
+        data: {
+            busType: 1,
+            comType: 1,
+            depType: 1,
+            busDataKey: "",
+            comDataKey: "",
+            depDataKey: "",
+            busData: "请选择业务！",
+            comData: "请选择公司！",
+            depData: "请选择部门！",
+            groupId: "",
+            dataSecurityId: "",
+            alwaysShow:true
+        },
+        computed: {
+            inputTextArea1View: function () {
+                return this.busType == 2 // 选中指定才显示
+            },
+            inputTextArea2View: function () {
+                return this.comType == 2 // 选中指定才显示
+            },
+            inputTextArea3View: function () {
+                return this.depType == 2 // 选中指定才显示
+            },
+            isShowTree: function(){
+                return this.dataSecurityId == "" || this.dataSecurityId == null
+            },
+            treeWidth: function(){
+                return {
+                    width:'18%',
+                    height:'100%'
+                }
+            },
+            tableWidth: function(){
+                if (this.dataSecurityId == "" || this.dataSecurityId == null){
+                    return {
+                        width:'82%',
+                        marginLeft:'18%'
+                    }
+                }else {
+                    return {
+                        width:'100%',
+                        marginLeft: 0
+                    }
+                }
+
+            }
+        },
+        methods:{
+            btnFunction : function (optionType){
+                if (optionType == 1) {
+                    const checkedIdsArr = $('#container').jstree().get_bottom_selected(true);
+                    let checkedIdsStr =""
+                    if (typeof checkedIdsArr != 'undefined' && checkedIdsArr.length>0) {
+                        checkedIdsArr.forEach(node => {
+                            if (typeof node.original != 'undefined'){
+                                checkedIdsStr = checkedIdsStr+","+node.original.mid;
+                            }
+                        })
+                        
+                        /*const jsonData = {} 会报错
+                        jsonData['busType'] = this.busType;
+                        jsonData['comType'] = this.comType;
+                        jsonData['depType'] = this.depType;
+                        jsonData['busData'] = this.busData;
+                        jsonData['comData'] = this.comData;
+                        jsonData['depData'] = this.depData;
+                        jsonData['groupId'] = this.groupId;
+                        jsonData['checkedIds'] = checkedIdsStr*/
+                        const synJson = new URLSearchParams();
+                        synJson.append('busType', this.busType);
+                        synJson.append('comType', this.comType);
+                        synJson.append('depType', this.depType);
+                        synJson.append('busData', this.busDataKey);
+                        synJson.append('comData', this.comDataKey);
+                        synJson.append('depData', this.depDataKey);
+                        synJson.append('groupId', this.groupId);
+                        synJson.append('checkedIds', checkedIdsStr);
+                        axios.post("/"+location.pathname.split("/")[1]+"/securityGroup/formDataSecurity",
+                            synJson
+                        )
+                            .then(data => {
+                                if (data != "" ) {
+                                    const dataJson = data.data;
+                                    // const result = JSON.parse(dataJson.dataStr);
+                                    if (dataJson.status) {
+                                        isc.say(dataJson.msg);
+                                        Matrix.closeWindow();
+                                    }else{
+                                        //保存失败
+                                        isc.say(dataJson.msg);
+                                        return
+                                    }
+                                }else {
+                                    isc.warn("保存失败，服务器异常，请联系管理员！");
+                                    return
+                                }
+                            })
+                    }else {
+                        Matrix.warn('请选择表单！');
+                        return
+                    }
+                }else {
+                    Matrix.closeWindow();
+                }
+            }
+        },
+        mounted() {
+            this.groupId = decodeURIComponent((new RegExp('[?|&]groupId=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+            this.dataSecurityId = decodeURIComponent((new RegExp('[?|&]dataSecurityId=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+
+            console.log(this.dataSecurityId)
+            if (this.dataSecurityId != "") {
+
+                //加载已经存在的数据权限
+                axios.get("/"+location.pathname.split("/")[1]+"/securityGroup/formDataSecurity/"+this.dataSecurityId)
+                    .then(data => {
+                        if (data != "" ) {
+                            const dataJson = data.data;
+                            //
+                            if (dataJson.status) {
+                                const result = JSON.parse(dataJson.dataStr);
+                                this.groupId = result.groupUuid;
+                                this.busType = result.businessAuthType;
+                                this.busDataKey = result.businessAuthVal;
+                                this.depType = result.depAuthType;
+                                this.depDataKey = result.depAuthVal;
+                                this.comType = result.comAuthType;
+                                this.comDataKey = result.comAuthVal;
+                                this.busData = result.businessAuthText;
+                                this.depData = result.depAuthText;
+                                this.comData = result.comAuthText;
+                                // this.groupId = result.formDefId;
+                                // this.groupId = result.conditionKey;
+                                // this.groupId = result.conditionVal;
+
+                                $('#radioGroup001_'+this.busType).iCheck('check');
+                                $('#radioGroup002_'+this.comType).iCheck('check');
+                                $('#radioGroup003_'+this.depType).iCheck('check');
+                            }
+                        }
+                    })
+            }
+            $("input[name^='radioGroup00']").on('ifChecked', function (event) {
+                const domName = this.name
+                const radioId = this.id
+                const radioIdArr = radioId.split('_')
+                const radioName = radioIdArr[0]
+                const radioVal = radioIdArr[1]
+                const domNameArr = domName.split('radioGroup00')
+                const domIndex = domNameArr[1]
+                if (domIndex == 1) {
+                    app.busType = radioVal
+                } else if (domIndex == 2) {
+                    app.comType = radioVal
+                } else if (domIndex ==3 ) {
+                    app.depType = radioVal
+                }
+
+                if (typeof radioVal != 'undefined' && (radioVal == 2 || radioVal == '2')) {
+                    // $('#inputTextArea00' + domIndex + '_tr').show()//需要全部展示，所以注释
+                } else {
+                    // $('#inputTextArea00' + domIndex + '_tr').hide()//需要全部展示，所以注释
+                    //清空文本域内容
+                    if (domIndex == 1) {
+                        app.busData = ""
+                        app.busDataKey = ""
+                    } else if (domIndex == 2) {
+                        app.comData = ""
+                        app.comDataKey = ""
+                    } else if (domIndex ==3 ) {
+                        app.depData = ""
+                        app.depDataKey = ""
+                    }
+                }
+
+            })
+
+            const _treeCon = function (data){
+                const TreeMenu2 = {
+                    'TreeMenuItem11': {
+                        'label': '刷新',
+                        'separator_before': true,
+                        'separator_after': true,
+                        'icon': '../../../resource/images/matrix/Fresh.png',
+                        'action': function (target) {
+                            Matrix.refreshTreeNode(target)
+                        }
+                    }
+                };
+                const TreeMenu1 = {
+                    'TreeMenuItem3': {
+                        'label': '刷新',
+                        'separator_before': true,
+                        'separator_after': true,
+                        'icon': '../../../resource/images/matrix/Fresh.png',
+                        'action': function (target) {
+                            /*if (target) {
+                                var matrix_treeId = document.getElementById('matrix_treeId').value;
+                                target = $('#' + matrix_treeId).jstree('get_node', target.reference[0]).original;
+                            }*/
+                            Matrix.refreshTreeNode(target)
+                        }
+                    },
+                    'TreeMenuItem4': {
+                        'label': '上移',
+                        'separator_before': true,
+                        'separator_after': true,
+                        'icon': '../../../resource/images/matrix/upsmall.png',
+                        'action': function (target) {
+                            Matrix.moveUpTreeNode(target)
+                        }
+                    },
+                    'TreeMenuItem5': {
+                        'label': '下移',
+                        'separator_before': true,
+                        'separator_after': true,
+                        'icon': '../../../resource/images/matrix/downsmall.png',
+                        'action': function (target) {
+                            Matrix.moveDownTreeNode(target)
+                        }
+                    }
+                };
+                const id = data.original.id
+                if (id == 'root'){
+                    return TreeMenu2;
+                }else{
+                    return TreeMenu1;
+                }
+            }
+
+            var tree = $('#container').jstree({
+                'core': {
+                    'multiple': true,    //设置为多选
+                    "animation": false,   //打开/关闭动画持续时间（以毫秒为单位） - 将此设置false为禁用动画（默认为200）
+                    'dblclick_toggle': false,  //禁止双击（ 默认为true）
+                    'data': {
+                        "url": "/" + location.pathname.split("/")[1] + "/securityGroup/dataSecurityTreeNode",
+                        "data": function (node) {
+                        	let type;
+                        	let mid;
+                        	if(node.original){
+								type = node.original.type;
+								mid = node.original.mid;
+							}
+                            return {
+                                "nodeId": node.id === "#" ? "0" : node.id,
+                                "entrance": 'dataSec',
+                           		"type": type,
+                                "mid": mid
+                            };
+                        },
+                        "dataType": "json",
+                        "type": "get"
+                    },
+                    'themes': {
+                        'icons': true
+                    }
+                },
+                "plugins": ["contextmenu","wholerow","checkbox"],
+                'contextmenu' :{
+                    "items" : _treeCon
+                }
+            });
+
+            //加载二级菜单
+            $('#container').on('load_node.jstree', function(e, data){
+                $('#container').jstree(true).open_node("formRoot");
+            });
+        }
+    })
+    //非公开弹出授权信息窗口
+    function openAuthWindow(optionType) {
+        let dialogId = "";
+        let orgType = "";
+        if (optionType == 1){
+            if (app.busType != 2)
+                return //只有指定业务可以弹出
+            dialogId = "Dialog1"
+            layer.open({
+                id:dialogId,
+                type : 2,//iframe 层
+
+                title : ['选择业务'],
+                closeBtn : 1,  //显示关闭按钮风格1 2  0不显示关闭按钮
+                shadeClose: false, //开启遮罩关闭
+                area : [ '65%', '90%' ],
+                content :  '../../../form/admin/group/businessTypeSelect.html?iframewindowid='+dialogId+'&checkIds='+app.busDataKey
+            });
+            return
+        } else if (optionType == 2 ) {
+            if (app.comType != 2)
+                return //只有指定公司可以弹出
+            dialogId = "Dialog2"
+            orgType = "com"
+        }else if (optionType == 3) {
+            if (app.depType != 2)
+                return //只有指定部门可以弹出
+            dialogId = "Dialog3"
+            orgType = "dep"
+        }else {
+            return
+        }
+        layer.open({
+            id:dialogId,
+            type : 2,//iframe 层
+
+            title : ['授权信息'],
+            closeBtn : 1,  //显示关闭按钮风格1 2  0不显示关闭按钮
+            shadeClose: false, //开启遮罩关闭
+            area : [ '65%', '90%' ],
+            content :  '../../../office/html5/select/MultiSelectDep.jsp?iframewindowid='+dialogId+'&add=update&depType='+orgType
+        });
+    }
+
+    //非公开弹出授权信息窗口关闭回调
+    function onDialog1Close(data) {
+        if (data != null) {
+            const allIds = data.ids;
+            const allNames = data.names;
+            app.busData = allNames
+            app.busDataKey = allIds
+        }
+    }
+    function onDialog2Close(data) {
+        if (data != null) {
+            const allIds = data.ids;
+            const allNames = data.names;
+            app.comData = allNames
+            app.comDataKey = allIds
+        }
+    }
+    function onDialog3Close(data) {
+        if (data != null) {
+            const allIds = data.ids;
+            const allNames = data.names;
+            app.depData = allNames
+            app.depDataKey = allIds
+        }
+    }
+
+</script>

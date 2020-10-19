@@ -1,0 +1,112 @@
+delete from mf_query_auth;
+delete from mf_query_list;
+delete from mf_query_option;
+DELETE FROM mf_tmpl_catalog WHERE ('M_UUID'='297e0bba63de6fdb0163de7a2d600012');
+DELETE FROM mo_flow_type WHERE ('C_TEMPLATE_ID'='297e0bba63de6fdb0163de7a2d600012');
+
+
+delete from mf_utili_auth;
+delete from mf_utili_option;
+delete from mf_utilization;
+DROP TABLE mf_utilization_tree;
+
+
+delete from mf_file_info;
+delete from mf_process_file;
+delete from mo_archive_file;
+delete from mo_file;
+delete from mo_image_file;
+delete from mo_self_collect_file;
+
+delete from mo_notice_file;
+
+delete from mf_portal_auth;
+delete from mo_authority_bo;
+delete from mo_pro_author_group;
+delete from mf_session;
+
+delete from mo_notice;
+delete from mo_news;
+delete from mo_news_image;
+
+delete from mf_rele_form;
+
+delete from wf_his_comment_info;
+delete from wf_ins_flow_form_tid;
+
+delete from mo_archive_ins_info;   
+delete from mo_archive_doc;      
+delete from mo_archive_comment;    
+delete from mo_archive_reco_info;   
+delete from MO_SELF_COLLECT_FILE;   
+delete from mo_recent_read;     
+delete from mo_recycle_bin;      
+delete from mo_archive_subscible;  
+delete from MO_OPERATE_ARC_LOG;     
+delete from MO_SHARE_AUTH_BO;  
+
+delete from MO_AUDI_INFO;       
+delete from MO_DATA_AUDIT_INFO;   
+
+delete from mo_track_info;      
+delete from mo_flow_biz_info;    
+
+delete from mo_event_info;     
+
+delete from mo_audi_info;
+
+delete from mo_message_manager_bo;    
+delete from wf_ins_message_info;
+
+delete from mo_relateform_security;   
+
+delete from mo_arcivetype where C_NAME='我的文档';
+delete from mo_archive_security;
+delete from mo_doc_power;
+
+DROP TABLE mo_model;
+
+delete from mo_flow_security;
+
+delete from mo_group_by_message;
+
+
+delete from mo_flow_biz_info;  
+
+delete from wf_ins_process;  
+delete from wf_ins_activity;  
+delete from wf_ins_task;  
+delete from wf_ins_administrator;  
+delete from wf_ins_comment_info;
+delete from wf_ins_message_info;  
+delete from wf_ins_flow_form_tid；
+delete from wf_ins_variable;
+
+delete from mo_track_info;
+
+delete from mf_portal where m_user_id is not null;
+
+delete from mo_audi_info;
+
+
+delete from mf_org_user where logon_name='ggfwc' or logon_name='zwfwc' or logon_name='ywfzc' or logon_name='admin1' or logon_name='admin2' or logon_name='admin3';
+update mf_org_user set org_id='root' where user_id='admin';
+
+delete from  mf_org_user where is_deleted=1;
+delete from mf_tmpl_form where m_node_uuid not in (select m_uuid from mf_tmpl_catalog);
+delete from mf_tmpl_form_content where m_form_uuid not in (select m_uuid from mf_tmpl_form);
+delete from mf_tmpl_form_se_scope  where m_form_uuid not in (select m_uuid from mf_tmpl_form);
+delete from mf_tmpl_form_se_scope_items where m_scope_uuid not in(select m_uuid from mf_tmpl_form_se_scope );
+delete from mf_tmpl_form_ref   where m_form_uuid not in (select m_uuid from mf_tmpl_form);
+delete  from mf_tmpl_form_security  where m_form_uuid not in (select m_uuid from mf_tmpl_form);
+delete from mf_tmpl_form_security_operate where m_security_uuid not in (select m_uuid from mf_tmpl_form_security );
+
+
+
+delete from mf_tmpl_entity_content where M_ENTITY_UUID not in (SELECT m_uuid from mf_tmpl_entity);
+
+delete from mf_tmpl_entity_property where M_ENTITY_UUID not in (SELECT m_uuid from mf_tmpl_entity);
+
+delete from  mf_org_dep where is_deleted=1 and dep_id <> 'mf_root';
+
+delete from mf_tmpl_form_ref;

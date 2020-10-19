@@ -1,0 +1,820 @@
+{
+  "isMobile": false,
+  "pcFiled": {
+    "basicComponents": [
+      {
+        "type": "input",
+        "icon": "icon-input",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "pattern": "",
+          "placeholder": "",
+          "disabled": false,
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "select",
+        "icon": "icon-select",
+        "options": {
+          "relationType": "",
+          "relationId": "",
+          "relationProperty": "",
+          "digit": "",
+          "levelDigit": "",
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "disabled": false,
+          "clearable": false,
+          "placeholder": "",
+          "required": false,
+          "showLabel": false,
+          "options": [
+            {
+              "label": "规则",
+              "value": "similar"
+            },
+            {
+              "label": "不规则",
+              "value": "unsimilar"
+            }
+          ],
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "listbox",
+        "icon": "icon-listbox",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "multiple": false,
+          "disabled": false,
+          "clearable": false,
+          "required": false,
+          "showLabel": false,
+          "options": [
+            {
+              "value": "Option 1"
+            },
+            {
+              "value": "Option 2"
+            },
+            {
+              "value": "Option 3"
+            }
+          ],
+          "filterable": false,
+          "props": {
+            "value": "value",
+            "label": "label"
+          },
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "multiselect",
+        "icon": "icon-multiselect",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "multiple": false,
+          "disabled": false,
+          "clearable": false,
+          "placeholder": "",
+          "required": false,
+          "showLabel": false,
+          "options": [
+            {
+              "value": "Option 1"
+            },
+            {
+              "value": "Option 2"
+            },
+            {
+              "value": "Option 3"
+            }
+          ],
+          "remote": false,
+          "filterable": false,
+          "remoteOptions": [],
+          "props": {
+            "value": "value",
+            "label": "label"
+          },
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "popupselect",
+        "icon": "icon-input",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "pattern": "",
+          "placeholder": "",
+          "disabled": false,
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "date",
+        "icon": "icon-date",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "placeholder": "",
+          "disabled": false,
+          "pattern": "",
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "time",
+        "icon": "icon-time",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "dataType": "string",
+          "placeholder": "",
+          "disabled": false,
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "number",
+        "icon": "icon-number",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "placeholder": "",
+          "disabled": false,
+		  "isCurrency": false,
+          "preDeduction": false,
+          "pattern": "",
+          "textPattern": "",
+          "options": [
+            {
+              "label": "百分号",
+              "value": "#.##%"
+            },
+            {
+              "label": "千分位",
+              "value": "###0.00"
+            },
+            {
+              "label": "*天*时*分",
+              "value": "DHM"
+            },
+            {
+              "label": "*天",
+              "value": "DAY"
+            }
+          ],
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "textarea",
+        "icon": "icon-textarea",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "pattern": "",
+          "placeholder": "",
+          "disabled": false,
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "checkboxgroup",
+        "icon": "icon-checkboxgroup",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "disabled": false,
+          "columns": "2",
+          "options": [],
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "checkbox",
+        "icon": "icon-checkbox",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "disabled": false,
+          "labelValue": "",
+          "labelWidth": "25%",
+          "colClass": 12,
+          "options": []
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "radiogroup",
+        "icon": "icon-radiogroup",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "dataType": "string",
+          "disabled": false,
+          "columns": "2",
+          "options": [],
+          "labelWidth": "25%",
+          "colClass": 12
+        },
+		"dataValidators": []
+      },
+      {
+        "type": "splitline",
+        "icon": "icon-splitline",
+        "options": {
+			"showTitle": true,
+			"showLine": true
+        }
+      }
+    ],
+    "advanceComponents": [
+      {
+        "type": "SingleUserSelect",
+        "icon": "icon-input",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "placeholder": "",
+          "disabled": false,
+          "labelWidth": "25%",
+          "colClass": 12
+        }
+      },
+      {
+        "type": "MultiUserSelect",
+        "icon": "icon-input",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "placeholder": "",
+          "disabled": false,
+          "labelWidth": "25%",
+          "colClass": 12
+        }
+      },
+      {
+        "type": "SingleDeptSelect",
+        "icon": "icon-input",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "placeholder": "",
+          "disabled": false,
+          "labelWidth": "25%",
+          "colClass": 12
+        }
+      },
+      {
+        "type": "MultiDeptSelect",
+        "icon": "icon-input",
+        "options": {
+          "styleText": "width:100%",
+          "defaultValue": "",
+          "required": false,
+          "placeholder": "",
+          "disabled": false,
+          "labelWidth": "25%",
+          "colClass": 12
+        }
+      },
+      {
+        "type": "SingleFileUpload",
+        "icon": "icon-input",
+        "options": {
+          "styleText": "width:100%",
+          "required": false,
+          "disabled": false,
+          "fileType": "",
+          "labelWidth": "25%",
+          "colClass": 12
+        }
+      },
+      {
+        "type": "MultiFileUpload",
+        "icon": "icon-input",
+        "options": {
+          "styleText": "width:100%",
+          "required": false,
+          "disabled": false,
+          "showPreview": false,
+          "fileType": "",
+          "maxFileCount": "",
+          "labelWidth": "25%",
+          "colClass": 12
+        }
+      },
+      {
+        "type": "ProcessOpinion",
+        "icon": "icon-input",
+        "options": {
+          "styleText": "width:100%",
+          "required": false,
+          "disabled": false,
+          "showMultiComments": false,
+          "showDep": false,
+          "labelWidth": "25%",
+          "colClass": 12
+        }
+      }
+    ],
+    "layoutComponents": [
+      {
+        "type": "grid",
+        "icon": "icon-grid-",
+        "columns": [
+          {
+            "span": 12,
+            "list": []
+          },
+          {
+            "span": 12,
+            "list": []
+          }
+        ],
+        "options": {
+          "gutter": 0,
+          "justify": "start",
+          "align": "top"
+        }
+      },
+      {
+        "type": "reptable",
+        "icon": "icon-reptable-",
+        "columns": [
+          {
+            "span": 24,
+            "list": []
+          }
+        ],
+        "options": {
+          "gutter": 0,
+          "justify": "start",
+          "align": "top"
+        }
+      }
+    ]
+  },
+  "mobileFiled": {
+    "mainTableComponents": [
+      {
+        "type": "input",
+        "icon": "icon-input",
+        "options": {
+          "uuid": "4028e58270c29eb40170c2ef40bd005f",
+          "entityUuid": "4028e58270c29eb40170c2ef3fab005e",
+          "mid": "mmForm010field0",
+          "name": "dddddddddd1",
+          "desc": "null",
+          "type": 1,
+          "length": 255,
+          "precision": null,
+          "isRequired": "false",
+          "uiType": 1,
+          "uiExtType": null,
+          "defaultValue": "",
+          "calculate": "null",
+          "state": null,
+          "index": 0,
+          "isKey": "false",
+          "isCol": "true",
+          "phase": 4,
+          "createdDate": "null",
+          "createdUser": "null",
+          "publishedDate": "2020-03-10 13:33:44.0",
+          "isSystemCol": "false",
+          "enabled": "true",
+          "entityType": "null",
+          "proEntityUuid": "null",
+          "proEntityName": "",
+          "options": "",
+          "displayFormat": ""
+        }
+      },
+      {
+        "type": "select",
+        "icon": "icon-input",
+        "options": {
+          "uuid": "4028e58270c29eb40170c2ef40bd0060",
+          "entityUuid": "4028e58270c29eb40170c2ef3fab005e",
+          "mid": "mmForm010field1",
+          "name": "ddddddddddd2",
+          "desc": "null",
+          "type": 1,
+          "length": 255,
+          "precision": null,
+          "isRequired": "false",
+          "uiType": 1,
+          "uiExtType": null,
+          "defaultValue": "",
+          "calculate": "null",
+          "state": null,
+          "index": 1,
+          "isKey": "false",
+          "isCol": "true",
+          "phase": 4,
+          "createdDate": "null",
+          "createdUser": "null",
+          "publishedDate": "2020-03-10 13:33:44.0",
+          "isSystemCol": "false",
+          "enabled": "true",
+          "entityType": "null",
+          "proEntityUuid": "null",
+          "proEntityName": "",
+          "options": [],
+          "displayFormat": "",
+          "required": false,
+          "placeholder": "",
+          "disabled": false,
+          "pattern": "",
+          "labelWidth": "25%",
+          "colClass": 12,
+          "catalogIdText": "",
+          "catalogId": ""
+        }
+      },
+      {
+        "type": "SingleUserSelect",
+        "icon": "icon-input",
+        "options": {
+          "uuid": "4028e58270c29eb40170c2ef40be0069",
+          "entityUuid": "4028e58270c29eb40170c2ef3fab005e",
+          "mid": "mmForm010field2",
+          "name": "aaaa",
+          "desc": "null",
+          "type": 1,
+          "length": 255,
+          "precision": null,
+          "isRequired": "false",
+          "uiType": 1,
+          "uiExtType": null,
+          "defaultValue": "",
+          "calculate": "null",
+          "state": null,
+          "index": 10,
+          "isKey": "false",
+          "isCol": "true",
+          "phase": 4,
+          "createdDate": "null",
+          "createdUser": "null",
+          "publishedDate": "2020-03-10 13:33:44.0",
+          "isSystemCol": "false",
+          "enabled": "true",
+          "entityType": "null",
+          "proEntityUuid": "null",
+          "proEntityName": "",
+          "options": "",
+          "displayFormat": ""
+        }
+      }
+    ],
+    "repeatSectionComponents": [
+      {
+        "name": "aaaaaaaaaaa",
+        "columns": [{
+          "type": "repeatSection",
+          "options": {
+            "uuid": "4028e58270c827310170c863dd640053",
+            "mid": "mForm0100",
+            "id": "mForm0100RAllListVar",
+            "name": "重复节",
+            "realName": "aaaaaaaaaaa"
+          },
+          "columns": [{
+            "span": 24,
+            "list": []
+          }]
+        }, {
+          "type": "input",
+          "icon": "icon-input",
+          "options": {
+            "styleText": "width:100%",
+            "disabled": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": "",
+            "pattern": "",
+            "disabled": "disabled",
+            "labelWidth": "25%",
+            "colClass": 12,
+            "id": "mmForm010field0",
+            "name": "dddddddddd1",
+            "desc": "null",
+            "type": 1,
+            "length": 255,
+            "precision": null,
+            "isRequired": "false",
+            "uiType": 1,
+            "uiExtType": null,
+            "defaultValue": "",
+            "calculate": "null",
+            "state": null,
+            "index": 0,
+            "isKey": "false",
+            "isCol": "true",
+            "phase": 4,
+            "enabled": "true",
+            "entityType": "null",
+            "proEntityUuid": "null",
+            "proEntityName": "",
+            "options": "",
+            "displayFormat": "",
+            "dataSourceType": "subData"
+          }
+        },
+          {
+            "type": "input",
+            "icon": "icon-input",
+            "options": {
+              "styleText": "width:100%",
+              "disabled": "",
+              "required": "false",
+              "placeholder": "",
+              "defaultValue": "",
+              "pattern": "",
+              "disabled": "disabled",
+              "labelWidth": "25%",
+              "colClass": 12,
+              "id": "mmForm010field1",
+              "name": "ddddddddddd2",
+              "desc": "null",
+              "type": 1,
+              "length": 255,
+              "precision": null,
+              "isRequired": "false",
+              "uiType": 1,
+              "uiExtType": null,
+              "defaultValue": "",
+              "calculate": "null",
+              "state": null,
+              "index": 1,
+              "isKey": "false",
+              "isCol": "true",
+              "phase": 4,
+              "enabled": "true",
+              "entityType": "null",
+              "proEntityUuid": "null",
+              "proEntityName": "",
+              "options": "",
+              "displayFormat": "",
+              "dataSourceType": "subData"
+            }
+          },
+          {
+            "type": "input",
+            "icon": "icon-input",
+            "options": {
+              "styleText": "width:100%",
+              "disabled": "",
+              "required": "false",
+              "placeholder": "",
+              "defaultValue": "",
+              "pattern": "",
+              "disabled": "disabled",
+              "labelWidth": "25%",
+              "colClass": 12,
+              "id": "mmForm010field2",
+              "name": "aaaa",
+              "desc": "null",
+              "type": 1,
+              "length": 255,
+              "precision": null,
+              "isRequired": "false",
+              "uiType": 1,
+              "uiExtType": null,
+              "defaultValue": "",
+              "calculate": "null",
+              "state": null,
+              "index": 10,
+              "isKey": "false",
+              "isCol": "true",
+              "phase": 4,
+              "enabled": "true",
+              "entityType": "null",
+              "proEntityUuid": "null",
+              "proEntityName": "",
+              "options": "",
+              "displayFormat": "",
+              "dataSourceType": "subData"
+            }
+          }
+        ]
+      },
+      {
+        "name": "bbbbbbbbb",
+        "columns": [{
+          "type": "repeatSection",
+          "options": {
+            "uuid": "4028e58270c827310170c863dd640053",
+            "mid": "mForm0102",
+            "id": "mForm0102RAllListVar",
+            "name": "重复节",
+            "realName": "bbbbbbbbb"
+          },
+          "columns": [{
+            "span": 24,
+            "list": []
+          }]
+        }, {
+          "type": "input",
+          "icon": "icon-input",
+          "options": {
+            "styleText": "width:100%",
+            "disabled": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": "",
+            "pattern": "",
+            "disabled": "disabled",
+            "labelWidth": "25%",
+            "colClass": 12,
+            "id": "mmForm010field0",
+            "name": "dddddddddd1",
+            "desc": "null",
+            "type": 1,
+            "length": 255,
+            "precision": null,
+            "isRequired": "false",
+            "uiType": 1,
+            "uiExtType": null,
+            "defaultValue": "",
+            "calculate": "null",
+            "state": null,
+            "index": 0,
+            "isKey": "false",
+            "isCol": "true",
+            "phase": 4,
+            "enabled": "true",
+            "entityType": "null",
+            "proEntityUuid": "null",
+            "proEntityName": "",
+            "options": "",
+            "displayFormat": "",
+            "dataSourceType": "subData"
+          }
+        }, {
+          "type": "input",
+          "icon": "icon-input",
+          "options": {
+            "styleText": "width:100%",
+            "disabled": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": "",
+            "pattern": "",
+            "disabled": "disabled",
+            "labelWidth": "25%",
+            "colClass": 12,
+            "id": "mmForm010field1",
+            "name": "ddddddddddd2",
+            "desc": "null",
+            "type": 1,
+            "length": 255,
+            "precision": null,
+            "isRequired": "false",
+            "uiType": 1,
+            "uiExtType": null,
+            "defaultValue": "",
+            "calculate": "null",
+            "state": null,
+            "index": 1,
+            "isKey": "false",
+            "isCol": "true",
+            "phase": 4,
+            "enabled": "true",
+            "entityType": "null",
+            "proEntityUuid": "null",
+            "proEntityName": "",
+            "options": "",
+            "displayFormat": "",
+            "dataSourceType": "subData"
+          }
+        }, {
+          "type": "input",
+          "icon": "icon-input",
+          "options": {
+            "styleText": "width:100%",
+            "disabled": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": "",
+            "pattern": "",
+            "disabled": "disabled",
+            "labelWidth": "25%",
+            "colClass": 12,
+            "id": "mmForm010field2",
+            "name": "aaaa",
+            "desc": "null",
+            "type": 1,
+            "length": 255,
+            "precision": null,
+            "isRequired": "false",
+            "uiType": 1,
+            "uiExtType": null,
+            "defaultValue": "",
+            "calculate": "null",
+            "state": null,
+            "index": 10,
+            "isKey": "false",
+            "isCol": "true",
+            "phase": 4,
+            "enabled": "true",
+            "entityType": "null",
+            "proEntityUuid": "null",
+            "proEntityName": "",
+            "options": "",
+            "displayFormat": "",
+            "dataSourceType": "subData"
+          }
+        }]
+      }
+    ]
+  },
+  "dataValidatorTypes": [
+		{
+		  "validatorType": "email",
+		  "validatorName": "Email验证器"
+		},
+		{
+		  "validatorType": "postCode",
+		  "validatorName": "邮编验证器"
+		},
+		{
+		  "validatorType": "mobileTelephone",
+		  "validatorName": "手机验证器"
+		},
+		{
+		  "validatorType": "identityCard",
+		  "validatorName": "身份证验证器"
+		},
+		{
+		  "validatorType": "precision",
+		  "validatorName": "小数精度验证器"
+		},
+		{
+		  "validatorType": "jsFunction",
+		  "validatorName": "JS方法验证器"
+		},
+		{
+		  "validatorType": "length",
+		  "validatorName": "字符长度验证器"
+		},
+		{
+		  "validatorType": "regexp",
+		  "validatorName": "正则表达式验证器"
+		},
+		{
+		  "validatorType": "jsExpression",
+		  "validatorName": "JS表达式验证器"
+		},
+		{
+		  "validatorType": "longRange",
+		  "validatorName": "整数范围验证器"
+		},
+		{
+		  "validatorType": "doubleRange",
+		  "validatorName": "小数范围验证器"
+		}
+   ]
+}

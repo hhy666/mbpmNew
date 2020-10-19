@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>授权列表</title>
+<script src="../../../resource/html5/js/vue.js"></script>
+<script src="../../../resource/html5/js/axios.min.js"></script>
+<script type="text/javascript" src="../../../form/html5/admin/html5Head.js"></script>
+<style type="text/css">
+	.setComType{
+		width: 120px;
+	}
+	.isDisplay,.isEdit,.isRequired,.isBusOper{
+		width: 70px;
+		text-align: center;
+	}
+	.setCondit{
+		width: 70px;
+		text-align: center;
+	}
+	.setStatus{
+		width: 50px;
+		text-align: center;
+	}
+	.setIndex{
+		width: 50px;
+		text-align: center;
+	}
+	[v-cloak] {
+ 		display: none;
+	}
+</style>
+<script>
+	//点击设置弹出条件设置窗口
+	function openOperationSet(record,index,isClickSave,formUuid,entrance){
+		debugger;
+		var uuid = record.uuid;
+		if((uuid!=null && uuid.length>0) || isClickSave == true){//如果授权项没有主键  不能添加操做设置 
+			 var formulaSetId = record.controlSet;
+			 parent.parent.winObj = this;
+			 parent.parent.rowNum = index;
+			 parent.parent.layer.open({
+		    	id:'operationSet',
+				type : 2,				
+				title : ['操作设置'],
+				shadeClose: false, //开启遮罩关闭
+				area : [ '80%', '90%' ],
+				content : webpath + "security/formSecurity_loadControlSet.action?iframewindowid=operationSet&entrance="+entrance+"&formUuid="+formUuid+"&formulaSetId="+encodeURIComponent(formulaSetId)
+			});	
+		}else{
+			Matrix.warn("请先保存数据!");
+		}
+	}
+	//设置条件窗口关闭  
+	function onoperationSetClose(data,rowNum){	
+		debugger;
+		if(data!=null && rowNum!=null){
+			if(data==true){
+				vm.$set(vm.securityList[rowNum], "controlSet", "");
+			}else{
+				var formulaSetId = JSON.stringify(data.conditionVal);
+				vm.$set(vm.securityList[rowNum], "controlSet", formulaSetId);
+			}
+		}
+		
+	}	  
+</script>
+</head>
+<body>
+	<div id="app" style="position: absolute;height: 100%;width: 100%;" v-cloak>
+		<div style="height: 35px;line-height: 35px;width: 100%;padding-left: 5px;background: #F8F8F8;overflow: auto;">
+			<div style="float: left;">当前授权范围：<label ref="currentScopeName"></label></div>
+			<div style="float: right;margin-right: 120px;">
+				<label>可显示</label><input type="checkbox" class="box" value="1"/>
+				<label style="padding-left: 5px;">可编辑</label><input type="checkbox" class="box" value="2"/>
+				<label style="padding-left: 5px;">必填项</label><input type="checkbox" class="box" value="3"/>
+				<label style="padding-left: 5px;">默认值</label><input type="checkbox" class="box" value="4"/>
+			</div>
+			<div style="position: absolute;right: 5px;top: 0px;">
+				<button type="button" id="button001" class="x-btn ok-btn" @click="saveSecuritys">保存</button>
+			</div>	
+		</div>
+		<div class="bootstrap-table" style="height: calc(100% - 35px);width: 100%;overflow: auto;">
+			<div class="fixed-table-toolbar"></div>
+			<div class="fixed-table-container table-no-bordered" style="padding-bottom: 0px;">
+				<div class="fixed-table-header" style="display: none;"></div>
+				<div class="fixed-table-body">
+					<table class="table table-hover table-no-bordered">
+				        <thead>
+				            <tr>
+				                <th class="setIndex"><div class="th-inner"></div></th>
+				                <th><div class="th-inner">控件名称</div></th>
+				                <th class="setComType"><div class="th-inner">控件类型</div></th>
+				                <th class="isDisplay"><div class="th-inner" style="text-align: center;">可显示</div></th>
+				                <th class="isEdit"><div class="th-inner" style="text-align: center;">可编辑</div></th>
+				                <th class="isRequired"><div class="th-inner" style="text-align: center;">必填项</div></th>
+				                <th class="isBusOper"><div class="th-inner" style="text-align: center;">默认值</div></th>
+				                <th class="setCondit"><div class="th-inner">操作设置</div></th>
+				                <th class="setStatus"><div class="th-inner">状态</div></th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				            <tr v-for="(security,index) in securityList" :key="index">
+				             	 <td class="setIndex">{{ index + 1 }}</td>
+               					 <td>{{ security.componentName }}</td>
+               					 <td class="setComType">{{ security.componentType }}</td>
+               					 <td class="isDisplay"><input type="checkbox" class="box" v-model="security.isDisplay"/></td>
+               					 <td class="isEdit"><input type="checkbox" class="box" v-model="security.isEdit" v-if="isShowCheck(security,2)"/></td>
+               					 <td class="isRequired"><input type="checkbox" class="box" v-model="security.isRequired" v-if="isShowCheck(security,3)"/></td>
+               					 <td class="isBusOper"><input type="checkbox" class="box" v-model="security.isBusOper" v-if="isShowCheck(security,4)"/></td>
+               					 <td class="setCondit"><a @click="showSet(security,index)" v-if="isShowCheck(security,5)">设置</a></td>
+               					 <td class="setStatus"><div v-html="formatSetStatus(security)"><div></td>
+				            </tr>
+				            <tr :style="{display: showMessage}">
+			             	 	 <td colspan="9" style="text-align: center;">无数据显示</td>
+			           		</tr>
+				        </tbody>
+			    	</table>
+			     </div>
+			 </div>
+	    </div>
+	</div>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				showMessage: 'none',
+				formUuid: '',
+				scopeUuid: '',
+				scopeName: '',
+				overWrite: '',
+				formId: '',
+				activityId: '',
+				securityList: [],
+				entrance: '',  //默认从表单设计器数据权限入口进入的
+				isClickSave: false
+			},
+			methods: {
+				showSet(record,index){   			
+					openOperationSet(record,index,this.isClickSave,this.formUuid,this.entrance);
+				},
+				formatSetStatus(record){
+		    	  	let info = "";
+		    	  	if(record.controlSet!=''){
+		    	     	info = "<span><font style='color:red;'>√</font></span>";
+		    	 	}
+		    	  	return info;
+		    	},
+		    	changeCheckValue(element, className, value){     //iCheck复选框改变时同步修改权限信息对象属性
+		    		debugger;
+		    		let index = element.parent().parent().siblings('.setIndex').text();
+              		index = parseInt(index) - 1;
+              		this.$set(this.securityList[index], className, value);
+		    	},
+		    	saveSecuritys(){   //保存授权信息
+		    		debugger;
+		    		const synJson = new URLSearchParams();
+		            synJson.append('data', JSON.stringify(this.securityList));
+		            synJson.append('formUuid', this.formUuid);
+		            synJson.append('scopeUuid', this.scopeUuid);
+		    		axios.post(webpath + 'formSecurity/saveSecurityList',
+		    			synJson
+		    		)
+		               .then(res => {		              
+		                	if(res.data){
+		                		var jsonData = res.data;
+		                		if(jsonData.message=="true"){
+		                			this.isClickSave = true;
+				  		    	 	parent.layer.alert("授权成功!");				  		    	 
+				  		        }else{
+				  		    	 	parent.layer.alert("授权失败!");
+				  		    	}
+		                    }
+		               })
+		               .catch(function (error) { // 请求失败处理
+					        console.log(error);
+					   });
+		    	},
+		    	isShowCheck(record, type){
+		    		debugger;
+		    		let flag = true;
+		    		let componentType = record.componentType;
+		    		if(type == 2){  //可编辑
+		    			if(componentType == '标签容器' || componentType == '标签页' || componentType == '容器控件' || componentType == '标题面板'){
+		    				flag = false;
+		    			}
+		    		}else if(type == 3){  //必填项
+		    			if(componentType == '按钮' || componentType == '标签容器' || componentType == '标签页' || componentType == '容器控件' || componentType == '标题面板'){
+		    				flag = false;
+		    			}
+		    		}else if(type == 4){  //默认值
+		    			if(componentType == '按钮' || componentType == '标签容器' || componentType == '标签页' || componentType == '容器控件' || componentType == '标题面板'){
+		    				flag = false;
+		    			}
+		    		}else if(type == 5){  //设置
+		    			if(componentType == '按钮' || componentType == '标签容器' || componentType == '标签页' || componentType == '容器控件' || componentType == '标题面板'){
+		    				flag = false;
+		    			}
+		    		}
+		    		return flag;
+		    	}
+			},
+			created() {
+				debugger;
+				//activity:从流程设计中的活动入口进入设置权限        
+				//designer:从设计开发下的表单列表入口进入设置权限   
+				//formSec:权限组表单控件授权操作设置高级条件入口进入设置权限    
+				//否则是从表单设计器中数据权限按钮进入
+				this.entrance = getUrlParam("entrance");
+				if(this.entrance == 'ActivityOperationSet'){  //从流程设计中的活动入口进入设置权限
+					this.formId = getUrlParam("formId");
+					this.activityId = getUrlParam("activityId");
+					this.scopeName = parent.document.getElementById('name').value;
+					
+					const synJson = new URLSearchParams();
+		            synJson.append('formId', this.formId);
+		            synJson.append('activityId', this.activityId);
+		            synJson.append('scopeName', this.scopeName);
+					axios.post(webpath + 'editor/editor_getSecurityList.action',
+						synJson
+					)
+		               .then(res => {
+		                	if(res.data){
+		                		this.scopeUuid = res.data.scopeUuid;
+		    					this.formUuid = res.data.formUuid;
+		                		this.securityList = res.data.securityJson;
+		                		if(res.data.hasNewItem){
+		                			layer.msg('当前数据权限项有新增项，保存后才能生效', {icon: 0});
+		                		}
+		                    }else{
+		                    	this.showMessage = '';
+		                    }
+		               })
+		               .catch(function (error) { // 请求失败处理
+					        console.log(error);
+					   });
+					
+				}else{
+					this.formUuid = getUrlParam("formUuid");
+					this.scopeUuid = getUrlParam("scopeUuid");
+					this.scopeName = parent.document.getElementById('scopeName').value;
+					this.overWrite = getUrlParam("overWrite");
+					
+					const synJson = new URLSearchParams();
+		            synJson.append('formUuid', this.formUuid);
+		            synJson.append('scopeUuid', this.scopeUuid);
+		            synJson.append('scopeName', this.scopeName);
+		            synJson.append('overWrite', this.overWrite);
+					axios.post(webpath + 'formSecurity/getSecurityList',
+						synJson	
+					)
+		               .then(res => {
+		                	if(res.data){
+		                		this.securityList = res.data.securityJson;
+		                		if(res.data.hasNewItem){
+		                			layer.msg('当前数据权限项有新增项，保存后才能生效', {icon: 0});
+		                		}
+		                    }else{
+		                    	this.showMessage = '';
+		                    }
+		               })
+		               .catch(function (error) { // 请求失败处理
+					        console.log(error);
+					   });
+				}
+				
+			},
+			updated(){
+				const $vm = this;
+				$('input[type=checkbox]').iCheck({
+	                labelHover : false,
+	                increaseArea: '20%',
+	                cursor : true,
+	                checkboxClass : 'icheckbox_square-blue'
+	            }).on('ifChecked', function (event) {   //选中
+	                debugger;
+	                const tagName = $(this).parent().parent()[0].tagName;
+	               	if(tagName == 'TD'){   //表格里面的复选框 
+		               	 const className = $(this).parent().parent()[0].className;
+	               		 if(className == 'isEdit'){  //可编辑
+	               			 $(this).parent().parent().siblings('.isDisplay').find('input[type=checkbox]').iCheck('check');
+	               		 }else if(className == 'isRequired'){  //必填项
+	               			 $(this).parent().parent().siblings('.isDisplay').find('input[type=checkbox]').iCheck('check');
+	               			 $(this).parent().parent().siblings('.isEdit').find('input[type=checkbox]').iCheck('check');
+	               		 }
+	               		 $vm.changeCheckValue($(this),className,true);
+	               		
+	               	}else{  //头部复选框
+	               		 const value = $(this).val();
+	               		 if(value == '1'){    //可显示
+	               			 $('.isDisplay input[type=checkbox]').iCheck('check');
+	               		 }else if(value == '2'){	//可编辑
+	               			 $('.isDisplay input[type=checkbox]').iCheck('check');
+	               			 $('.isEdit input[type=checkbox]').iCheck('check');
+	               		 }else if(value == '3'){	//必填项
+	               			 $('.isDisplay input[type=checkbox]').iCheck('check');
+	               			 $('.isEdit input[type=checkbox]').iCheck('check');
+	               			 $('.isRequired input[type=checkbox]').iCheck('check');               	
+	               		 }else if(value == '4'){	//默认值
+	               			 $('.isBusOper input[type=checkbox]').iCheck('check');
+	               		 }
+	               	}	         
+	               	
+	            }).on('ifUnchecked', function (event) {	  //取消选中
+	            	debugger;	  	         
+	                const tagName = $(this).parent().parent()[0].tagName;
+	               	if(tagName == 'TD'){   //表格里面的复选框 
+	               		 const className = $(this).parent().parent()[0].className;
+	               		 if(className == 'isDisplay'){  //可显示
+	               			 $(this).parent().parent().siblings('.isEdit').find('input[type=checkbox]').iCheck('uncheck');
+	               			 $(this).parent().parent().siblings('.isRequired').find('input[type=checkbox]').iCheck('uncheck');
+	               		 }else if(className == 'isEdit'){  //可编辑
+	               			 $(this).parent().parent().siblings('.isRequired').find('input[type=checkbox]').iCheck('uncheck');
+	               		 }
+	               		 $vm.changeCheckValue($(this),className,false);
+	               		 
+	               	}else{  //头部复选框
+	               		 const value = $(this).val();
+	               		 if(value == '1'){    //可显示
+	               			 $('.isDisplay input[type=checkbox]').iCheck('uncheck');
+	               			 $('.isEdit input[type=checkbox]').iCheck('uncheck');
+	               			 $('.isRequired input[type=checkbox]').iCheck('uncheck');
+	               		 }else if(value == '2'){	//可编辑
+	               			 $('.isEdit input[type=checkbox]').iCheck('uncheck');
+	               			 $('.isRequired input[type=checkbox]').iCheck('uncheck');
+	               		 }else if(value == '3'){	//必填项
+	               			 $('.isRequired input[type=checkbox]').iCheck('uncheck');           
+	               		 }else if(value == '4'){	
+	               			 $('.isBusOper input[type=checkbox]').iCheck('uncheck');
+	               		 }
+	               	}                     
+	            });
+			},
+			mounted(){
+				//当前权限范围名称
+				this.$refs.currentScopeName.innerText = this.scopeName;
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<APPLICATION>
+    <!-- 是否未多应用版本(多租户版本) -->
+	<IS_MULTI_APP>FALSE</IS_MULTI_APP>
+    <!-- 只启动单个应用的编码/默认为空，启动整个系统 -->
+	<INITIAL_APP_ID></INITIAL_APP_ID>
+    <!-- 是否启用集团版本 -->
+	<IS_GROUP_ENABLE>TRUE</IS_GROUP_ENABLE>
+    <!-- 是否集成外部组织机构(暂时不支持) -->
+	<IS_EXTERNAL_ORG>FALSE</IS_EXTERNAL_ORG>
+    <!-- 是否Spring集成的redis管理session -->
+	<IS_REDIS_SESSION>FALSE</IS_REDIS_SESSION>
+    <!-- 是否启用redis管理缓存-->
+	<IS_REDIS_CACHE>FALSE</IS_REDIS_CACHE>
+	
+</APPLICATION>

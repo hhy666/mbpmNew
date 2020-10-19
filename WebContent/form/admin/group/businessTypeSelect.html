@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href='../../../resource/html5/css/matrix_runtime.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/font-awesome.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/flat/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/square/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap-select.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/select2.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/clockpicker.css' rel="stylesheet"/>
+    <link href='../../../resource/css/filecss.css' rel="stylesheet"/>
+    <link href='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/google-code-prettify/bin/prettify.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/custom.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/skin/mCustom_primary.css' rel="stylesheet"/>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.i18n.properties.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/lang/matrix_lang.js'></SCRIPT>
+
+    <SCRIPT SRC='../../../resource/html5/js/jquery.inputmask.bundle.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/bootstrap/dist/js/bootstrap.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/icheck.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-select.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/select2.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/layer.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/autosize.min.js'></SCRIPT>
+    <script src="../../../resource/html5/js/demo.js"></script>
+    <SCRIPT SRC='../../../resource/html5/js/laydate/laydate.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/clockpicker.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.hotkeys/jquery.hotkeys.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/google-code-prettify/src/prettify.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/filejs.js'></SCRIPT>
+    <script src='../../../resource/html5/js/jstree.min.js'></script>
+    <link rel='stylesheet' href='../../../resource/css/themes/default/style.min.css'/>
+    <script src='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.js'></script>
+    <SCRIPT SRC='../../../resource/html5/assets/toastr-master/toastr.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/validator.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/matrix_runtime.js'></SCRIPT>
+    <link href='../../../resource/html5/assets/toastr-master/toastr.min.css' rel="stylesheet"/>
+
+    <style>
+        .jstree-default .jstree-hovered {
+            background: none;
+            border-radius: 0px;
+            color: blue;
+            text-decoration: underline;
+            box-shadow: none
+        }
+
+        .jstree-default .jstree-clicked {
+            background: #DDDDDD;
+            border-radius: 0px;
+            box-shadow: none;
+        }
+
+        .jstree-anchor {
+            padding: 0 4px 0 0px;
+        }
+
+        .jstree-default .jstree-node-online {
+            background: url("../../../office/html5/image/openfoldericon.png") no-repeat #fff;
+            background-position: 50% 50%;
+            background-size: auto;
+        }
+
+        .jstree-default .jstree-node-offline {
+            background: url("../../../office/html5/image/foldericon.png") no-repeat #fff;
+            background-position: 50% 50%;
+            background-size: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app" style="position:relative;_layout:flowlayout;width:100%;height:100%;overflow:auto;">
+    <div id="horizontalContainer0"
+         class="page page-full animation-fade page-data-tables form-group col-xs-12 col-md-12 formItem"
+         style="height:calc( 100% - 50px);width:100%;">
+        <div class="page-aside-switch">
+            <i class="icon wb-chevron-left" aria-hidden="true"></i>
+            <i class="icon wb-chevron-right" aria-hidden="true"></i>
+        </div>
+        <div class="page-aside-inner height-full" data-plugin="slimScroll" style="overflow:hidden;">
+            <!--<div class="normal matrixInline innerHtmlCls " style="width:100%;height:30px;">
+                <div style="background-color:rgb(248, 248, 248);height:30px;">
+                    <div style="height: 30px;padding: 7px;font-weight:bold;padding-left:30px;">业务树</div>
+                </div>
+            </div>-->
+            <div id="container"
+                 style="height:calc(100% - 64px); width:100%;overflow: auto;background: #fff; font-size: 12px;">
+            </div>
+
+        </div>
+
+    </div>
+    <div id="toolBar001" style=" text-align: center;" class="x_panel panel_color"
+    >
+        <button type="button" id="saveBtn" class="x-btn ok-btn " onclick="btnFunction(1)">保存</button>
+        <button type="button" id="cancelBtn" class="x-btn cancel-btn " onclick="btnFunction(2)">取消</button>
+    </div>
+</div>
+</body>
+</html>
+
+
+<script>
+
+    $(function(){
+        let treeData = []
+        const checkIds = decodeURIComponent((new RegExp('[?|&]checkIds=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+        const json = {}
+        json["checkedNodeIds"] = checkIds
+
+        $.get("/" + location.pathname.split("/")[1] + "/securityGroup/businessTypeTree",json,function(data){
+            // const dataJson = JSON.parse(data)
+            treeData = data
+            $('#container').jstree({
+                'core': {
+                    'multiple': true,    //设置为多选
+                    "animation": false,   //打开/关闭动画持续时间（以毫秒为单位） - 将此设置false为禁用动画（默认为200）
+                    'dblclick_toggle': false,  //禁止双击（ 默认为true）
+                    'data': data,
+                    'themes': {
+                        'icons': true
+                    }
+                },
+                "plugins": ["wholerow","checkbox"],
+                'contextmenu' :{
+                    "items" : _treeCon
+                }
+            });
+        })
+
+    })
+    const _treeCon = function (data){
+        const TreeMenu2 = {
+            'TreeMenuItem11': {
+                'label': '刷新',
+                'separator_before': true,
+                'separator_after': true,
+                'icon': '../../../resource/images/matrix/Fresh.png',
+                'action': function (target) {
+                    Matrix.refreshTreeNode(target)
+                }
+            }
+        };
+        const TreeMenu1 = {
+            'TreeMenuItem3': {
+                'label': '刷新',
+                'separator_before': true,
+                'separator_after': true,
+                'icon': '../../../resource/images/matrix/Fresh.png',
+                'action': function (target) {
+                    /*if (target) {
+                        var matrix_treeId = document.getElementById('matrix_treeId').value;
+                        target = $('#' + matrix_treeId).jstree('get_node', target.reference[0]).original;
+                    }*/
+                    Matrix.refreshTreeNode(target)
+                }
+            },
+            'TreeMenuItem4': {
+                'label': '上移',
+                'separator_before': true,
+                'separator_after': true,
+                'icon': '../../../resource/images/matrix/upsmall.png',
+                'action': function (target) {
+                    Matrix.moveUpTreeNode(target)
+                }
+            },
+            'TreeMenuItem5': {
+                'label': '下移',
+                'separator_before': true,
+                'separator_after': true,
+                'icon': '../../../resource/images/matrix/downsmall.png',
+                'action': function (target) {
+                    Matrix.moveDownTreeNode(target)
+                }
+            }
+        };
+        const id = data.original.id
+        if (id == 'root'){
+            return TreeMenu2;
+        }else{
+            return TreeMenu1;
+        }
+    }
+    function btnFunction (optionType){
+        if (optionType == 1) {
+            const checkedIdsArr = $('#container').jstree().get_top_selected(true);
+            let checkedIdsStr =""
+            let checkedNamesStr =""
+            if (typeof checkedIdsArr != 'undefined' && checkedIdsArr.length>0) {
+                checkedIdsArr.forEach(node => {
+                    if (typeof node.original != 'undefined'){
+                        checkedIdsStr = checkedIdsStr+node.original.id+",";
+                        checkedNamesStr = checkedNamesStr+node.text+",";
+                    }
+                })
+                checkedNamesStr = checkedNamesStr.substr(0, checkedNamesStr.length - 1);
+                const backJson = {};
+                backJson['ids'] = checkedIdsStr
+                backJson['names'] = checkedNamesStr
+                Matrix.closeWindow(backJson);
+            }else {
+                Matrix.closeWindow();
+                return
+            }
+        }else {
+            Matrix.closeWindow();
+        }
+    }
+</script>

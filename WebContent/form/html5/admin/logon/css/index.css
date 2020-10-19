@@ -1,0 +1,276 @@
+#app{
+	position:absolute;
+	width:100%;
+	height:100%;
+	margin:0 auto;
+	zoom:1;
+	overflow: hidden;
+	font-size: 14px;
+}
+[v-cloak] { 
+	display: none 
+}
+.shouye-frame{
+	position:absolute;
+	width: 100%;
+	height: calc(100% - 53px);
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+}
+.left-menu{
+	display: block;
+	width: 220px;
+	height: 100%;
+	float: left;
+}
+.right-container{
+	display: block;
+	width: calc(100% - 220px);
+	height: 100%;
+	float: left;
+}
+#navigation{
+	height: 100%;
+	padding-top:10px;
+	overflow: auto;
+}
+.menu-img{
+	widht: 18px; 
+	height: 18px; 
+	padding-right: 10px;
+	margin: 0px;  
+	float: left;
+}
+.menu-name{
+	height:18px;
+	line-height:18px;
+	display: block;
+}
+.arrow{
+	float: right;
+	margin-top:-16px;
+}
+.arrow-img{
+	height: 9px;
+	width: 9px;
+}
+.dropdown-menu {
+    min-width: 100px;
+    border: medium none;
+    display: none;
+    float: left;
+    font-size: 12px;
+    left: 0;
+    list-style: none outside none;
+    padding: 0;
+    position: absolute;
+    text-shadow: none;
+    top: 100%;
+    z-index: 1000;
+    border-radius: 0;
+    box-shadow: 0 0 3px rgba(86,96,117,.3);
+    background-color: white;
+}
+.dropdown-menu> li > a:hover, .dropdown-menu> li > a:focus {
+    color: #262626;
+    text-decoration: none;
+    background-color: rgba(13,179,166,.1);
+}
+.img-place{
+	position:absolute;
+	padding-top:8px;
+	width:100%;
+}
+.down-place{
+	position: relative;
+	top: 10px; 
+	left:10px; 
+	height: 35px;
+	float: left;
+}
+.gateway{
+	top:10px;
+	left:30%;
+	height: 35px;
+}
+
+.msg_system_box_main:hover {
+	background: rgb(252, 240, 193);
+}
+
+.bottom_msg {
+	bottom: 0;
+}
+
+.pop_msg {
+	width: 302px;
+	height: auto;
+	background: #fff;
+	padding: 1px;
+	position: absolute;
+	right: 15px;
+	z-index: 99999;
+	display: none;
+	-moz-box-shadow: 0px 0px 10px #333;
+	-webkit-box-shadow: 0px 0px 10px #333;
+	box-shadow: 0px 0px 10px #333;
+}
+
+.pop_msg_top span {
+	margin-top: 13px;
+	font-size: 12px;
+	color: #fff;
+}
+
+.pop_top_title {
+	width: 120px;
+	height: 20px;
+	text-align: center;
+	display: inline-block;
+	line-height: 20px;
+	cursor: pointer;
+}
+
+.margin_l_5 {
+	margin-left: 5px;
+}
+
+.margin_l_5 {
+	margin-left: 5px;
+}
+
+.pop_msg_top_sm span {
+	filter: alpha(opacity = 70);
+	-moz-opacity: 0.7;
+	opacity: 0.7;
+	position: absolute;
+	top: 40px;
+	left: 15px;
+	display: inline-block;
+	width: 16px;
+	height: 3px;
+	border-bottom: 3px solid #fff;
+}
+
+.pop_msg_top span {
+	margin-top: 13px;
+	font-size: 12px;
+	color: #fff;
+}
+
+.msg_pop_titlecurrent {
+	color: #fff;
+	font-size: 36px;
+	position: absolute;
+	top: 27px;
+	left: 37px;
+	overflow: hidden;
+}
+
+.msg_system_box {
+	width: 300px;
+	height: auto;
+}
+
+.msg_main_box {
+	width: 100%;
+	height: auto;
+	max-height: 280px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;
+}
+
+.msg_system_box_main {
+	height: auto;
+	padding: 8px 16px;
+	cursor: pointer;
+}
+
+.msg_system_main_right {
+	width: 230px;
+	height: auto;
+	float: left;
+	margin-left: 10px;
+	color: #010101;
+	font-size: 12px;
+}
+
+.msg_system_main_right_main {
+	width: 230px;
+	height: auto;
+	/* max-height: 65px; */
+	position: relative;
+	overflow: hidden;
+	table-layout: fixed;
+	word-break: break-all;
+	overflow: hidden;
+	line-height: 18px;
+}
+
+.msg_system_main_right_info {
+	width: 230px;
+	height: 14px;
+	text-align: right;
+	color: #a3a3a3;
+	margin-top: 5px;
+}
+
+.left {
+	float: left;
+}
+
+.msg_date {
+	margin-left: 15px;
+}
+
+.right {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.msg_line {
+	width: 270px;
+	height: 1px;
+	border-bottom: 1px solid #d9d9d9;
+	margin-left: 16px;
+}
+
+.msg_setting {
+	width: 302px;
+	height: 35px;
+	background: #d1d1d1;
+}
+
+.msg_setting_look {
+	margin-top: 10px;
+	margin-right: 20px;
+	float: right;
+	text-align: right;
+}
+
+.msg_setting_font {
+	color: #111111;
+	font-size: 12px;
+	width: 70px;
+	height: 15px;
+	text-shadow: 1px 1px 1px #fff;
+	cursor: pointer;
+}
+
+.msg_setting_ignore {
+	margin-top: 10px;
+	float: left;
+}
+
+.msg_setting_font {
+	color: #111111;
+	font-size: 12px;
+	width: 70px;
+	height: 15px;
+	text-shadow: 1px 1px 1px #fff;
+	cursor: pointer;
+}

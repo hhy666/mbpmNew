@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>权限组包含功能配置Vue</title>
+    <script src="../../../resource/html5/js/vue.js"></script>
+    <script src="../../../resource/html5/js/axios.min.js"></script>
+
+    <link href='../../../resource/html5/css/matrix_runtime.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/font-awesome.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/flat/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/square/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap-select.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/select2.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/clockpicker.css' rel="stylesheet"/>
+    <link href='../../../resource/css/filecss.css' rel="stylesheet"/>
+    <link href='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.css'	rel="stylesheet"/>
+    <link href='../../../resource/html5/css/google-code-prettify/bin/prettify.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/custom.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/skin/mCustom_primary.css' rel="stylesheet"/>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.i18n.properties.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/lang/matrix_lang.js'></SCRIPT>
+
+    <SCRIPT SRC='../../../resource/html5/js/jquery.inputmask.bundle.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/bootstrap/dist/js/bootstrap.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/icheck.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-select.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/select2.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/layer.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/autosize.min.js'></SCRIPT>
+    <script src="../../../resource/html5/js/demo.js"></script>
+    <SCRIPT SRC='../../../resource/html5/js/laydate/laydate.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/clockpicker.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.hotkeys/jquery.hotkeys.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/google-code-prettify/src/prettify.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/filejs.js'></SCRIPT>
+    <script src='../../../resource/html5/js/jstree.min.js'></script>
+    <link rel='stylesheet' href='../../../resource/css/themes/default/style.min.css'/>
+    <script src='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.js'></script>
+    <SCRIPT SRC='../../../resource/html5/assets/toastr-master/toastr.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/validator.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/matrix_runtime.js'></SCRIPT>
+    <link href='../../../resource/html5/assets/toastr-master/toastr.min.css'  rel="stylesheet"/>
+</head>
+
+<body>
+<div id="app1" style=" overflow: auto; height: 100%; margin: 10px 20px 0 20px;">
+<!--    <label style="color: red;">请勾选需要授权的功能</label>-->
+    <table id="tableOut111" class="tableLayout" style="width:100%;height:100%;border:0">
+        <tr id="trOut111">
+            <td id="tdOut111" class="tdLayout" style="width:100%;height:30px;vertical-align:bottom;border:0 ">
+                <label id="labelOut011" name="labelOut011" style="font-size:18px;vertical-align:bottom; " class="control-label ">菜单权限</label>
+            </td>
+        </tr>
+        <tr id="trOut112">
+            <td id="tdOut112" class="tdLayout" style="width:100%;height:95%;border:0">
+                <in-table :next-datas="tableData"></in-table>
+            </td>
+        </tr>
+    </table>
+
+    <div id="toolBar001_float" v-show="canSeeSaveBtn" class="x_panel panel_color">
+
+    </div>
+    <div id="toolBar001" style=" text-align: center;position: absolute; bottom: -7px;left: 0;" v-show="canSeeSaveBtn" class="x_panel panel_color">
+        <button type="button" id="saveBtn" class="x-btn ok-btn " @click="saveFunction">保存</button>
+    </div>
+</div>
+<template id="inTable">
+    <table class="maintain_form_content" style="width:100%;height: 100%;">
+<!--        <tr-tem :all-data="nextData"></tr-tem>-->
+        <template v-for="(nextData,index) in nextDatas" >
+            <tr v-if="nextData.isCatalog">
+                <td class="tdLayout" style="width:20px;padding: 0px;">
+                    <div class="form-group;" style=" margin: 5px; "
+                         :id="nextData.functionId+'_div'" :name="nextData.functionId+'_div'">
+                        <label v-if="nextData.functionId!='bizRoot' && nextData.functionId!='configRoot'" :for="nextData.functionId">
+                            <input  type="checkbox" class="box" :id="nextData.functionId"
+                                   :name="nextData.domName"
+                                   style="position: absolute; opacity: 0;"
+                                   :checked="nextData.isChecked"
+                                   :value="nextData.functionId"
+                                   @change="handleCheckChange(nextData.domName,this.event)"
+                            />
+                            {{nextData.functionName}}
+                        </label>
+                        <label v-else>
+                            {{nextData.functionName}}
+                        </label>
+                    </div>
+                </td>
+                <td class="tdLayout" v-if="typeof nextData.childs != 'undefined'" style="width:10%;padding: 0px;">
+                    <in-table :next-datas="nextData.childs"></in-table>
+                </td>
+            </tr>
+            <div v-else class="form-group;" style=" margin: 5px;"
+                 :id="nextData.functionId+'_div'" :name="nextData.functionId+'_div'">
+                <label :for="nextData.functionId">
+                    <input type="checkbox" class="box" :id="nextData.functionId"
+                           :name="nextData.domName"
+                           style="position: absolute; opacity: 0;"
+                           :checked="nextData.isChecked"
+                           :value="nextData.functionId"
+                           @change="handleCheckChange(nextData.domName,this.event)"
+                    />
+                    {{nextData.functionName}}
+                </label>
+            </div>
+        </template>
+    </table>
+</template>
+</body>
+</html>
+
+<script>
+
+    const inTable = {
+        template:"#inTable",
+        components:{
+        },
+        props:{
+            nextDatas : Array
+        }
+    }
+    Vue.component('in-table',inTable);
+    const app = new Vue({
+        el: "#app1",
+        data: {
+            tableData: [],
+            // highestLevel: 0,
+            canSeeSaveBtn: true,
+            thisRowData:{},
+            // colMsg:[],
+            checkedVal:[],
+            mUuid:"",
+            showHeader:false
+        },
+        methods: {
+
+            handleCheckChange: function (domName, e) {
+
+                const isChecked = e.target.checked;
+                const domNameArr = domName.split("_level_");
+                const columnNum = domNameArr[0];
+                const dataIndex = domNameArr[1];// 数据链索引
+
+                const changeArr = new Array;
+                // 后面级别的直接设置为当前ischecked
+                const nextDoms = $("input[type='checkbox'][name*=_level_" + dataIndex + "_]");
+                for (let i = 0; i < nextDoms.length; i++) {
+                    let nextOneDomVal = nextDoms[i].value;
+                    changeArr.push(nextOneDomVal);
+                }
+                const dataIndexArr = dataIndex.split("_");
+                let thisDataIndexStr = "";
+
+
+                let thisDataFirstIndexStr = dataIndex;
+                let firstIndex = columnNum;
+                while (thisDataFirstIndexStr.indexOf("_") != -1) {
+                    thisDataFirstIndexStr = thisDataFirstIndexStr.substring(0,thisDataFirstIndexStr.lastIndexOf("_"));
+                    if (!isChecked) {
+                        // 当前为取消选中时，
+                        //      遍历判断当前级别是否有选中，有选中不继续，
+                        const beforeDom = $("label").has(".is-checked").find("input[type='checkbox'][name^=" + firstIndex + "_level_" + thisDataFirstIndexStr + "_]");
+                        if (typeof beforeDom != 'undefined' && beforeDom.length>1) {
+                            continue;
+                        }
+                        //      没有选中 则上一级别取消选中
+                    }
+                    // 当前为选中时，直接选中所有上级；
+                    firstIndex = firstIndex - 1;
+                    const beforeDomVal = $("input[type='checkbox'][name^=" + firstIndex + "_level_" + thisDataFirstIndexStr + "]").val();
+                    changeArr.push(beforeDomVal);
+                }
+
+                this.checkedVal.filter((item,ind) => {
+                    for (let i=0; i<changeArr.length; i++) {
+                        const changeId = changeArr[i];
+                        if (changeId == item) {
+                            this.checkedVal.splice(ind,1,0);// 将需要修改的值替换为0
+                        }
+                    }
+                });
+                // 将0 删除
+                const newArr = new Array;
+                this.checkedVal.forEach(item => {
+                    if (item != 0) {
+                        newArr.push(item);
+                    }
+                })
+                this.checkedVal = newArr;
+                if (isChecked) {
+                    this.checkedVal.concat(changeArr);
+                    for (let i = 0; i < changeArr.length; i++) {
+                        const changeId = changeArr[i];
+                        this.checkedVal.push(changeId);
+                    }
+                }
+            },
+            saveFunction:function () {
+                const checkBoxes = $(`input[type="checkbox"]:checked`);
+
+                let checkedNodeIdsStr = '';
+                for (let i = 0; i < checkBoxes.length; i++) {
+                    const checkBox = checkBoxes[i];
+                    checkedNodeIdsStr = checkedNodeIdsStr + $(checkBox).attr("id") + ",";
+                }
+
+                const synJson = new URLSearchParams();
+                synJson.append('checkedNodeIdsStr', checkedNodeIdsStr);
+                synJson.append('mUuid', this.mUuid);
+
+                axios.post("/"+location.pathname.split("/")[1]+"/function/groupSFunction",
+                    synJson
+                )
+                    .then(data => {
+                        if (data != "" ) {
+                            const dataJson = data.data;
+                            // const result = JSON.parse(dataJson.dataStr);
+                            if (dataJson.status) {
+                                isc.say(dataJson.msg);
+                            }else{
+                                //保存失败
+                                isc.say(dataJson.msg);
+                            }
+                        }else {
+                            isc.warn("保存失败，服务器异常，请联系管理员！");
+                        }
+                    })
+            }
+        },
+        mounted(){
+            this.mUuid = decodeURIComponent((new RegExp('[?|&]mUuid=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+            const mUuid = this.mUuid;
+            axios.get("/"+location.pathname.split("/")[1]+"/function/groupSFunction?groupUuid="+mUuid)
+                .then(data => {
+                    if (data != "" ) {
+                        const dataJson = data.data;
+                        const result = JSON.parse(dataJson.dataStr);
+                        // const result = dataJson.dataObj;
+                        if (dataJson.status) {
+                            this.tableData = result.data;
+                            // this.colMsg = result.colMsg;
+                            // this.highestLevel = result.highestLevel;
+                            // console.log(this.highestLevel);
+                            this.canSeeSaveBtn = result.canSeeSaveBtn;
+                        }else{
+                            //保存失败
+                            this.canSeeSaveBtn = false;
+                        }
+                    }
+                })
+        }
+        ,
+        updated(){
+            $("input").on('ifClicked', function (e) {
+                // 无法使用ifChecked事件，未找到阻止再次触发无法使用ifChecked事件事件的方法
+                const domName = $(this).attr("name");
+                let isChecked = "check";
+                if ($(this).is(':checked')) {
+                    isChecked = "uncheck";
+                }
+                const domNameArr = domName.split("_level_");
+                const columnNum = domNameArr[0];
+                const dataIndex = domNameArr[1];// 数据链索引
+
+                const changeArr = new Array;
+                let changeStr = "";
+                // 后面级别的直接设置为当前ischecked
+                const nextDoms = $("input[type='checkbox'][name*=_level_" + dataIndex + "_]");
+                for (let i = 0; i < nextDoms.length; i++) {
+                    let nextOneDomVal = nextDoms[i].value;
+                    // changeArr.push(nextOneDomVal);
+                    changeStr = changeStr + "#"+nextOneDomVal +",";
+                }
+                const dataIndexArr = dataIndex.split("_");
+                let thisDataIndexStr = "";
+
+
+                let thisDataFirstIndexStr = dataIndex;
+                let firstIndex = columnNum;
+                while (thisDataFirstIndexStr.indexOf("_") != -1) {
+                    thisDataFirstIndexStr = thisDataFirstIndexStr.substring(0,thisDataFirstIndexStr.lastIndexOf("_"));
+                    if (isChecked=="uncheck") {
+                        // 当前为取消选中时，
+                        //      遍历判断当前级别是否有选中，有选中不继续，
+                        const beforeDom = $("div[id!='app1']").has(".checked").find("input[type='checkbox'][name^=" + firstIndex + "_level_" + thisDataFirstIndexStr + "_]");
+                        if (typeof beforeDom != 'undefined' && beforeDom.length>1) {
+                            continue;
+                        }
+                        //      没有选中 则上一级别取消选中
+                    }
+                    // 当前为选中时，直接选中所有上级；
+                    firstIndex = firstIndex - 1;
+                    const beforeDomVal = $("input[type='checkbox'][name^=" + firstIndex + "_level_" + thisDataFirstIndexStr + "]").val();
+                    changeStr = changeStr + "#"+beforeDomVal +",";
+                }
+                // console.log(changeArr);
+                changeStr = changeStr + "#0";
+                $(changeStr).iCheck(isChecked);
+            });
+
+            $('input[type=checkbox]').iCheck({
+                labelHover : false,
+                increaseArea: '20%',
+                cursor : true,
+                checkboxClass : 'icheckbox_square-blue'
+            });
+        }
+    })
+
+</script>

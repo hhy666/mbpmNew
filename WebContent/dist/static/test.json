@@ -1,0 +1,388 @@
+{
+  "formCode": "mForm012",
+  "formUuid": "ff808081711afc4d01711b008f880004",
+  "formName": "测试数据源",
+  "published": "true",
+  "unionPKText": "",
+  "config": {
+    "labelWidth": "25%",
+    "labelPosition": "center",
+    "colClass": 12
+  },
+  "list": [
+    {
+      "id": "QueryList001",
+      "type": "QueryList",
+      "name": "QueryList001",
+      "options": {
+        "queryContainerType": "toolbar",
+        "tableClass": "query_form_content",
+        "dynamicPagingStep": 10,
+        "colNumber": 2,
+        "showNumberPaging": true,
+        "valueClass": "query_form_input2",
+        "pageEnable": "true",
+        "showDynamicPaging": "true",
+        "dynamicPagingStartNum": 20,
+        "showAllData": true,
+        "showPaging": true,
+        "paginatorPerPageCount": 5,
+        "labelClass": "query_form_label2",
+        "isUnit": true,
+        "actionClass": "query_form_toolbar",
+        "topLocation": "query_form_toolbar",
+        "showTotalStatus": true,
+        "showGoText": true,
+        "perPageCount": 10,
+        "pagination": false
+      },
+      "QueryForm": {
+        "id": "QueryForm001",
+        "name": "QueryForm001",
+        "type": "QueryForm",
+        "count": false,
+        "entity": "foundation.flow.Comment",
+        "currentPageNumber": 1,
+        "noDuplicationResult": false,
+        "type": "sdo",
+        "hiddenItem": false,
+        "autoLoadData": true,
+        "isQueryCached": false,
+        "list": []
+      },
+      "DataGrid": {
+        "id": "DataGrid002",
+        "type": "DataGrid",
+        "name": "DataGrid002",
+        "options": {
+          "startLineNumber": 1,
+          "initData": true,
+          "canCustomFilter": true,
+          "allowRowSpanning": false,
+          "canAutoFitFields": false,
+          "autoFetchData": true,
+          "showLineNumber": true,
+          "entity": "foundation.flow.Comment",
+          "canExpandRecords": false,
+          "exportHeader": true,
+          "dataProvider": "QueryForm001",
+          "canEdit": false,
+          "style": "width:100%;height:100%;",
+          "showRollOver": true,
+          "canResizeLinerNumber": false,
+          "showCustomSetting": false,
+          "perPageCount": 20,
+          "DataRow": {
+            "id": "DataRow001",
+            "type": "DataRow",
+            "name": "DataRow001",
+            "columns": [
+              {
+                "span": 12,
+                "list": [
+                  {
+                    "type": "input",
+                    "key": "taskId",
+                    "name": "任务编码",
+                    "isEditListItem": true,
+                    "title": "任务编码",
+                    "options": {
+                      "id": "taskId",
+                      "styleText": "",
+                      "length": "",
+                      "defaultValue": "",
+                      "colClass": 12,
+                      "placeholder": "",
+                      "mask": ""
+                    },
+                    "dataValidators": []
+                  }
+                ]
+              },
+              {
+                "span": 12,
+                "list": [
+                  {
+                    "type": "input",
+                    "key": "activityName",
+                    "name": "活动名称",
+                    "isEditListItem": true,
+                    "title": "活动名称",
+                    "options": {
+                      "id": "activityName",
+                      "styleText": "",
+                      "length": "",
+                      "defaultValue": "",
+                      "colClass": 12,
+                      "placeholder": "",
+                      "mask": ""
+                    },
+                    "dataValidators": []
+                  }
+                ]
+              },
+              {
+                "span": 12,
+                "list": [
+                  {
+                    "type": "input",
+                    "key": "userId",
+                    "name": "意见人编码",
+                    "isEditListItem": true,
+                    "title": "意见人编码",
+                    "options": {
+                      "id": "userId",
+                      "styleText": "",
+                      "length": "",
+                      "defaultValue": "",
+                      "colClass": 12,
+                      "placeholder": "",
+                      "mask": ""
+                    },
+                    "dataValidators": []
+                  }
+                ]
+              },
+              {
+                "span": 12,
+                "list": [
+                  {
+                    "type": "input",
+                    "key": "userName",
+                    "name": "意见人名称",
+                    "isEditListItem": true,
+                    "title": "意见人名称",
+                    "options": {
+                      "id": "userName",
+                      "styleText": "",
+                      "length": "",
+                      "defaultValue": "",
+                      "colClass": 12,
+                      "placeholder": "",
+                      "mask": ""
+                    },
+                    "dataValidators": []
+                  }
+                ]
+              },
+              {
+                "span": 12,
+                "list": [
+                  {
+                    "type": "date",
+                    "key": "createdDate",
+                    "name": "创建时间",
+                    "isEditListItem": true,
+                    "title": "创建时间",
+                    "options": {
+                      "id": "createdDate",
+                      "styleText": "",
+                      "defaultValue": "",
+                      "colClass": 12,
+                      "placeholder": "",
+                      "pattern": ""
+                    },
+                    "dataValidators": []
+                  }
+                ]
+              }
+            ]
+          },
+          "HiddenCells": []
+        }
+      },
+      "actions": {
+        "id": "ActionButtons001",
+        "type": "ActionButtons",
+        "name": "ActionButtons001",
+        "list": [
+          {
+            "type": "ToolBarItem",
+            "key": "toolBarItem004",
+            "name": "toolBarItem001",
+            "options": {
+              "contentValue": "查询",
+              "iconClass": "EditorIconQuery",
+              "customIcon": "null",
+              "buttonType": "button",
+              "onclick": "Matrix.refreshDataGridData('DataGrid002');",
+              "onblur": "null",
+              "onchange": "null",
+              "ondblclick": "null",
+              "onfocus": "null",
+              "onkeydown": "null",
+              "onkeypress": "null",
+              "onkeyup": "null",
+              "onmousedown": "null",
+              "onmousemove": "null",
+              "onmouseout": "null",
+              "onmouseover": "null",
+              "onmouseup": "null",
+              "onselect": "null",
+              "onpreclick": "null",
+              "onpostclick": "null",
+              "confirmMessage": "null",
+              "confirm": false,
+              "disabled": false,
+              "extentionAttribute": "null",
+              "iconAlign": "null",
+              "iconOrientation": "null",
+              "iconSize": "null",
+              "immediate": false,
+              "isViewEnable": false,
+              "partialSubmit": true,
+              "promptStyleClass": "null",
+              "prompt": "null",
+              "rendered": true,
+              "styleClass": "null",
+              "styleText": "",
+              "validateForm": true
+            },
+            "operations": [],
+            "transitions": []
+          },
+          {
+            "type": "ToolBarItem",
+            "key": "toolBarItem006",
+            "name": "toolBarItem002",
+            "options": {
+              "contentValue": "高级查询",
+              "iconClass": "EditorIconQuery",
+              "customIcon": "null",
+              "buttonType": "button",
+              "onclick": "Matrix.showDataGridCustomFilter('DataGrid002');",
+              "onblur": "null",
+              "onchange": "null",
+              "ondblclick": "null",
+              "onfocus": "null",
+              "onkeydown": "null",
+              "onkeypress": "null",
+              "onkeyup": "null",
+              "onmousedown": "null",
+              "onmousemove": "null",
+              "onmouseout": "null",
+              "onmouseover": "null",
+              "onmouseup": "null",
+              "onselect": "null",
+              "onpreclick": "null",
+              "onpostclick": "null",
+              "confirmMessage": "null",
+              "confirm": false,
+              "disabled": false,
+              "extentionAttribute": "null",
+              "iconAlign": "null",
+              "iconOrientation": "null",
+              "iconSize": "null",
+              "immediate": false,
+              "isViewEnable": false,
+              "partialSubmit": true,
+              "promptStyleClass": "null",
+              "prompt": "null",
+              "rendered": true,
+              "styleClass": "null",
+              "styleText": "",
+              "validateForm": true
+            },
+            "operations": [],
+            "transitions": []
+          }
+        ]
+      },
+      "fields": [
+        {
+          "title": "任务编码",
+          "field": "taskId",
+          "sortable": true,
+          "clickToSelect": true
+        },
+        {
+          "title": "活动名称",
+          "field": "activityName",
+          "sortable": true,
+          "clickToSelect": true
+        },
+        {
+          "title": "意见人编码",
+          "field": "userId",
+          "sortable": true,
+          "clickToSelect": true
+        },
+        {
+          "title": "意见人名称",
+          "field": "userName",
+          "sortable": true,
+          "clickToSelect": true
+        },
+        {
+          "title": "创建时间",
+          "field": "createdDate",
+          "sortable": true,
+          "clickToSelect": true
+        }
+      ]
+    },
+    {
+      "key": "Grid001",
+      "type": "Grid",
+      "options": {
+        "gutter": 0,
+        "justify": "start",
+        "align": "top",
+        "height": ""
+      },
+      "columns": [
+        {
+          "span": 8,
+          "gridPosition": "center",
+          "list": [
+            {
+              "type": "input",
+              "key": "mmForm012field3",
+              "name": "文本框",
+              "title": "文本框",
+              "options": {
+                "id": "mmForm012field3",
+                "styleText": "width:100%",
+                "length": "",
+                "defaultValue": "",
+                "colClass": 12,
+                "placeholder": "",
+                "mask": "",
+                "required": false
+              },
+              "dataValidators": []
+            }
+          ]
+        },
+        {
+          "span": 8,
+          "gridPosition": "center",
+          "list": [
+            {
+              "type": "input",
+              "key": "mmForm012field4",
+              "name": "文本框",
+              "title": "文本框",
+              "options": {
+                "id": "mmForm012field4",
+                "styleText": "width:100%",
+                "length": "",
+                "defaultValue": "",
+                "colClass": 12,
+                "placeholder": "",
+                "mask": "",
+                "required": false
+              },
+              "dataValidators": []
+            }
+          ]
+        },
+        {
+          "span": 8,
+          "gridPosition": "center",
+          "list": []
+        }
+      ]
+    }
+  ]
+}

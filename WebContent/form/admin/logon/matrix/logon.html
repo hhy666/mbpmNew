@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matrix BPM</title>
+
+    <script src="../../../../resource/html5/js/vue.js"></script>
+    <script src="../../../../resource/html5/js/axios.min.js"></script>
+    <script src="../../../../resource/html5/js/vue-router.js"></script>
+
+    <script src='../../../../resource/html5/js/jquery.min.js'></script>
+    <script src="../../../../logonrs/jquery.base64.js"></script>
+    <script src="../../../../logonrs/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../../../../logonrs/jquery.SuperSlide.2.1.3.js"></script>
+
+    <link rel="stylesheet" href="../../../../logonrs/layui.css">
+    <link rel="stylesheet" href="../../../../logonrs/common.css">
+    <link rel="stylesheet" href="../../../../logonrs/commonHeader.css">
+    <link rel="stylesheet" href="../../../../logonrs/commonFooter.css">
+    <link rel="stylesheet" href="../../../../logonrs/iconfont.css">
+    <!--[if lt IE 9]>
+    <script src="../../../../base/js/html5shiv.js"></script>
+    <script src="../../../../base/js/html5.min.js"></script>
+    <script src="../../../../base/js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../../../logonrs/beforlogin.css">
+    <script src="../../../../logonrs/reqConfig.js"></script>
+    <script src="../../../../logonrs/beforlogin.js"></script>
+
+    <script src="../../../../logonrs/layui.js"></script>
+    <script src="../../../../logonrs/public.js"></script>
+    <script src="../../../../logonrs/titleName.js"></script>
+    <script src="../../../../logonrs/docassistant.js"></script>
+    <script src="../../../../logonrs/common.js"></script>
+    <script src="../../../../logonrs/common_opt.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../../../../resource/css/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../../../resource/css/css/css.css">
+    <link rel="stylesheet" type="text/css" href="../../../../resource/css/css/banner.css">
+    <link id="layuicss-layer" rel="stylesheet" href="../../../../logonrs/layer.css" media="all">
+    <SCRIPT SRC='../../../../resource/html5/assets/toastr-master/toastr.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../../resource/html5/js/matrix_runtime.js'></SCRIPT>
+    <link href='../../../../resource/html5/assets/toastr-master/toastr.min.css'  rel="stylesheet"/>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $(".prev,.next").hover(function(){
+                $(this).stop(true,false).fadeTo("show",0.9);
+            },function(){
+                $(this).stop(true,false).fadeTo("show",0.4);
+            });
+
+            $(".banner-box").slide({
+                titCell:".hd ul",
+                mainCell:".bd ul",
+                effect:"fold",
+                interTime:3500,
+                delayTime:300,
+                autoPlay:true,
+                autoPage:true,
+                trigger:"click"
+            });
+
+            jQuery.navlevel2 = function(level1,dytime) {
+
+                $(level1).mouseenter(function(){
+                    varthis = $(this);
+                    delytime=setTimeout(function(){
+                        varthis.find('ul').slideDown();
+                    },dytime);
+
+                });
+                $(level1).mouseleave(function(){
+                    clearTimeout(delytime);
+                    $(this).find('ul').slideUp();
+                });
+
+            };
+            $.navlevel2("li.mainlevel",200);
+        });
+    </script>
+
+</head>
+<body>
+    <div id="app" style="height: 100%">
+        <div class="layui-header czmyheader" style="height: 17%">
+            <a class="layui-logo">
+                <img class="logo"
+                     src="../../../../resource/images/logo2.png"
+                     alt=""
+                     style="width: 250px;height: 40px;position:absolute;top:10px"
+                >
+            </a>
+        </div>
+        <div class="loginbg" style="height: 71%">
+            <!-- style="background-image: url('./resource/test/0.jpg')" -->
+            <div class="banner-box">
+                <form class="loginBox layui-form" id="Form0" name="Form0">
+                    <div class="layui-input-block">
+                        <i class="iconfont icon-yonghu"></i>
+                        <input type="text"
+                               v-model="invalidUser"
+                               placeholder="请输入用户名" id="logonName" name="logonName" autocomplete="off" required
+                               onfocus=""/>
+                        <label id="invalidUser" v-show="isInvalidUser" style="color:red;font-size:10px;height:32px;line-height:32px;">无效</label>
+                    </div>
+                    <div class="layui-input-block">
+                        <i class="iconfont icon-xiugaimima"></i>
+                        <input class="inputCls"
+                               v-model="invalidPsd"
+                               type="password" placeholder="请输入密码" id="password" name="password"
+                               autocomplete="off" required/>
+                        <label id="InvalidPsd" class="logonDIV_matrix" v-show="isInvalidPsd"
+                               style="color:red;font-size:10px;height:32px;line-height:32px;">无效</label>
+                    </div>
+                    <div class="layui-input-block">
+                        <i class="iconfont icon-xiugaimima"></i>
+                        <input type="text"
+                               v-model="invalidCode"
+                               id="code" name="code" placeholder="请输入验证码" required style="width:88px;"/>
+                        <img id="img"
+                             :src="verificationCodeSrc"
+                             @click="reImg()"
+                             style="vertical-align: top;height:26px;margin-top:2px;margin-left:10px;">
+                        <label id="InvalidCode" class="logonDIV_matrix" v-show="isInvalidCode"
+                               style="color:red;font-size:10px;height:32px;line-height:32px;margin-left:40px">错误验证码!</label>
+                    </div>
+                    <div class="layui-input-block mr78" style="width:160px;">
+                        <button type="button"
+                                @click="logon()"
+                                class="layui-btn layui-btn-normal layui-btn-fluid">
+                            登录
+                        </button>
+                    </div>
+                    <input type="hidden" id="isChrome" name="isChrome" value="false"/>
+                </form>
+                <div class="bd">
+                    <ul>
+                        <li style="background:#1f5ee8">
+                            <div class="m-width" style="width:100%;">
+                                <a href="javascript:void(0);">
+                                    <img style="width:100%;"
+                                         src="../../../../resource/images/0-0.jpg"/>
+                                </a>
+                            </div>
+                        </li>
+                        <li style="background:#74c5e6">
+                            <div class="m-width" style="width:100%;">
+                                <a href="javascript:void(0);">
+                                    <img style="width:100%;"
+                                         src="../../../../resource/images/0-2.jpg"/>
+                                </a>
+                            </div>
+                        </li>
+                        <li style="background:#dcf6fb;">
+                            <div class="m-width" style="width:100%;">
+                                <a href="javascript:void(0);">
+                                    <img style="width:100%;"
+                                         src="../../../../resource/images/0-3.jpg"/>
+                                </a>
+                            </div>
+                        </li>
+                        <li style="background:#003bf4">
+                            <div class="m-width" style="width:100%;">
+                                <a href="javascript:void(0);">
+                                    <img style="width:100%;"
+                                         src="../../../../resource/images/0-4.jpg"/>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="banner-btn">
+                    <div class="hd">
+                        <ul>
+                            <li class="">1</li>
+                            <li class="">2</li>
+                            <li class="">3</li>
+                            <li class="on">4</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>Copyright © 北京华创动力科技有限公司</p>
+        </footer>
+    </div>
+</body>
+</html>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            isInvalidUser:false,//用户名验证
+            invalidUser:"",//用户名
+            isInvalidPsd:false,// 密码验证
+            invalidPsd:"",// 密码
+            isInvalidCode:false,// 验证码验证
+            invalidCode:"",// 验证码
+            verificationCodeSrc:"/"+location.pathname.split("/")[1]+"/ImageServlet?d=" + Math.random()//验证码链接
+        },
+        beforeCreate: function(){
+            if(self != top){
+                top.location.href = self.location.href;
+            }
+        },
+        methods:{
+            reImg() {//刷新验证码
+                this.isInvalidUser = false;
+                this.isInvalidPsd = false;
+                this.isInvalidCode = false;
+                this.verificationCodeSrc = "/" + location.pathname.split("/")[1] + "/ImageServlet?d=" + Math.random();
+            },
+            logon(){
+                const userAgent = navigator.userAgent.toLowerCase();  //取得浏览器的userAgent字符串
+                let isChrome = "false";
+                if ((userAgent.indexOf('mozilla') == 0 &&
+                    userAgent.indexOf('applewebkit') > 0 &&
+                    userAgent.indexOf("edge") == -1 &&
+                    userAgent.toLowerCase().indexOf("chrome/") > 0)
+                    || userAgent.indexOf("mac")>0){
+                    isChrome = "true";
+                }
+                const synJson = new URLSearchParams();
+                synJson.append('isChrome', isChrome);
+                synJson.append('username', this.invalidUser);
+                synJson.append('password', this.invalidPsd);
+                synJson.append('verificationCode', this.invalidCode);
+                axios.post("/"+location.pathname.split("/")[1]+"/logon",
+                    synJson
+                )
+                    .then(data => {
+                        if (data != "" ) {
+                            const dataJson = data.data;
+                            const result = JSON.parse(dataJson.dataStr);
+                            // const result = dataJson.dataObj;
+                            if (dataJson.status) {
+                                parent.location.href ="/"+location.pathname.split("/")[1]+"/index.html";
+                                // Matrix.say("登录成功！");
+                            }else{
+                                this.isInvalidUser = result.isInvalidUser;
+                                this.isInvalidPsd = result.isInvalidPsd;
+                                this.isInvalidCode = result.isInvalidCode;
+                                if (dataJson.msg != "") {
+                                    Matrix.warn(dataJson.msg,function(){
+                                        setTimeout(() => {
+                                                location.reload()
+                                            },2000
+                                        )
+                                    });
+                                }else {
+                                    // 刷新验证码
+                                    this.verificationCodeSrc = "/" + location.pathname.split("/")[1] + "/ImageServlet?d=" + Math.random();
+                                }
+                            }
+                        }
+                    })
+            }
+        }
+    })
+</script>

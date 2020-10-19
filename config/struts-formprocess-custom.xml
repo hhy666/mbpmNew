@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+   
+<struts>
+	<!-- 表单流程定制 -->
+	<package name="com.matrix.form.admin.custom.formProcess.action"  extends="globalPackage" namespace="/formProcess">
+		<action name="formProcess_*" class="formProcessAction" method="{1}">
+			<result name="addModule">/form/html5/admin/custom/formProcess/addModuleList.jsp</result>
+			<result name="addTemplate">/form/html5/admin/custom/formProcess/addFormProcessList.jsp</result>
+			<!-- 表单设计 -->
+			<result name="formDesignTab">/form/html5/admin/custom/formProcess/formDesignerTab.jsp</result>
+			<result name="formDesignPage">/form/html5/admin/custom/formProcess/formDesignerPage.jsp</result>
+			<result name="girdFormDesign">/form/admin/composite/viewChange.jsp?isMobile=false&amp;formUuid=${formUuid}&amp;isExtensibleField=${isExtensibleField}</result>	
+			<result name="tableFormDesign">/form/admin/designer/designer.jsp</result>		
+			<!-- 流程设计 -->
+			<result name="processDesignTab">/form/html5/admin/custom/formProcess/processDesignerTab.jsp</result>
+			<result name="processDesignPage">/form/html5/admin/custom/formProcess/processDesignerPage.jsp</result>
+			
+			<result name="success">/form/html5/admin/catalog/addSuccess1.jsp</result>
+			<result name="fail">/form/html5/admin/custom/formProcess/fail.jsp</result>
+    	</action>
+	</package> 
+</struts>

@@ -1,0 +1,14 @@
+{
+    "weeks" : [ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa" ],
+    "time" : [ "Hours", "Minutes", "Seconds" ],
+    "timeTips" : "Select Time",
+    "startTime" : "Start Time",
+    "endTime" : "End Time",
+    "dateTips" : "Select Date",
+    "month" : [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
+    "tools" : {
+        "confirm" : "Confirm",
+        "clear" : "Clear",
+        "now" : "Now"
+    }
+}

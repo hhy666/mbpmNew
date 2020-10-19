@@ -1,0 +1,14 @@
+.splitLine-font{
+	font-size: 16px;
+	color: black;
+}
+
+.splitLine-line{
+	width: 100%;
+	height: 40px;
+	line-height:40px;
+	margin-bottom: 20px;
+	padding-left: 10px;
+	border-bottom: 1px solid #cccccc;
+	background-color: white;
+}

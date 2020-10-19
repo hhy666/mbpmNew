@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+    <!-- 指定标签库或方法库版本号 -->
+    <tlib-version>1.0</tlib-version>
+    <!-- 使用的短名称，对应的是taglib指令中的prefix -->
+    <short-name>elxss</short-name>
+    <!-- uri:把当前的方法库绑定到一个uri地址上，在该网址上不一定存在方法库 -->
+    <uri>http://www.matrix.com/elxss/elxss</uri>
+    <function>
+        <description>转换带有script字符串</description>
+        <name>stripXSS</name>
+        <function-class>com.matrix.app.util.XssUtil</function-class>
+        <function-signature>java.lang.String stripXSS(java.lang.String)</function-signature>
+        <example>${elxss:stripXSS(str1)}</example>
+    </function>
+</taglib>

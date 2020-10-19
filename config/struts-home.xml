@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+   
+<struts>
+	 <!--首页请求  -->
+	<package name="com.matrix.form.admin.home.action.HomePageAction"  extends="globalPackage" namespace="/home">
+		<action name="home_*" class="HomePageAction" method="{1}">
+			<result name="saveSubCatalog">/form/admin/custom/utilization/addCatalogue.jsp</result>
+    	</action>
+	</package> 
+</struts>

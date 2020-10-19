@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查询列表设置</title>
+<script src="../../../resource/html5/js/vue.js"></script>
+<script src="../../../resource/html5/js/axios.min.js"></script>
+<script type="text/javascript" src="../../../form/html5/admin/html5Head.js"></script>
+
+<style type="text/css">
+   	body, ul{
+	    margin: 0;
+	    padding: 0;
+	    font-size: 14px;
+	}
+	div, ul{
+		box-sizing: border-box;
+	}
+	*{
+		-webkit-user-select: none;
+	    -khtml-user-select: none;
+	    -moz-user-select: none;
+	    -ms-user-select: none;
+	    -o-user-select: none;
+	    user-select: none;
+	}
+	.main{
+		padding: 20px 0px 0px 0px;
+	    position: relative;
+	    height: calc(100% - 54px);
+	    width: 100%;
+	}
+	.select-base{
+		position: relative;
+		height: calc(100% - 134px);
+		width: 100%;
+		background: #FFFFFF;
+		box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.05);
+		border-radius: 2px;
+		margin-bottom: 20px;
+	}
+	.select-pane {		   
+	    position: absolute;
+	    height: 100%;
+	    left: 0;
+	    bottom: 0;
+	    right: 0;
+	}
+	.pane-left{
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+	    width: calc((100% - 100px)/2);
+	}
+	.pane-move{
+	    position: absolute;
+	    left: calc((100% - 100px)/2);
+	    top: calc((100% - 50px)/2);
+	    width: 50px;
+	    display: table;
+	}
+	.pane-right{
+		position: absolute;
+	    right: 50px;
+	    top: 0;
+	    height: 100%;
+	    width: calc((100% - 100px)/2);;
+	}
+	.pane-sort{
+		position: absolute;		  
+	    right: 0;
+	    top: calc((100% - 50px)/2);
+	    width: 50px;  
+	    display: table;
+	}
+	.table-cell{
+		display: table-cell;
+		text-align:center; 
+		vertical-align: middle;
+	}
+	.select-member{
+		height: 100%;
+		width: 100%;
+	}
+	.select-member li {
+	    cursor: pointer;
+	    margin: 0 0 0 15px;
+	    white-space: nowrap;
+	    line-height: 24px;
+	    list-style-type: none;
+	    color: #4E5A77;
+	}
+	
+	.select_selected:hover {
+	    background-position: -130px -256px;
+	}
+	.select_selected {
+	    display: inline-block;
+	    width: 32px;
+	    height: 32px;
+	    vertical-align: middle;
+	    background: url("../../../office/html5/image/icon32.png") no-repeat left top;
+	    background-position: 0 -256px;
+	    cursor: pointer;
+	}
+	.select_unselect:hover {
+	    background-position: -160px -256px;
+	}
+	.select_unselect {
+	    display: inline-block;
+	    width: 32px;
+	    height: 32px;
+	    vertical-align: middle;
+	    background: url("../../../office/html5/image/icon32.png") no-repeat left top;
+	    background-position: -32px -256px;
+	    cursor: pointer;
+	}
+	.sort_up:hover {
+	    background-position: -192px -256px;
+	}
+	.sort_up {
+	    display: inline-block;
+	    width: 32px;
+	    height: 32px;
+	    vertical-align: middle;
+	    background: url("../../../office/html5/image/icon32.png") no-repeat left top;
+	    background-position: -64px -256px;
+	    cursor: pointer;
+	}
+	.sort_down:hover {
+	    background-position: -224px -256px;
+	}
+	.sort_down {
+	    display: inline-block;
+	    width: 32px;
+	    height: 32px;
+	    vertical-align: middle;
+	    background: url("../../../office/html5/image/icon32.png") no-repeat left top;
+	    background-position: -96px -256px;
+	    cursor: pointer;
+	}
+	.form-control {
+   		border-radius: 0;
+ 	}
+	::-webkit-scrollbar {    
+	    width:4px;  
+	    height:4px;   
+	}  
+	.udSelect{
+		border-radius: 0px;
+	}
+	.hoverColor{
+		background-color: #e7eaec;
+		font-weight: 700;
+	}
+	.select-tree{
+		position: absolute;
+	    z-index: 77777;
+	    width: 200px;
+	    height: 150px;
+	    border: 1px solid rgb(218, 218, 218);
+	    background: rgb(255, 255, 255);
+	    display: block;
+	}
+	.mask {
+        background-color: rgba(0,0,0,0.5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 99999;
+    }
+	.dialogbox-main{
+		font-family: Tahoma, Geneva, sans-serif;
+	    font-size: 12px;
+	    font-weight: normal;
+	    max-width: 320px;
+	    min-width: 170px;
+	    padding: 10px 15px 0px 15px;
+	    position: relative;
+	    margin: 20% auto 0;
+	    background-color: rgb(255,255,255);
+	}
+	.dialogbox-title {
+		font-size: 14px;
+	    font-family: Microsoft YaHei,SimSun,Arial,Helvetica,sans-serif;
+	    font-weight: 700;
+	    color: #666;
+	    border: none;
+	    line-height: 30px;
+	    height: 30px;
+	    padding-right: 25px;
+	    overflow: hidden;
+    	text-overflow: ellipsis;
+   		white-space: nowrap;
+   		border-bottom: 1px solid rgb(230,230,230);
+	}
+	.dialogbox-close {
+		position: absolute;
+    	top: 18px;
+	    right: 15px;
+	}
+	.dialogbox-content {
+		height: 50px;
+	    padding: 5px 0;
+	}
+	.dialogbox-button-bar {
+	    text-align: center;
+	    direction: ltr;
+	    z-index: 999999;
+	    cursor: default;
+	    /* border-top: 1px solid #cccccc; */
+	    text-align: right;
+	    bottom: 0px;
+	    left: 0px;
+	    padding: 10px 18px 10px 10px;
+	    /* background: #f9f9f9; */
+	    width: 100%;
+	}
+	.closeImg{
+		position: relative;
+		width: 16px;
+		height: 16px;
+		margin-left: 10px;
+		font-size: 12px;
+		overflow: hidden;
+		display: inline-block;
+		vertical-align: top;
+		background: url(/mbpmV8.3/resource/html5/js/skin/default/icon.png) no-repeat;
+		background-position: 0 -40px;
+    	cursor: pointer;
+    	text-decoration: none;
+	}
+	.closeImg:hover {
+    	opacity: .7;
+    }
+	.jstree-default .jstree-hovered{
+		 background:none;
+		 border-radius:0px;
+     	 color: blue;
+    	 text-decoration: underline;
+ 		 box-shadow:none
+ 	}
+ 	.jstree-default .jstree-clicked {
+	     background: #DDDDDD;
+	     border-radius: 0px;
+	     box-shadow: none;
+	}
+	.jstree-anchor {
+    	 padding: 0 4px 0 0px;
+	}
+	.jstree-default .jstree-node-online {
+    	background: url("../../../office/html5/image/openfoldericon.png") no-repeat #fff;
+        background-position: 50% 50%;
+    	background-size: auto;
+	}
+	.jstree-default .jstree-node-offline {
+    	background: url("../../../office/html5/image/foldericon.png") no-repeat #fff;
+       	background-position: 50% 50%;
+    	background-size: auto;
+	}
+	
+	[v-cloak] {
+ 		display: none;
+	}
+</style>
+</head>
+<body>
+	<div id="app" style="position: absolute;height: 100%;width: 100%;background: #f8f8f8;padding: 0 20px;" v-cloak>
+		<div id="matrixMask" name="matrixMask" class="matrixMask" style="width: 100%; height: 100%; position: absolute;top: 1;left: 1;z-index: 9999999999999;display: none;"> </div>
+		<div class="main">
+			<div style="padding:0 50px 20px 0px;background: #FFFFFF;box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.05);border-radius: 2px;margin-bottom: 20px;height: 94px;">
+				<div style="padding-top: 5px;" @mouseout="closeProductType">
+					<div style="float:left;height: 34px;width: 140px;line-height: 34px;text-align: right;vertical-align: middle;">
+						<label class="control-label">产品线：</label>
+					</div>
+					<div style="font-size: 14px;line-height: 34px;margin-left: 140px;width: 70px;">					
+						<div @mouseover="selectProductType"><a style="color: #3377FF;">{{ businessName }}</a></div>
+						<div v-show="showDialog" class="select-tree" ref="productTypeTree" @mouseover="selectProductType"></div>
+					</div>
+				</div>
+				<div style="padding-top: 5px;padding-bottom: 5px;">
+					<div style="float:left;height: 34px;width: 140px;line-height: 34px;text-align: right;vertical-align: middle;">
+						<label class="control-label">机构：</label>			
+					</div>
+					<div style="margin-left: 140px;height: 34px;width: 200px;">					
+						<select class="selectpicker form-control" style="height:100%;width:100%;" title="请选择机构" v-model="selectedOrgId" @change="searchToSelectd">
+							<option v-for="(org,index) in orgList" :key="index" :value="org.orgId">{{ org.orgName }}</option>		
+						</select>					
+					</div>
+				</div>
+			</div>
+			<div class="select-base">
+				<div class="select-pane">
+					<div class="pane-left">
+						<div style="height: 30px;line-height: 30px;font-size: 14px;font-weight: 700;text-align: center;color: #666666;font-weight: bold;">待选字段</div>
+						<div style="height: calc(100% - 30px);border: 1px #ccc solid;overflow:auto;">
+							<ul class="select-member">
+								<li v-for="(leftField,index) in leftFieldList" :key="index" 
+								:class="{changeColor: leftActiveIndex.includes(index),hoverColor: leftHoverIndex == index}" @mouseover="leftHoverIndex = index" @mouseout="leftHoverIndex = -1"
+								@click="leftSelectedField(index)" @dblclick="dbMoveRight(index)">{{leftField.prefixStr}}{{leftField.name}}</li>
+							</ul> 
+						</div>	
+					</div>		
+					<!-- 左移右移 -->
+					<div class="pane-move">
+						<div class="table-cell">
+							<p><span class="select_selected" style="margin-right: 0px;" @click="moveRight"></span></p><br/>
+					       	<p><span class="select_unselect" style="margin-right: 0px;" @click="moveLeft"></span></p>	
+				       	</div>			
+					</div>
+					<!-- 选择结果 -->
+					<div class="pane-right">
+						<div style="height: 30px;line-height: 30px;font-size: 14px;font-weight: 700;text-align: center;color: #666666;font-weight: bold;">已选字段</div>
+						<div style="height: calc(100% - 30px);border: 1px #ccc solid;overflow:auto;">
+							 <ul class="select-member">
+							 	<li v-for="(rightField,index) in rightFieldList" :key="index"
+								:class="{changeColor: rightActiveIndex.includes(index),hoverColor: rightHoverIndex == index}" @mouseover="rightHoverIndex = index" @mouseout="rightHoverIndex = -1"
+								@click="rightSelectedField(index)" @dblclick="dbMoveLeft(index)">{{rightField.prefixStr}}{{rightField.name}}</li>
+							 </ul>         
+						</div>
+					</div>	
+					<!-- 上移下移 -->
+					<div class="pane-sort">	
+						<div class="table-cell">      
+		                 	<p><span class="sort_up" style="margin-right: 0px;" @click="moveUp"></span></p><br/>
+						    <p><span class="sort_down" style="margin-right: 0px;" @click="moveDown"></span></p>
+						</div>	
+	                </div>
+	                <!--遮罩层 -->
+        			<div v-if="inputNameDialog" class="mask">
+	                	<div class="dialogbox-main" v-show="inputNameDialog">	                		
+	                		<div class="dialogbox-title">保存名称</div>
+	                		<div class="dialogbox-close"><a @click="closeWin" title="关闭" class="closeImg"></a></div>
+	                		<div class="dialogbox-content">
+	                			<input type="text" placeholder="请输入名称" class="form-control" v-model="inputName">
+	                		</div>
+	                		<div class="dialogbox-button-bar">
+	                			<button class="x-btn ok-btn" type="button" data-i18n-text="确定" @click="saveSearchInfo">确定</button>
+	                		</div>
+	                	</div>
+	                </div>
+				</div>
+			</div>
+		</div>
+		<div class="cmdLayout">
+			<button class="x-btn ok-btn" type="button" data-i18n-text="保存" @click="save">保存</button>
+			<button class="x-btn ok-btn" type="button" data-i18n-text="确定" @click="search">确定</button>
+			<button class="x-btn cancel-btn" type="button" data-i18n-text="取消" @click="cancel">取消</button>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				optType: '',  //操作类型  add添加 update编辑
+				uuid: '',   //修改时的记录uuid
+				dataGridId: '',   //当前数据表格编码
+				formId: '',     //关联表单的编码
+				fTid: '',    //当前表单发布编码
+				queryListDefId: '',				
+				businessName: '请选择分类',  //当前选中的业务分类名称
+				businessId: '',  //当前选中的业务分类编码
+				selectedOrgId: '',  //当前选中的机构编码
+				targetFormUuid: '',  //目标关联表单主键编码
+				orgList: [],  //当前人机构编码
+				leftFieldList: [],
+				rightFieldList: [],
+				leftActiveIndex: [],
+				rightActiveIndex: [],
+				leftHoverIndex: '-1',
+				rightHoverIndex: '-1',
+				showDialog: false,   //是否显示选择产品分类树区域
+				isCtrl: false,  //是否按下ctrl键		
+				inputNameDialog: false,
+				inputName: '',  //保存时输入的名称
+				isInit: true,   //是否初始时的加载  默认true
+			},
+			methods: {
+				leftSelectedField(index){   //左侧点击选中字段时
+					let pos = this.leftActiveIndex.indexOf(index);
+					if(pos<0){
+						this.leftActiveIndex.push(index);						
+					}else{
+						this.leftActiveIndex.splice(pos, 1)
+					}				
+					/*
+					if(this.isCtrl){   //按下了ctrl键连选
+						this.leftActiveIndex.push(index);
+					}else{
+						this.leftActiveIndex.length = 0;
+						this.leftActiveIndex.push(index);
+					}	
+					*/
+				},
+				rightSelectedField(index){   //右侧点击选中字段时
+					let pos = this.rightActiveIndex.indexOf(index);
+					if(pos<0){
+						this.rightActiveIndex.push(index);						
+					}else{
+						this.rightActiveIndex.splice(pos, 1)
+					}
+					/*
+					if(this.isCtrl){   //按下了ctrl键连选
+						this.rightActiveIndex.push(index);
+					}else{
+						this.rightActiveIndex.length = 0;
+						this.rightActiveIndex.push(index);
+					}
+					*/
+				},
+				moveLeft(){  //左移
+					if(this.rightActiveIndex.length>0){
+						 //使用倒序 防止splice循环删除元素出现下标不对
+						 for (var i = this.rightActiveIndex.length - 1; i >= 0; i--) {
+							 this.rightFieldList.splice(i, 1);
+						 }
+						 this.rightActiveIndex.length = 0;
+					}else{
+						layer.msg('请至少选择一项'); 
+						return false; 
+					}
+				},
+				moveRight(){  //右移
+	    		    if(this.leftActiveIndex.length>0){
+	    		    	for(let index of this.leftActiveIndex){
+	    		    		let selectLi = this.leftFieldList[index];
+		    		    	var fieldPath = selectLi.fieldPath;
+		    		    	
+		 	              	var containsid = false;
+			 	         	for(rightField of this.rightFieldList){
+			 	         		if(fieldPath == rightField.fieldPath){
+			 	         			containsid = true;
+			 	         			break;   //跳出内层循环
+			 	         		}
+			 	         	}
+			 	         	if(!containsid){		 	         		
+			 	         		this.rightFieldList.push(selectLi);			 	   
+			 	         	}
+	    		    	}
+	    		    	this.leftActiveIndex.length = 0;
+	    		   }else{
+	    			   layer.msg('请至少选择一项'); 
+					   return false; 
+	    		   }
+				},
+				dbMoveRight(index){  //双击右移					
+					let selectLi = this.leftFieldList[index];
+    		    	var fieldPath = selectLi.fieldPath;
+    		    	
+					var containsid = false;
+	 	         	for(rightField of this.rightFieldList){
+	 	         		if(fieldPath == rightField.fieldPath){
+	 	         			containsid = true;
+	 	         			break;   //跳出内层循环
+	 	         		}
+	 	         	}
+	 	         	if(!containsid){		 	         		
+	 	         		this.rightFieldList.push(selectLi);
+	 	         	}
+				},
+				dbMoveLeft(index){  //双击左移
+					this.rightFieldList.splice(index, 1);
+				},
+				moveUp(){  //上移
+					if(this.rightActiveIndex.length == 1){
+						let index = this.rightActiveIndex[0];
+						if(index == 0){
+							layer.msg('已经是第一项,不可上移'); 
+							return false; 
+						}
+						/*
+						let selectLi = this.rightFieldList[this.rightActiveIndex];
+						this.rightFieldList.splice(this.rightActiveIndex, 1);
+						this.rightFieldList.splice(this.rightActiveIndex - 1, 0 ,selectLi);
+						*/
+						this.rightFieldList.splice(
+							index,
+					        1,
+					        ...this.rightFieldList.splice(index - 1, 1, this.rightFieldList[index])
+					    );
+						//选中移动后的
+						this.rightActiveIndex.length = 0;
+						this.rightActiveIndex.push(index - 1);
+					}else{
+						layer.msg('请选择一项'); 
+						return false; 
+					}	
+				},
+				moveDown(){  //下移
+					if(this.rightActiveIndex.length == 1){
+						let index = this.rightActiveIndex[0];
+						if(index==this.rightFieldList.length-1){
+							layer.msg('已经是最后一项,不可下移'); 
+							return false; 
+						}					
+						this.rightFieldList.splice(
+							index + 1,
+					        1,
+					        ...this.rightFieldList.splice(index, 1, this.rightFieldList[index + 1])
+					    );
+						//选中移动后的
+						this.rightActiveIndex.length = 0;
+						this.rightActiveIndex.push(index + 1);
+					}else{
+						layer.msg('请选择一项'); 
+						return false; 
+					}	
+				},
+				keyevent() { 
+				    let $vm =this;   
+				   	document.onkeydown = function(e) {        //按下键盘      
+				    	switch (e.keyCode) {        				 		         
+				 	       case 17:          
+				 	       $vm.isCtrl = true;  			
+				           break;     
+						} 
+				   	}
+				    document.onkeyup = function(e) {        //按下键盘      
+				    	switch (e.keyCode) {        				 		         
+				 	    case 17:          
+				 	       $vm.isCtrl = false;        
+				           break; 
+				    	}
+					} 
+				},
+				save(){   //保存时输入名称
+					debugger;
+					if(this.businessId == '' || this.businessId.trim().length == 0){
+						Matrix.warn('请选择产品线！');
+						return false;
+					}
+					if(this.rightFieldList.length == 0){
+						Matrix.warn('请选择查询字段！');
+						return false;
+					}
+					this.inputNameDialog = true;
+				},
+				saveSearchInfo(){  //保存查询信息
+					 Matrix.showMask2();
+					 
+					 if(this.inputName==null || this.inputName.trim().length==0){		
+						 Matrix.warn('名称不能为空');
+						 Matrix.hideMask2();
+						 return false;
+					 }
+					 var str = '';
+	        	     let isFirst = true;
+	        	     for(rightField of this.rightFieldList){
+	        	    	 if(!isFirst){
+	        	    		 str = str + ',';
+	        	    	 }
+	        	    	 str = str + '{';
+	        		 	 str = str + '"id":"'+rightField.id+'",';
+	        		 	 str = str + '"colName":"'+rightField.colName+'",';
+	        		 	 str = str + '"tableName":"'+rightField.tableName+'",';
+	        		 	 str = str + '"entityId":"'+rightField.entityId+'"';
+	        		 	 str = str + '}';
+	        		 	 
+	        		 	 isFirst = false;
+	        	    }
+
+	        	    $vm = this;
+	        	     
+					const synJson = new URLSearchParams();
+					synJson.append('optType', this.optType);
+					synJson.append('uuid', this.uuid);		 
+		            synJson.append('formId', this.formId);	                 	            
+		            synJson.append('name', this.inputName); 	            
+		            synJson.append('businessId', this.businessId); 
+		            synJson.append('selectedOrgId', this.selectedOrgId);
+		            synJson.append('targetFormUuid', this.targetFormUuid);
+		            synJson.append('fieldJson', str);
+		         
+		            axios.post(webpath + 'queryListSet/saveSearchInfo',
+						synJson
+					)
+		               .then(res => {
+		            	    debugger;
+		                	if(res.data.message == 'true'){	   
+		                		//parent.Matrix.say('保存成功');
+		                		$vm.inputNameDialog = false;
+		                		Matrix.hideMask2();
+		                		
+		                		var data = {};
+		                		data.searchValue = "[" + str + "]";	       
+		                		data.dataGridId = this.dataGridId;
+		                		data.businessId = this.businessId;
+		                		data.selectedOrgId = this.selectedOrgId;
+		                		data.formId = this.formId; 
+		                		data.queryListDefId = this.queryListDefId; 
+		                		data.optType = this.optType;
+		                		data.searchUuid = res.data.searchUuid;     //当前添加和修改的主键编码
+		                		data.searchName = res.data.searchName;     //当前添加和修改的名称
+		                		
+		                		parent.Matrix.queryDataGrid4Set(this.dataGridId, data);
+		                		parent.Matrix.onQueryListSetClose(data);
+		                		Matrix.closeLayerWindow();
+		                		
+		                    }else if(res.data.message == 'isRepeat'){		                    	
+		                    	Matrix.warn('名称重复');
+		                    	Matrix.hideMask2();
+		                    }else{		                    	
+		                    	Matrix.warn('保存失败');
+		                    	Matrix.hideMask2();
+		                    }	              		
+		               })
+		               .catch(function (error) { // 请求失败处理
+					        console.log(error);
+					   });
+				},
+				search(){    //查询
+	        	     if(this.businessId == '' || this.businessId.trim().length == 0){
+						 Matrix.warn('请选择产品线！');
+						 return false;
+					 }
+					 if(this.rightFieldList.length == 0){
+						 Matrix.warn('请选择查询字段！');
+						 return false;
+					 }
+	        	     var str = '[';
+	        	     let isFirst = true;
+	        	     for(rightField of this.rightFieldList){
+	        	    	 if(!isFirst){
+	        	    		 str = str + ',';
+	        	    	 }
+	        	    	 str = str + '{';
+	        		 	 str = str + '"id":"'+rightField.id+'",';
+	        		 	 str = str + '"colName":"'+rightField.colName+'",';
+	        		 	 str = str + '"tableName":"'+rightField.tableName+'",';
+	        		 	 str = str + '"entityId":"'+rightField.entityId+'"';
+	        		 	 str = str + '}';
+	        		 	 
+	        		 	 isFirst = false;
+	        	     }
+	        	     str = str + ']';
+	        	    
+	        	     var data = {};
+	        		 data.searchValue = str; 
+	        		 data.dataGridId = this.dataGridId;
+	        		 data.businessId = this.businessId;
+             		 data.selectedOrgId = this.selectedOrgId;
+             		 data.optType = this.optType;
+	        		 console.log(data);
+	        		 parent.Matrix.queryDataGrid4Set(this.dataGridId, data);
+	        		 parent.Matrix.onQueryListSetClose(data);
+	        		 Matrix.closeLayerWindow();		      
+				},
+				cancel(){   //取消
+					Matrix.closeLayerWindow();
+				},
+				closeWin(){
+					this.inputNameDialog = false;
+				},
+				selectProductType(){   //选择产品分类
+					this.showDialog = true;
+				},
+				closeProductType(){   //关闭产品分类
+					this.showDialog = false;
+				},
+				searchToSelectd(){   //选择业务和机构时取搜索待选字段
+					if(this.businessId != '' && this.selectedOrgId != ''){
+						this.isInit = false;
+						this.loadFieldInfo();
+				   	}
+				},
+				loadFieldInfo(){   //加载左侧待选字段信息					
+					const synJson = new URLSearchParams();
+									
+					synJson.append('optType', this.optType);  //操作类型  add添加 update编辑
+					synJson.append('uuid', this.uuid);				
+					synJson.append('isInit', this.isInit);  //是否初始时的加载  默认true
+		            synJson.append('fTid', this.fTid);   //当前表单发布编码
+		            synJson.append('queryListDefId', this.queryListDefId);
+		            synJson.append('businessId', this.businessId);    //当前选中的业务编码
+		            synJson.append('selectedOrgId', this.selectedOrgId);   //当前选中的机构编码
+		            
+		            axios.post(webpath + 'queryListSet/loadFieldInfo',
+						synJson
+					)
+		               .then(res => {
+		            	    debugger;
+		                	if(res.data){
+		                		if(res.data.currentOrgStr){
+		                			this.orgList = res.data.currentOrgStr;
+		                		}
+		                		if(res.data.toSelectedFieldStr){
+		                			this.leftFieldList = res.data.toSelectedFieldStr;	
+		                		}
+		                		if(res.data.selectedFieldStr){		                			
+		                			this.rightFieldList = res.data.selectedFieldStr;
+		                		}else{
+		                			this.rightFieldList.length = 0;
+		                		}
+		                		if(res.data.businessId){	                			
+		                			this.businessId = res.data.businessId;
+		                			this.businessName = res.data.businessName;	
+		                		}	
+		                		if(res.data.selectedOrgId){
+		                			this.selectedOrgId = res.data.selectedOrgId;
+		                		}
+		                		if(res.data.targetFormUuid){
+		                			this.targetFormUuid = res.data.targetFormUuid;	
+		                		}
+		                		if(res.data.inputName){
+		                			this.inputName = res.data.inputName;
+		                		}	
+		                		
+		                		//添加初始时机构默认选择第一个
+		                		if(this.optType == 'add' && this.isInit == true && this.orgList.length>0){		                				
+		            				this.selectedOrgId = this.orgList[0].orgId;    //默认选中第一个机构
+		            			}
+
+		                    }
+		               })
+		               .catch(function (error) { // 请求失败处理
+					        console.log(error);
+					   });
+				}
+			},
+			created() {
+				this.$nextTick(() => {
+					debugger;
+					let $vm = this;
+					let productTypeTree = $vm.$refs.productTypeTree;
+					let queryListDefId = $vm.queryListDefId;
+					var tree = $(productTypeTree).jstree({
+						'core' : {
+							'multiple' : false,    //设置为单选
+							"animation" : false,   //打开/关闭动画持续时间（以毫秒为单位） - 将此设置false为禁用动画（默认为200）
+							'dblclick_toggle': false,  //禁止双击（ 默认为true）
+		    				'data' : {
+								"url" : webpath + "queryListSet/getPorductTypeList",
+								"data" : function(node) {
+									return {
+										"root" : node.id ==="#"?"0":node.id,
+										"queryListDefId" : queryListDefId
+									};
+								},
+								"dataType" : "json",
+								"type" : "post"
+							},
+							'themes' : {
+								'icons' : true
+							}
+						},	     
+						"plugins" : [ "wholerow" ]
+				   });
+				   $(productTypeTree).on("select_node.jstree",function(e, data){   //单击选中事件
+					   debugger;
+					   var node = data.node.original;
+					   var id = data.node.id;
+					   if(id == 'noDataShow'){
+						   return;
+					   }
+				   	   var text = data.node.text;  //业务名称
+				   	   var businessId = node.businessId;  //业务编码
+				   	   
+				   	   $vm.businessName = text;
+				   	   $vm.businessId = businessId;
+				   	   
+				   	   $vm.closeProductType();  //关闭
+				   	   
+				   	   $vm.searchToSelectd();   //去搜索
+				   });
+				   //展开时候图标设置
+				   $(productTypeTree).on('open_node.jstree', function(e, datas) {  
+				       var nodeId = datas.node.id; 
+				       $(this).jstree(true).set_icon(nodeId, "jstree-node-online");
+				   });
+				    //收拢时候图标设置
+				   $(productTypeTree).on('close_node.jstree', function(e, datas) {  
+				       var nodeId = datas.node.id; 
+				       $(this).jstree(true).set_icon(nodeId, "jstree-node-offline");
+
+				   });	  
+				});
+						
+				this.optType = getUrlParam("optType");
+				this.uuid = getUrlParam("uuid");
+				this.dataGridId = getUrlParam("dataGridId");
+				this.formId = getUrlParam("formId");
+				if(parent.document.getElementById("matrix_form_tid")){
+					this.fTid = parent.document.getElementById("matrix_form_tid").value;
+				}	
+				this.queryListDefId = getUrlParam("queryListDefId");
+				
+				//加载字段信息
+				this.loadFieldInfo();
+				
+				this.keyevent();
+			},
+			updated(){
+				//刷新初始下拉框插件
+            	$(".selectpicker").selectpicker('refresh');	
+			},
+			mounted(){
+						
+			}
+	})
+	</script>
+</body>
+</html>

@@ -1,0 +1,414 @@
+/*涓婚〉鏍峰紡*/
+.container{
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.container .headerDiv{
+    width: 100%;
+    height: 56px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.container .logoDiv{
+    width: 70px;
+    height: 60px;
+    background: #3C91F7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.container .logoDiv img{
+    width: 24px;
+}
+.container .logoDiv p{
+    font-size: 14px;
+    color: #fff;
+    margin: 0;
+    margin-top: 4px;
+}
+.container .headerDiv .sysInforDiv{
+    width: calc(100% - 200px);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+.container .headerDiv .sysInforDiv1{
+    width: calc(100% - 70px);
+}
+.container .headerDiv p.cmpyName{
+    color: #333;
+    font-size: 12px;
+}
+.container .headerDiv p{
+    margin: 0 10px;
+}
+.dropdown-container{
+    position: relative;
+    margin:0 15px 0 25px;
+}
+.dropdown-container .current{
+    cursor: pointer;
+    height: 50px;
+    line-height: 50px;
+}
+.dropdown-container .current span{
+    margin-right: 5px;
+    color: #333;
+}
+.dropdown-container .current::after{
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 6px solid #333;
+}
+.dropdown-container .lang-list{
+    position: absolute;
+    top: 50px;
+    background: #fff;
+    padding: 12px 0;
+    border: 1px solid #ededed;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
+    min-height: 50px;
+    right: -15px;
+    text-align: right;
+    visibility: hidden;
+    z-index: 99999;
+    cursor: pointer;
+}
+
+.dropdown-container:hover .lang-list{
+    visibility: visible;
+}
+.dropdown-container .lang-list ul{
+    margin-bottom: 0;
+}
+.dropdown-container .lang-list ul li a{
+    display: block;
+    text-align: left;
+    padding: 0 15px;
+    line-height: 32px;
+    height: 32px;
+    color: #333;
+    white-space: nowrap;
+}
+.dropdown-container .lang-list ul li a:hover{
+    background: #ecf5ff;
+    color: #66b1ff;
+}
+.product_line{margin-left: 20px;position: absolute;left: 0px;top:8px}
+.product_line .general{padding:0 15px;line-height: 25px;text-align: center;background: #217AE2;color: #FFFFFF;float: left;cursor: pointer;border-radius: 3px;font-size: 12px;margin-top: 6px;}
+.product_line .product_linelist{position: relative;float: left;margin-left: 12px;}
+.product_line .product_linelist span{line-height: 35px;color: #333;cursor: pointer;}
+.product_line .product_linelist ul{position: absolute;left: 0px;top: 35px;z-index: 999;width: 300px;min-height: 100px;max-height: 450px;overflow-y: auto; display: none;background: #fff;border-radius: 5px;padding: 10px; box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);}
+.product_line .product_linelist ul li{padding: 0 10px;line-height: 28px;float: left;text-align: center;color: #999999;margin-right: 5px;cursor: pointer}
+.product_line .product_linelist ul li:hover{background: #217AE2;color: #FFFFFF;border-radius:3px ;}
+.product_line .product_linelist:hover ul{display: block;}
+.container .headerDiv .organization{line-height: 30px;border: 1px solid transparent;color: #333;}
+.container .headerDiv div.btn{
+    display: flex;
+    margin-right: 10px;
+    flex-direction: row;
+}
+.container .headerDiv div.btn p{
+    cursor: pointer;
+}
+.container .headerDiv div.btn p i{
+    font-size: 20px;
+}
+.container .content{
+    width: 100%;
+    height: calc(100% - 56px);
+    display: -webkit-flex;
+    display: flex;
+}
+.container .navDiv{
+    width: auto;
+    /*height: 100%;*/
+}
+.container .navDiv .navPart{
+    position: relative;
+    height: 100%;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+}
+.container .navDiv .navPart .mainNavDiv{
+    position: relative;
+    width: 70px;
+    height: 100%;
+    background: #052444;
+    z-index: 10;
+}
+.container .navDiv .navPart .mainNavDiv .itemDiv{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    position: relative;
+    cursor: pointer;
+}
+.container .navDiv .navPart .mainNavDiv .itemDiv p i{
+    font-size: 16px;
+}
+.container .navDiv .navPart .mainNavDiv .itemDiv p{
+    color: #BCBEC2;
+    font-size: 14px;
+    margin: 0;
+    line-height: 14px;
+    margin-top: 6px;
+}
+.container .navDiv .navPart .mainNavDiv .itemDiv i.stangle{
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 17px;
+    right: -6px;
+    border-left: 6px solid #3C91F7;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    display: none;
+}
+.container .navDiv .navPart .mainNavDiv .choosed{
+    background: #3C91F7;
+}
+.container .navDiv .navPart .mainNavDiv .choosed p{
+    color: #fff;
+}
+.container .navDiv .navPart .mainNavDiv .choosed i.stangle{
+    display: block;
+}
+.container .navDiv .navPart .childNavDiv{
+    width: 130px;
+    height: 100%;
+    overflow-y: auto;
+    background: #0F3978;
+}
+.container .navDiv .navPart .childNavDiv .childNav{
+    width: 100%;
+    padding: 10px 0 10px 0;
+    box-sizing: border-box;
+    display: none;
+}
+.container .navDiv .navPart .childNavDiv .nav_1{
+    display: block;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li{
+    width: 100%;
+    color: #D7D8D9;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li.choosed{
+    background: #0B316A;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navName{
+    width: 100%;
+    padding: 6px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navName:hover{
+    background: #2C4B79;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navName p.name{
+    margin: 3px 0;
+    font-size: 14px;
+    line-height: 1.2;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navName p.arrow{
+    color: #999999;
+    font-size: 18px;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navName p.arrow .fa-angle-up{
+    display: none;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navList{
+    width: 100%;
+    display: none;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navList p{
+    display: flex;
+    align-items: center;
+    line-height: 14px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #bbb;
+    line-height: 18px;
+    padding: 7px 0;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navList p:hover{
+    background: #2C4B79;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navList .chsd{
+    color: #fff;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navList p:before {
+    content: '';
+    background-color: #bbb;
+    margin-top: 6px;
+    width: 3px;
+    height: 3px;
+    border-radius: 100%;
+    margin: 0 5px 0 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navList .chsd:before {
+    background-color: 	#3C91F7;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li .navList p i.fa-circle{
+    font-size: 10px;
+    color: #0F3978;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li.choosed .navName p.name{
+    color: #3C91F7;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li.choosed .navName p.arrow .fa-angle-up{
+    display: block;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li.choosed .navName p.arrow .fa-angle-down{
+    display: none;
+}
+.container .navDiv .navPart .childNavDiv .childNav ul li.choosed .navList p.chsd i.fa-circle{
+    color: #3C91F7;
+}
+.container .content .contentDiv{
+    /*flex: 1;
+    display: flex;
+    height: calc(100vh - 56px);
+    flex-direction: column;
+    padding: 0;
+    background: #f2f2f2;*/
+
+
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background: #f2f2f2;
+}
+.container .content .contentIfmDiv{
+    flex: 1;
+    background: #F5F5F5;
+    padding:0 0 32px;
+    box-sizing: border-box;
+}
+.container .content .contentIfmDiv iframe{
+    width: 100%;
+    min-height: calc(100vh - 106px);
+    height: 100%;
+}
+/*搴曢儴淇℃伅鏍�*/
+.container .content .footerDiv{
+    width: 100%;
+    height: 56px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.container .content .footerDiv p{
+    font-size: 12px;
+    color: #898888;
+    line-height: 16px;
+}
+.sysInforDiv .btn-group-top{
+    margin: 0 18px 0 0;
+    display: flex;
+    align-items: center;
+}
+.sysInforDiv .btn-group-top .info-tips{
+    padding: 0 15px;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    cursor: pointer;
+}
+.sysInforDiv .btn-group-top .info-tips .clock{
+    position: relative;
+}
+
+.sysInforDiv .btn-group-top a i{
+    font-size: 16px;
+}
+.sysInforDiv .btn-group-top .count{
+    position: absolute;
+    top: 12px;
+    right: -13px;
+    padding: 0 5px;
+    font-style: normal;
+    height: 14px;
+    line-height: 14px;
+    border-radius: 10px;
+    background-color: #ff0000;
+    color: #fff;
+    font-size: 12px;
+}
+.sysInforDiv .btn-group-top .info-tips .info-panel{
+    background: #fff;
+    padding: 12px 0;
+    border: 1px solid #ededed;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
+    width: 180px;
+    min-height: 80px;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    visibility: hidden;
+    z-index: 99999;
+}
+.sysInforDiv .btn-group-top .info-tips:hover .info-panel{
+    visibility: visible;
+}
+.sysInforDiv .btn-group-top p{
+    cursor: pointer;
+}
+.sysInforDiv .btn-group-top  .info-panel ul{
+    margin-bottom: 0;
+}
+.sysInforDiv .btn-group-top  .info-panel li a{
+    display: flex;
+    line-height: 36px;
+    padding: 0 12px;
+    justify-content: space-between;
+    color: #333;
+}
+.sysInforDiv .btn-group-top  .info-panel li a:hover{
+    background: #ecf5ff;
+    color: #66b1ff;
+}
+.sysInforDiv .btn-group-top  .info-panel li a span{
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+}
+
+.sysInforDiv .btn-group-top  .info-panel li a em{
+    font-style: normal;
+    color: #ff0000;
+}
+
+.mes-display-field,.mes-notice-type,.mes-notice-url{
+    display: none;
+}

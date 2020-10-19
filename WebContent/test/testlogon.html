@@ -1,0 +1,1227 @@
+
+<!DOCTYPE HTML><html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1,maximum-scale=2.5,user-scalable=yes'><meta name='apple-mobile-web-app-capable' content='yes'><meta name='apple-mobile-web-app-status-bar-style' content='black'><SCRIPT>var webContextPath="/moffice";var _JSESSIONID="BE7E0E28BF45518A905260E8553759FE";var webAppAddress="http://192.168.4.87:8080";</SCRIPT>
+<SCRIPT>var isomorphicDir="/moffice/matrix/resource/isomorphic/";</SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/system/modules/ISC_Core41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/system/modules/ISC_Foundation41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/system/modules/ISC_Containers41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/system/modules/ISC_Grids41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/system/modules/ISC_Forms41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/system/modules/ISC_DataBinding41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/system/modules/ISC_RichTextEditor41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/matrixSmartClient41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/matrix41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/date41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/common_property41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/formcatalog41.657.js"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/skins/Enterprise/load_skin41.657.js"></SCRIPT>
+<link rel="stylesheet" href="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/skins/Enterprise/matrix_runtime41.657.css" type="text/css"/>
+<link rel="stylesheet" href="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/skins/Enterprise/skin_styles41.657.css" type="text/css"/>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/locales/frameworkMessages_zh_CN41.657.properties"></SCRIPT>
+<SCRIPT SRC="http://192.168.4.87:8080/moffice/matrix/resource/isomorphic/locales/matrixMessages_zh_CN41.657.properties"></SCRIPT>
+
+<script type="text/javascript" src="office/resources/ckeditor/ckeditor.js"></script><script type="text/javascript" src="office/resources/ckfinder/ckfinder.js"></script>
+<script type="text/javascript" src="js/office.js"></script> <script src="http://192.168.4.87:8080/moffice/resource/html5/js/jquery.min.js"></script><link href='http://192.168.4.87:8080/moffice/resource/css/default.custom.css' rel='stylesheet' type="text/css"></link>
+<SCRIPT SRC='http://192.168.4.87:8080/moffice/resource/date/laydate.js'></SCRIPT>
+<SCRIPT SRC='http://192.168.4.87:8080/moffice/resource/html5/js/jquery.min.js'></SCRIPT>
+<SCRIPT SRC='http://192.168.4.87:8080/moffice/resource/html5/js/layer.min.js'></SCRIPT>
+<link href='http://192.168.4.87:8080/moffice/resource/html5/css/font-awesome.min.css' rel="stylesheet"></link>
+<style>
+
+.arrow_2_l {
+  display: inline-block;
+  vertical-align: middle;
+  height: 16px;
+  width: 16px;
+  line-height: 16px;
+  background: url(image/control_icon.png) no-repeat;
+  background-position: -80px 0;
+  cursor:pointer;
+}
+.arrow_2_r {
+  display: inline-block;
+  vertical-align: middle;
+  height: 16px;
+  width: 16px;
+  line-height: 16px;
+  background: url(image/control_icon.png) no-repeat;
+  background-position: -96px 0;
+  cursor:pointer;
+}
+.toolStrip{
+border:none;
+  background-image: none;
+background-color:rgb(250,250,250);
+}
+
+</style>
+<script>
+
+
+    function replace(){
+var viewFlag = Matrix.getFormItemValue('viewFlag');
+
+     
+//var element = CKEDITOR.dom.element.createFromHtml( '<img  src='+webContextPath+'\'/images/original_5hXj_3cef0000dd9d125e.jpg\' style=\'height:539px; width:719px\' />' );
+//CKEDITOR.instances.richText001.insertElement( element );
+//CKEDITOR.instances.richText001.setData("<p>hjkjkjk</p>");
+//CKEDITOR.on('instanceReady', function (ev) {  editor = ev.editor; editor.setReadOnly(true); editor.execCommand( 'toolbarCollapse');  editor.setReadOnly(true); 
+//document.getElementById("cke_1_bottom").style.display="none";
+//});
+ var editorObj = document.getElementById('ckeditor');
+ if(editorObj){
+	var h = editorObj.offsetHeight;
+	if(viewFlag=="true"){
+  	CKEDITOR.replace('richText001',{ height:h,"filebrowserImageUploadUrl": webContextPath+"/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images", allowedContent: true 
+    });
+CKEDITOR.on('instanceReady', function (ev) {  editor = ev.editor; 
+editor.setReadOnly(true); 
+editor.execCommand( 'toolbarCollapse'); 
+document.getElementById('cke_richText001').style.height="100%"; 
+document.getElementById('cke_1_contents').style.height=h+"px";
+document.getElementById("cke_1_top").style.display="none";
+document.getElementById("cke_1_bottom").style.display="none";
+});
+}else{
+  
+    
+        CKEDITOR.replace('richText001',{ height:h-47,"filebrowserImageUploadUrl": webContextPath+"/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images", allowedContent: true 
+    });
+CKEDITOR.on('instanceReady', function (ev) {  editor = ev.editor; 
+
+document.getElementById('cke_richText001').style.height="100%";
+document.getElementById('cke_1_contents').style.height=h+"px";
+document.getElementById("cke_1_top").style.display="";
+document.getElementById("cke_1_bottom").style.display="none";
+
+});
+}
+ }
+
+
+
+	
+    }
+
+
+function isBlank(str){     //字符串是否为空
+if(typeof(str)!="undefined"){
+if(str=="null"||str==""){
+return true;
+}
+for(i=0;i<str.length;i++){
+if(str.substring(i,i+1)!=" "){
+return false;
+break;
+}
+}
+}
+return true;
+
+}
+//校验期限值是不是为正整数
+
+function checkRate()  
+{  
+     var re = /^[0-9]+(.[0-9]{2})?$/;
+     var type = MdateType.getValue();//期限类型
+     var inputValue = Matrix.getFormItemValue('inputLine');//期限值
+if(type=='1'||type=='2'||type=='3'){
+     if(isBlank(inputValue)){
+Matrix.setFormItemValue('inputLine','');
+     return true;
+}
+else{
+if(!inputValue == 0.00){
+if (!re.test(inputValue))
+{
+   return false;
+}
+}
+}
+}
+return true;
+}  
+
+ //监控
+function monitor(){  
+      
+          var pdid = document.getElementById('pdid').value;
+    var url = webContextPath+"/form/admin/process/processDiagram.jsp?flowDid="+pdid;
+var name = "monitorWin"; //网页名称，可为空;
+var iWidth = 900; //弹出窗口的宽度;
+var iHeight = 500; //弹出窗口的高度;
+//window.screen.height获得屏幕的高，window.screen.width获得屏幕的宽
+var iTop = (window.screen.height-30-iHeight)/2; //获得窗口的垂直位置;
+var iLeft = (window.screen.width-10-iWidth)/2; //获得窗口的水平位置;
+window.open(url,name,'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+   //window.open(webContextPath+"/form/admin/process/processDiagram.jsp?flowDid="+pdid,"_blank");
+  
+} 
+
+ /*   function onAddFileWinClose(data){
+       
+        //显示附件区域
+       document.getElementById('td004').style.display="";
+          document.getElementById('tr004').style.display="";
+    
+    }
+    function onAddRelatedDocumentWinClose(data){
+	if(data.data=='true'){
+        //显示附件区域
+       document.getElementById('td004').style.display="";
+          document.getElementById('tr004').style.display="";
+   } 
+}
+*/
+   //接受文档中全部痕迹
+	function WebAcceptAllRevisions(){
+	  WebOffice.WebObject.ActiveDocument.Application.ActiveDocument.AcceptAllRevisions();
+	  var mCount = WebOffice.WebObject.ActiveDocument.Application.ActiveDocument.Revisions.Count;
+	  if(mCount>0){
+	    return false;
+	  }else{
+	    return true;
+	  }
+	}
+
+	function redrawForm(){
+		Mform0.redraw();
+		isc.Page.setEvent(isc.EH.RESIZE,function(){
+				isc.Page.setEvent(isc.EH.RESIZE,"Mform0.redraw()",null);
+		},isc.Page.FIRE_ONCE);
+	}
+	function setInitFormStyle(){
+ document.getElementById('trmsg').style.display='none'; 
+				Mform0.redraw();
+       		 //var tempDateType = Matrix.getFormItemValue('tempDateType');
+					//var dateType = MdateType.getValue();
+					///if(dateType==null || dateType==''||dateType=='null'||dateType=='undefined'){
+					//	Matrix.setFormItemValue('dateType',dateType);
+					//}
+            //设置期限类型
+           setDateValue();
+        	  //初始表单时给期限值复制
+					var tempDateValue = Matrix.getFormItemValue('tempDateValue');
+					if(1=='0'){
+						 Matrix.setFormItemValue('isInitLoad','1');
+					}
+					var isInitLoad =  Matrix.getFormItemValue('isInitLoad');
+					var tempDateType = Matrix.getFormItemValue('tempDateType');
+				   if(tempDateValue!=null &&tempDateValue.length>0 && isInitLoad=='0'){//初始加载时自定义期限类型的时候
+						if(tempDateType=='4'){
+							Matrix.setFormItemValue('inputDate',new Date(tempDateValue));
+						}else{
+							Matrix.setFormItemValue('inputDate',tempDateValue);
+						}
+					}
+
+              var formId =Matrix.getFormItemValue('formId');
+              if(formId=='CkeditorList' || formId=='WordPage'||formId=='EditCkEditor'){
+                document.getElementById('ContainerPanel001_div').style.width="100%";
+                document.getElementById('ContainerPanel001_div').style.overflow="hidden";
+              }
+
+         document.getElementById('fileUpload001').style.display='none';
+         var isImgNews = Matrix.getFormItemValue('isImgNews');//是图片新闻
+          if(isImgNews=='true'){
+         document.getElementById('fileUpload001').style.display=''; 
+          }else{
+         document.getElementById('fileUpload001').style.display='none';  
+          }
+         //设置意见组件的样式
+          setCommentStyle();
+         setStyle();
+          //setDateValue();
+		//提醒时限初始设置
+		//document.getElementById('inputLine_div').style.display='';
+		//document.getElementById('months').style.display='';
+		//document.getElementById('days').style.display='none';
+		//document.getElementById('hours').style.display='none';
+		//document.getElementById('inputDate_div').style.display='none';
+         //document.getElementById('td004').style.display="none";
+       //   document.getElementById('tr004').style.display="none";
+		//查看按钮设置
+		document.getElementById('button002_div').style.display='none';
+		//编辑流程按钮设置
+		//document.getElementById('button005_div').style.display='none';
+		//--以下组件默认显示 start-------------------------------------
+		//发布部门标签
+		document.getElementById('label053').style.display='';
+		//发布部门输入框
+		document.getElementById('syninput003_div').style.display='';
+		//发布人员标签
+		//document.getElementById('label006').style.display='';
+		//发布人员输入框
+		//document.getElementById('input002_div').style.display='';
+		//显示发布人
+		document.getElementById('checkBox001_div').style.display='';
+		//状态
+		//document.getElementById('label015').style.display='';
+		//document.getElementById('comboBox001_div').style.display='';
+		//--以上标签默认显示 end---------------------------------------
+		
+		var isNoticeOrNews = Matrix.getFormItemValue("isNoticeOrNews"); //0:other; 1:news; 2:notice
+		if(isNoticeOrNews=='2'){//公告
+			//input 摘要
+			document.getElementById('inputSummary_div').style.display='none';
+			//label 摘要
+			document.getElementById('summary').style.display='none';
+			//input 关键字
+			document.getElementById('inputKey_div').style.display='none';
+			//label 关键字
+			document.getElementById('key').style.display='none';
+			//图片新闻
+			document.getElementById('checkBox004_div').style.display='none';
+			//发布范围
+			document.getElementById('label004').style.display='';
+			document.getElementById('syninput005_div').style.display='';
+			//记录阅读信息
+			document.getElementById('syncheckBox003_div').style.display='';
+			//打印公告
+			document.getElementById('syncheckBox002_div').style.display='';
+
+
+		}else if(isNoticeOrNews=='1'){//新闻
+			//input 摘要
+			document.getElementById('inputSummary_div').style.display='';
+			//label 摘要
+			document.getElementById('summary').style.display='';
+			//input 关键字
+			document.getElementById('inputKey_div').style.display='';
+			//label 关键字
+			document.getElementById('key').style.display='';
+			//图片新闻
+			document.getElementById('checkBox004_div').style.display='';
+			//发布范围
+			document.getElementById('label004').style.display='none';
+			document.getElementById('syninput005_div').style.display='none';
+			//记录阅读信息
+			document.getElementById('syncheckBox003_div').style.display='';
+			//打印公告
+			document.getElementById('syncheckBox002_div').style.display='none';
+		}else{
+			//其余情况全部隐藏
+			
+			  document.getElementById('td021').style.display='none';
+			  document.getElementById('td022').style.display='none';
+			  document.getElementById('td024').style.display='none';
+			  document.getElementById('td025').style.display='none';
+			  document.getElementById('td027').style.display='none';
+			  document.getElementById('td028').style.display='none';
+			
+			  document.getElementById('td030').style.display='none';
+			
+			  document.getElementById('tdisShowImage').style.display='none';
+			 
+               document.getElementById('tr009').style.display='none';
+		}
+		var initLoad = Matrix.getFormItemValue("isInitLoad");//是否是初始加载
+		var fromportal = Matrix.getFormItemValue('fromportal');///来自门户栏目上发起的协同
+		if(initLoad=='0' && fromportal=='1'){//初始加载 并且 不是 从门户发起的协同  可以修改
+			var dateType = MdateType.getValue();
+			if(dateType=='4'){
+				MinputDate.setDisabled(false);
+				Minput.setDisabled(true);
+			}else{
+				MinputDate.setDisabled(true);
+				Minput.setDisabled(false);
+			}
+			MdateType.setDisabled(false);
+			
+		}else{
+			//其余情况，都不可以修改流程期限
+			MinputDate.setDisabled(true);
+			Minput.setDisabled(true);
+			MdateType.setDisabled(true);
+		}
+		
+	}
+      
+      function getMflowBizId(){
+        var mFlowBizId="";
+        var from=Matrix.getFormItemValue('from');
+        if(from=='resend'){
+            mFlowBizId =  Matrix.getFormItemValue('mFlowBizId2');
+        }else{
+            mFlowBizId =  Matrix.getFormItemValue('mFlowBizId');
+            return mFlowBizId;
+        }
+     }
+     //设置意见区域的样式
+     function setCommentStyle(){
+      document.getElementById('fuyan').style.display='none';
+      document.getElementById('addfuyan').style.display=''; 
+      document.getElementById('subForm').style.width='97%'; 
+    }
+    
+     function setPtid(value){
+            Matrix.setFormItemValue('ptid',value);
+        }
+        function hideDesc(){
+      document.getElementById('fuyan').style.display='none';
+      document.getElementById('addfuyan').style.display=''; 
+      document.getElementById('subForm').style.width='97%'; 
+
+           // document.getElementById('showTd').style.display="none";
+           // document.getElementById('hideTd').style.display="";
+
+          //  document.getElementById('showTd').style.width="0px";
+          //  document.getElementById('hideTd').style.width="5%";
+           // document.getElementById('incFormTd').style.width="95%";
+          //  document.getElementById('table005').style.width="0px";
+           // document.getElementById('table004').style.width="100%";
+       //document.getElementById(activeTd).style.height="100%";
+            
+           
+            
+        }
+
+        function showDesc(){
+      document.getElementById('fuyan').style.display='';
+      document.getElementById('addfuyan').style.display='none'; 
+      document.getElementById('subForm').style.width='85%';
+      MinputTextArea.redraw();
+
+            //document.getElementById('showTd').style.display="";
+           //document.getElementById('hideTd').style.display="none";
+           // document.getElementById('showTd').style.width="15%";
+           // document.getElementById('hideTd').style.width="0px";
+           // document.getElementById('incFormTd').style.width="85%";
+        // document.getElementById(activeTd).style.height="100%";
+          //    document.getElementById('table004').style.width="0px";
+         //   document.getElementById('table005').style.width="100%";
+        
+        }
+
+        //初试事件
+        function setStyle(){
+        //setFormStyle();//设置附言的样式
+              //document.getElementById("mImageBizId").value=document.getElementById('mFlowBizId').value;
+	
+              td0fuyan.onclick=function(){hideDesc();};
+        table007.onclick=function(){showDesc();};
+             //设置标题
+             var formFlowTitle = document.getElementById('formFlowTitle').value;
+             if(typeof(formFlowTitle)!='undefined' && formFlowTitle!=null && formFlowTitle !=""){
+             Matrix.setFormItemValue('p_title',formFlowTitle);
+             Mp_title.setCanEdit(false);
+            document.getElementById('button002_div').style.display="none";
+             }else{
+             var title = Matrix.getFormItemValue('oldtitle');
+            
+             if(title !=null&&title .length>0&&title !='undefined'){
+                
+              
+                  document.getElementById('button002_div').style.display="";
+                 //Mbutton002.setDisabled(false);   
+             }else{
+ var title2 = Matrix.getFormItemValue('titleName');
+if(title2!=""&&title2!=null&&title2!='undefined'){
+   var date = new Date();
+                 var formatDate = date .format("yyyy-MM-dd HH:mm"); 
+                 var curUserName = Matrix.getFormItemValue('curUserName');
+                 var newName = title2 +"("+curUserName+"  "+formatDate +")";
+                 Matrix.setFormItemValue('p_title',newName);
+                document.getElementById('button002_div').style.display="none";
+}
+                //Mbutton002.setDisabled(true);
+             }
+
+             }
+
+
+            //document.getElementById('inputDate_div').style.display='none';//日期框
+           // document.getElementById('months').style.display='';
+            //document.getElementById('days').style.display='none';
+           // document.getElementById('hours').style.display='none';
+           // document.getElementById('inputLine_div').style.display='';
+
+            //document.getElementById('table005').style.width="0px";
+            //document.getElementById('table004').style.width="100%";
+             //document.getElementById('showTd').style.display="none";
+            //document.getElementById('hideTd').style.display="";
+
+            //document.getElementById('showTd').style.width="0px";
+            //document.getElementById('hideTd').style.width="5%";
+            //document.getElementById('incFormTd').style.width="95%";
+            var isContainForm = Matrix.getFormItemValue('isContainForm');
+ var formId = Matrix.getFormItemValue('formId');
+if(formId=='WordPage'||formId=='CkeditorList'){
+
+}else{
+document.getElementById('ContainerPanel010_div').style.overflow="auto";
+document.getElementById('ContainerPanel001_div').style.width="80%";
+document.getElementById('ContainerPanel001_div').style.height="auto";
+
+}
+            if(isContainForm=='1'){
+               
+                if(formId!=null&&formId!=""){
+                    debugger;
+                     //document.getElementById(' innerHtml001').innerHTML="<script src='office/document/js/iWebOffice2015.js'/>";
+                    //document.getElementById('IncludeForm001').formDid=formId+".rform";
+                    Matrix.setFormItemValue('formId',formId);
+		    
+                    //MIncludeForm001.formDid=formId;  
+                }
+            }else{
+                debugger;
+                var wordType =parseInt(Matrix.getFormItemValue('wordType'));
+                if(wordType!='NaN'){
+                switch(wordType){
+                    case 1://word  隐藏工具栏上的正文按钮
+                        
+                         //document.getElementById('IncludeForm001').formDid="WordPage.rform";
+                        Matrix.setFormItemValue('formId','WordPage');
+                        
+                        //加载金格控件
+                        break;
+                    case 2://html 显示工具栏上的正文按钮
+                       
+
+                                  //document.getElementById('IncludeForm001').formDid="CkeditorList.rform";
+
+                        Matrix.setFormItemValue('formId','CkeditorList');
+                        //加载html页面
+                        break;
+                }
+                }//else{
+                 //    Matrix.setFormItemValue('formId','CkeditorList');
+                
+               // }    
+               
+            }
+	    document.getElementById('isc_A').style.display="none";//正文按钮隐藏
+	   document.getElementById('button005_div').style.display="none";
+       var templateUuid=Matrix.getFormItemValue('templateUuid');
+       var isSupportFlow=Matrix.getFormItemValue('isSupportFlow');
+       if(templateUuid==""||templateUuid==null){
+	  
+           Matrix.showWindow('Dialog0'); 
+       }//调用模板窗口
+       var baseCode = Matrix.getFormItemValue("baseCode");
+       var flag = false;
+       if(baseCode!=null && baseCode.contains("33")){
+	  flag = true;
+       }
+       if(templateUuid!=""&&templateUuid!=null&&isSupportFlow==1){ //模板已选且支持自由流，编辑流程按钮可见
+           document.getElementById('button005_div').style.display="block";
+          
+       }
+      }
+        //调用模板返回
+        function onDialog0Close(data){
+var fromportal = Matrix.getFormItemValue('fromportal');
+          if(data!=null&&data!='undefined'){
+      MmimgButton001.setDisabled(false);
+       MtoolBarItem001.setDisabled(false);
+            var uuid = data.uuid;//模板主键
+            var formDid= data.formId;//模板类型
+            var name = data.name;//模板名称
+                     var pdid = data.pdid;//流程定义编码
+            var date = new Date();
+            var formatDate = date .format("yyyy-MM-dd HH:mm"); 
+            var curUserName = Matrix.getFormItemValue('curUserName');
+            var newName = name+"("+curUserName+"  "+formatDate +")";
+            Matrix.setFormItemValue('p_title',newName);
+             
+            Matrix.setFormItemValue('templateUuid',uuid);
+            //Matrix.setFormItemValue('templateType',type);
+            Matrix.setFormItemValue('inputDoc',name);
+            var isInitLoad = Matrix.getFormItemValue('isInitLoad');
+        
+            var type=Matrix.getFormItemValue('type');
+
+            var newData={};
+            newData["plateId"] = uuid;
+            newData["pdid"] = pdid;
+            newData["matrix_user_command"] = 'getStartAdidAndAuthId';
+            var url = webContextPath+'/matrix.rform?matrix_send_request=true&matrix_form_tid='+document.getElementById("matrix_form_tid").value;
+            Matrix.sendRequest(url,newData,function(data){
+
+              if(data!=null&&data.data!=null){
+                if("error1"==data.data){
+                  Matrix.warn("该模板的所在的流程版本未发布或者不存在！");
+                  return false;
+		            }
+               var returnObj = isc.JSON.decode(data.data);
+               var adid = returnObj.adid;
+               var authId = returnObj.authId;
+               var baseCode = returnObj.baseCode;
+               var formId = returnObj.formId;
+               var sysType = Matrix.getFormItemValue('sysType');
+               window.location.href=webContextPath+"/CreateSynProcess.rform?formId="+formId+"&isInitLoad=1&mBizId="+uuid+"&pdid="+pdid+"&&type="+type+"&adid="+adid+"&authId="+authId+"&fromportal="+fromportal+"&baseCode="+baseCode+"&sysType="+sysType;
+			      }
+      			});
+          }else{
+	
+        MmimgButton001.setDisabled(true);
+        MtoolBarItem001.setDisabled(true);
+     }
+        
+        }
+        //流程期限 onchange事件
+        function setDateValue(){
+           var dateType = MdateType._value; 
+				if(dateType==null ||dateType==''||dateType=='null'){
+					dateType=3;
+				}
+				var type = parseInt(dateType);
+           switch(type){
+                case 1:
+                    document.getElementById('inputDate_div').style.display='none';//日期框
+                    document.getElementById('months').style.display='none';
+                    document.getElementById('days').style.display='none';
+                    document.getElementById('hours').style.display='';
+                    document.getElementById('inputLine_div').style.display='';
+							 MinputDate.setValue(new Date());
+                   break;
+                case 2:
+                    document.getElementById('inputDate_div').style.display='none';//日期框
+                    document.getElementById('months').style.display='none';
+                    document.getElementById('days').style.display='';
+                    document.getElementById('hours').style.display='none';
+                    document.getElementById('inputLine_div').style.display='';
+							MinputDate.setValue(new Date());
+                   break;
+                case 3:
+                    document.getElementById('inputDate_div').style.display='none';//日期框
+                    document.getElementById('months').style.display='';
+                    document.getElementById('days').style.display='none';
+                    document.getElementById('hours').style.display='none';
+                    document.getElementById('inputLine_div').style.display='';
+							MinputDate.setValue(new Date());
+                   break;
+                 case 4:
+                    document.getElementById('inputDate_div').style.display='';//日期框
+                    document.getElementById('months').style.display='none';
+                    document.getElementById('days').style.display='none';
+                    document.getElementById('hours').style.display='none';
+                    document.getElementById('inputLine_div').style.display='none';
+                   break;
+           }
+
+        }
+        //保存文档
+        function saveDocument(){
+				Matrix.showMask();
+                  var flag = true;
+          var type = Matrix.getFormItemValue('type');//判断是否是文档类型   1   公文   2  文档   3 协同
+               var formId = Matrix.getFormItemValue('formId');
+                  if(formId=='CkeditorList'||formId=='EditCkEditor'){
+            var content = CKEDITOR.instances.richText001.getData();
+             Matrix.setFormItemValue('ckeditorContent',content);
+           }
+           var mFlowBizId = Matrix.getFormItemValue('mFlowBizId');
+           var isInitLoad = Matrix.getFormItemValue('isInitLoad');
+            var type = Matrix.getFormItemValue('type'); //1 公文
+            var piid = Matrix.getFormItemValue('piid');
+                if(formId=='WordPage'){
+                    var subType = Matrix.getFormItemValue('subType');//1 发文 2  收文  3 签报
+                    var uuid = Matrix.getFormItemValue('uuid');
+                    WebOffice.Uuid = uuid;
+                    WebOffice.Piid = piid;
+                    WebOffice.Type = type;
+                    WebOffice.SubType = subType;
+                    WebOffice.IsInitLoad =isInitLoad; 
+                    WebOffice.FlowBizId=mFlowBizId;
+                flag = WebOffice.WebSave();
+                }else if(formId=="OfficeEditPage"){//文档
+              
+                    WebOffice.RecordID=mFlowBizId;
+              WebOffice.IsInitLoad =isInitLoad; 
+                    WebOffice.FlowBizId=mFlowBizId;
+              var archiveType = Matrix.getFormItemValue('archiveType');
+             WebOffice.Type = archiveType ;
+           // WebOffice.ArchiveType = archiveType;
+             // WebOffice.WebUrl="http://localhost:"+port+"/"+webContextPath+"/ArchiveWordServlet";
+             flag = WebOffice.WebSave();
+          
+        }
+     
+           return flag; //  true/false
+
+        }
+    //待发
+/*
+    function waitSend(){
+var fromportal = Matrix.getFormItemValue('fromportal');
+
+             MtoolBarItem001.disable();
+             Matrix.showMask();
+             if(!Mform0.validate()){
+              MtoolBarItem001.enable();
+              Matrix.hideMask();
+              return false;
+              }
+        var flag = saveDocument();
+        if(flag){
+            var newData = Matrix.formToObject("form0");
+            newData["matrix_user_command"]='save';
+            var url = webContextPath+'/matrix.rform?matrix_send_request=true&matrix_form_tid='+document.getElementById("matrix_form_tid").value;
+            Matrix.sendRequest(url,newData,function(data){
+                           if("true"==data.data){
+               Matrix.say("保存成功");  
+var isNoticeOrNews = Matrix.getFormItemValue("isNoticeOrNews"); //0:other; 1:news; 2:notice
+           if(isNoticeOrNews=="1" ||isNoticeOrNews=="2")
+                           window.opener.Matrix.refreshDataGridData('DataGrid001'); 
+if(fromportal!='1')
+  window.opener.Matrix.refreshDataGridData('DataGrid002');
+                         setTimeout("window.close()",1000);
+                          }else{
+                           Matrix.say("保存失败");
+                           MtoolBarItem001.enable();
+                           Matrix.hideMask();
+                           return false;
+                          }
+            });
+        }
+    }
+*/
+    //取 ckeditor的内容
+    function getContent(){
+       var content = CKEDITOR.instances.richText001.getData();
+       Matrix.setFormItemValue('ckeditorContent',content);
+    }
+    //发送
+
+
+ function submitFormJS(){
+			//校验表单联合校验
+      var formId='form0';
+		var validInfo = document.getElementById("m_isFormValidate");
+		if(validInfo){ //该表单有联合校验
+			//转换表单中表格数			
+			Matrix.convertDataGridDataOfForm(formId);
+			var newData = Matrix.formToObject(formId);
+			var url = webContextPath+'/matrix.rform?m_isFormValidate=true&validateFlag=true';
+			Matrix.sendRequest(url,newData,function(data){
+		   	if("true"==data.data){
+                            send();  
+				
+		 	    return true;
+		   	}else{
+            
+				Matrix.hideMask();
+				Matrix.say(data.data);
+				return false;
+		   	}	   
+			});
+
+                }else{
+                        send();  
+			return true;
+                }
+   } 
+
+function waitSend(){
+        var formId = Matrix.getFormItemValue('formId');
+        if(formId=='CkeditorList'||formId==''||formId=='EditCkEditor'){
+            getContent();
+        }
+        var flag = saveDocument();
+        return flag;
+}
+function send(){
+             var _mgr=Matrix.convertDataGridDataOfForm('form0');
+             if(!Mform0.validate()){
+		      MmimgButton001.enable();
+		      Matrix.hideMask();
+		      return false;
+              }
+	
+		MmimgButton001.disable();
+		MmimgButton001.setOpacity("9");
+		document.getElementById("trmsg").style.display="";
+             Matrix.showMask();
+        var cvalue = McheckBox004.getValue(); 
+
+        var pdid = Matrix.getFormItemValue('pdid');
+        var piid = Matrix.getFormItemValue('piid');
+        var ptid = Matrix.getFormItemValue('ptid');
+        var adid = Matrix.getFormItemValue('adid');
+        var aiid = Matrix.getFormItemValue('aiid');
+        var taskId = Matrix.getFormItemValue('taskId');
+　　　 　var newData = Matrix.formToObject("form0");
+	var url = webContextPath+'/matrix.rform?matrix_send_request=true&matrix_user_command=isSelectTransition&matrix_form_tid='+document.getElementById("matrix_form_tid").value;
+	Matrix.sendRequest(url,newData,function(data)
+	{
+		if("true"==data.data){   //选步骤弹出
+		    showSelectTransitionWinH5();
+	//	      Matrix.showWindow('SelectTransitionWin');
+		       return false;
+		}else if("invalidTransition"==data.data){
+			Matrix.warn("没有满足条件的流转分支，请与管理员联系!");
+			  MmimgButton001.setOpacity("100");
+			   MmimgButton001.enable();
+			document.getElementById("trmsg").style.display="none";
+                          Matrix.hideMask();
+			return false;
+		}else if("invalidOwners"==data.data){
+			Matrix.warn("没有满足条件的执行人，请与管理员联系!");
+			  MmimgButton001.setOpacity("100");
+			 MmimgButton001.enable();
+			 document.getElementById("trmsg").style.display="none";
+                          Matrix.hideMask();
+			return false;
+       }else if("false"==data.data){
+			//是图片新闻
+		          if(cvalue!=null&&cvalue!=''&& cvalue!='undefined'){
+		              var f=document.getElementById("fileUpload001").value;
+			           if(f==""){ 
+		                Matrix.warn("请上传图片");
+				  MmimgButton001.enable();
+				  Matrix.hideMask();
+		                return false;
+		             }else{
+			            if(!/\.(jpg)$/.test(f)){
+			                Matrix.warn("只支持jpg格式图片文件!");
+								   MmimgButton001.enable();
+								   Matrix.hideMask();
+			                return false;
+			             }
+			           }
+		          }
+		        var formId = Matrix.getFormItemValue('formId');
+		        if(formId=='CkeditorList'||formId==''||formId=='EditCkEditor'){
+		            getContent();
+		        }
+
+			var flag = saveDocument();
+			setTimeout("MMSbutton0012.click();",500);
+			
+		}
+
+		
+	});	
+
+        
+}
+    function closeWindow(){
+        window.close();
+    }
+        function showDocumentWindow(){
+            Matrix.showWindow('WordDialog');   
+        }
+    var data = null;
+        function checkTitle(){ 
+            //showDocumentWindow();
+      var uuid = Matrix.getFormItemValue('templateUuid');
+      var flowNodeId = Matrix.getFormItemValue('flowNodeId');
+      var type = Matrix.getFormItemValue('type');
+        var flowBizId = Matrix.getFormItemValue('mFlowBizId');
+      var isInitLoad = Matrix.getFormItemValue('isInitLoad');
+      data = Matrix.formToObject('form0');
+      var forwardUrl=webContextPath+'/WordEditPage.rform?uuid='+uuid+'&flowNodeId='+flowNodeId+'&type='+type+'&flowBizId='+flowBizId+'&isInitLoad='+isInitLoad+"&isNew=true";
+      openCtpWindow({'url':forwardUrl});
+        }
+
+//选步骤选人回调
+/*
+function onSelectTransitionWinClose(data){
+if(data!=null){
+   saveDocument();
+var transitions = data.transitions;//流转
+var potentialOwners = data.potentialOwners;//执行人
+Matrix.setFormItemValue('transitions',transitions);
+Matrix.setFormItemValue('potentialOwners',potentialOwners);
+var data = Matrix.formToObject("form0");
+data["matrix_user_command"]='startProcess';
+var url2 = webContextPath+'/matrix.rform?matrix_send_request=true&matrix_form_tid='+document.getElementById("matrix_form_tid").value;
+Matrix.sendRequest(url2,data,function(data){
+  if(data!=null && data.data!=''){
+                 if("error1"==data.data){
+MmimgButton001.setOpacity("100");
+document.getElementById("trmsg").style.display="none";
+isc.warn("该模板的所在的流程版本未发布或者不存在");
+MmimgButton001.enable();
+Matrix.hideMask();
+return false;
+}
+                    if("true"==data.data){
+   if(cvalue!=''){
+ document.getElementById("form0").action="newsImage/newsImage_uploadImage.action";  
+     
+        document.getElementById("form0").submit();  
+}
+document.getElementById("trmsg").style.display="none";
+Matrix.say("发送成功");
+
+setTimeout("parent.window.close()",1000);
+}if("false"==data.data){
+MmimgButton001.setOpacity("100");
+document.getElementById("trmsg").style.display="none";
+Matrix.say("发送失败");
+  MmimgButton001.enable();
+                                     Matrix.hideMask();
+                                     return false; 
+}
+}else{
+MmimgButton001.setOpacity("100");
+document.getElementById("trmsg").style.display="none";
+Matrix.say("发送失败");
+  MmimgButton001.enable();
+                                     Matrix.hideMask();
+                                     return false; 
+}
+});
+}
+}
+*/
+function onselectTransitionWinClose(data){
+  if(data == null){  //点取消
+      MmimgButton001.setOpacity("100");
+		document.getElementById("trmsg").style.display="none";
+      MmimgButton001.enable();
+       MtoolBarItem001.enable();
+     return;
+  }
+
+  if(data!=null){
+
+     saveDocument();
+
+      Matrix.setFormItemValue('transitionAndOwner',JSON.stringify(data));
+      Matrix.setFormItemValue('isSelectTransition','');
+      MMSbutton0012.click();
+      Matrix.showMask();
+	}
+}
+
+function printSubFrom(){
+  var formId = Matrix.getFormItemValue("formId");
+  if(formId!=null && formId!=""){
+    if(formId=='CkeditorList'){      //html编辑器
+    var obj = CKEDITOR.instances.richText001.getData();
+    var docStr = obj;
+    var newWindow=window.open("打印窗口","_blank");//打印窗口要换成页面的url
+       newWindow.document.write(docStr);
+      newWindow.document.close();
+       newWindow.print();
+     newWindow.close();
+    }
+    else if(formId=="WordPage"){  //word or excel
+     WebAcceptAllRevisions();//接受文档中全部痕迹
+           // if(!WebOffice.IsInPrintPreview()){//判断不处于打印状态
+    WebOffice.PrintEnabled(true);
+    WebOffice.WebOpenPrint();
+
+                WebOffice.PrintPreview();
+            //    StatusMsg('打印状态');
+           // }
+    }
+    else{
+      var bdhtml = window.document.body.innerHTML;
+      document.getElementById("form0").style.overflow="hidden";
+
+      document.getElementById("tr002").style.display="none";
+      document.getElementById("tr003").style.display="none";
+      document.getElementById("fuyan").style.display="none";
+      document.getElementById("addfuyan").style.display="none";
+
+      window.print();
+      window.document.body.innerHTML=bdhtml;
+    }
+
+
+
+  }
+  else{
+	  alert("出错了");
+  }
+}
+
+//打印  
+function printInfo(){  
+      
+          var mFlowBizId = document.getElementById('mFlowBizId').value;
+    var url = document.getElementById('formId').value;
+if(url!=""&&url!=null){
+   // var win = window.open(url+".rform?mFlowBizId="+mFlowBizId+"&matrix_view_flag=true","_blank");
+    //win.print();
+   window.open("print/print.jsp?fdid="+url+".rform&mFlowBizId="+mFlowBizId+"&matrix_view_flag=true","_blank");
+   }
+} 
+//IE时打印设置
+    function pagesetupIE() {
+         var hkey_root,hkey_path,hkey_key;
+           hkey_root="HKEY_CURRENT_USER";
+         hkey_path="\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+        try {
+            var RegWsh = new ActiveXObject("WScript.Shell")
+            hkey_key = "header"
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+            hkey_key = "footer"
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+            
+             if (isc.Browser.isIE9) {
+                  hkey_key = "margin_left";
+                    //设置左页边距
+                    //RegWsh.RegWrite(hkey_root +  hkey_path + hkey_key, "0");
+
+                  RegWsh.RegWrite(hkey_root +  hkey_path + hkey_key, "0.1");
+                  hkey_key = "margin_right";
+                    //设置右页边距
+                    RegWsh.RegWrite(hkey_root +  hkey_path + hkey_key, "0");
+                  hkey_key = "margin_top";
+                    //设置上页边距
+                    RegWsh.RegWrite(hkey_root +  hkey_path + hkey_key, "0.405");
+                  hkey_key = "margin_bottom";
+                    //设置下页边距   
+                    RegWsh.RegWrite(hkey_root +  hkey_path + hkey_key, "0.405");
+                }
+                else {
+                  hkey_key = "margin_left";
+                    //设置左页边距
+                    RegWsh.RegWrite(hkey_root +  hkey_path + hkey_key, "0.25");
+                  hkey_key = "margin_right";
+                    //设置右页边距
+                    RegWsh.RegWrite(hkey_root +  hkey_path + hkey_key, "0.25");
+                  hkey_key = "margin_top";
+                    //设置上页边距
+                    RegWsh.RegWrite(hkey_root +  hkey_path + hkey_key, "0.10");
+                  hkey_key = "margin_bottom";
+                    //设置下页边距   
+                    RegWsh.RegWrite(hkey_root +  hkey_path + hkey_key, "0.10");
+                }
+            
+            
+        } catch (e) {}
+    }
+    function pagesetup_default() {
+        try {
+            var RegWsh = new ActiveXObject("WScript.Shell")
+            hkey_key = "header"
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "&w&b页码，&p/&P")
+            hkey_key = "footer"
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "&u&b&d")
+        } catch (e) {
+        }
+    }
+  //弹出选择发布范围
+  function showAuthDialog(){
+        var status = Matrix.getFormItemValue('flowStatus');
+        if(status=='1'){//流程还未发起
+            Matrix.showWindow('area');
+            return true;
+        }else{
+            return false;
+        }  
+    }
+    //发布范围回调
+    function onareaClose(data){
+        if(data!=null&&data!=''){
+            var name = data.allNames;
+            var userId = data.allIds;
+            Matrix.setFormItemValue('pubAreaIds',userId);//发布范围编码
+            Matrix.setFormItemValue('syninput005',name);
+        }
+    }
+    //选择部门关闭窗口
+    function onDepDialogClose(data){
+        if(data!=null){
+            var name = data.text;
+            var id = data.entityId;
+            Matrix.setFormItemValue('pubDepId',id);
+            Matrix.setFormItemValue('syninput003',name);
+        }
+    }
+      function clicked(elementId,subType){
+var newData2 = "{'piid':'"+elementId; 
+newData2 += "','subType':'"+subType;
+newData2+="','matrix_user_command':'lookRelatedDoc'";
+newData2+="}";
+var forwardUrl ="";
+var synJson = isc.JSON.decode(newData2);
+var url = webContextPath+'/matrix.rform?matrix_send_request=true&matrix_form_tid='+document.getElementById("matrix_form_tid").value;
+Matrix.sendRequest(url,synJson,function(data){
+forwardUrl = data.data;
+
+openCtpWindow({'url':forwardUrl});
+
+});
+}
+
+
+    //选择是图片新闻需要上传新闻图片
+     function setFileTrDisplay(){
+       var value = McheckBox004.getValue(); 
+        if(value==''){
+          document.getElementById('fileUpload001').style.display='none';
+            
+           // document.getElementById('td035').style.display='none';
+            
+        }else{
+           document.getElementById('fileUpload001').style.display='';
+           
+            //document.getElementById('td035').style.display='';
+            
+        }
+    }
+    //编辑流程
+   function editFlow(){
+
+         var ptid = Matrix.getFormItemValue('ptid');
+         var pdid = Matrix.getFormItemValue('pdid'); 
+     var adid = Matrix.getFormItemValue('adid');
+     //var url = "form/admin/process/openDesigner.jsp?pdid="+pdid+"&ptid="+ptid+"&adid="+adid;
+       var url = "editor/cusflowdesigner.jsp?pdid="+pdid+"&containerType=process&containerId="+pdid+"&mode=flow&initFlag=true&fromDB=true&ptid="+ptid+"&processType=2";
+      //openCtpWindow({'url':url,'title':'编辑流程'});  
+//     var iTop = (window.screen.availHeight-30-400)/2; //获得窗口的垂直位置;
+//		var iLeft = (window.screen.availWidth-10-500)/2; //获得窗口的水平位置;
+		    var width = screen.availWidth * 0.7;  
+	        var height = screen.availHeight * 0.7;  
+	        var left = parseInt((screen.availWidth/2) - (width/2));//屏幕居中  
+	        var top = parseInt((screen.availHeight/2) - (height/2)); 
+
+	        var windowFeatures = "width=" + width + ",height=" + height + ",status,resizable=no,left=" + left + ",top=" + top + "screenX=" + left + ",screenY=" + top;  
+			window.open(url,'流程设计',windowFeatures);
+			Matrix.hideMask();
+        return falsel;   
+
+		//window.open(url, 'Sample', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=yes,width='+width+',height='+height+',left='+iLeft+',top='+iTop);
+
+   }
+function sendPre(){
+/*var isSelectTransition = Matrix.getFormItemValue('isSelectTransition');//是否选择步骤
+   if('true'==isSelectTransition){
+    Matrix.showWindow('SelectTransitionWin');
+	 return false;
+    }
+*/
+return true;
+}
+function showSelectTransitionWinH5(){
+  Matrix.hideMask(); 
+  var pdid = document.getElementById('pdid').value;
+  var ptid = document.getElementById('ptid').value;
+  var adid = document.getElementById('adid').value;
+  var aiid = "";
+  if(document.getElementById('aiid'))
+	aiid = document.getElementById('aiid').value;
+  
+  var piid = "";
+  if(document.getElementById('piid'))
+	piid = document.getElementById('piid').value;
+  layer.open({
+    id:'selectTransitionWin',
+    type : 2,//iframe 层
+    
+    title : ['选择流转和执行人'],
+    closeBtn : 1,//显示关闭按钮风格1 2  0不显示关闭按钮
+    cancel: function(index, layero){ 
+        MmimgButton001.setOpacity("100");
+	 MmimgButton001.enable();
+	document.getElementById("trmsg").style.display="none";
+         Matrix.hideMask();
+    },	
+    shadeClose: false, //开启遮罩关闭
+    area : [ '70%', '80%' ],
+    content : webContextPath+'/form/admin/process/flowRoute.jsp?iframewindowid=selectTransitionWin&pdid='+pdid+'&adid='+adid+'&aiid='+aiid+'&piid='+piid+'&ptid='+ptid,
+  });
+}
+function editDocDialog(){
+  //判断是否包含附件
+  if(true){
+    Matrix.showWindow('editDocFileDialog');
+}
+}
+
+
+</script>
+</head>
+<body KGBrowser="KGBrowser金格浏览器[演示版];V5.0S0xGAAEAAAAAAAAAEAAAADIBAABAAQAALAAAAO5gCH6XXjEwSLxdfzzU2kzUVRlPMJ59TBa4njitgnn48o3ET5WlKtc5QcOvJy4+xqcS5fR/g5GWSD/G28F1eXw8mdJL6ZxrQtis2JBgYSYr/oj6hHOwgG5+YPWNGIU/n3IvCchbzlxJhdoz33CcS5UkO1g+PMNQGA5+TsPjikYBZz7MDs/y1Y4Y3mIugoxogffn3jCPJRvNcaqVM0qvGnIxc/mSok5YJB3RAMe6hSJSi9n6535jW6aUOZec2sm6E2jS3M93bX3SrsU1l/EtSRRt7TIcWTmywVNaaPWlil7M4MZgx8PYO/iIDWhNLnNInSssXTYEDhitSVRc2nvj0qdqR4GMPd0xysExU8050/yEaM52nKOJATQaYHoITojPibq80X7ouCs8MVznfPlGikTT0qABvoRzlzvwzrjUbCjLl9PUMNi251Gt23P23P6Dew==">
+<div id='matrixMask' name='matrixMask' class='matrixMask' style='display:none;'> </div>
+<div id='loading' name='loading' class='loading'><script>Matrix.showLoading();</script></div>
+<script>isc.Page.setEvent(isc.EH.LOAD,"replace();;setInitFormStyle();redrawForm();",isc.Page.FIRE_ONCE);</script>
+<script> var Mform0=isc.MatrixForm.create({ID:"Mform0",name:"Mform0",position:"absolute",action:"/moffice/matrix.rform",canSelectText: true,fields:[{name:'form0_hidden_text',width:0,height:0,displayId:'form0_hidden_text_div'}]});</script><div style="width:100%;height:100%;overflow:auto;position:relative;margin:0 auto;zoom:1" id="context"><form id="form0" name="form0" eventProxy="Mform0" method="post" action="/moffice/matrix.rform" style="margin:0px;position:relative;overflow:auto;width:100%;height:100%;" enctype="multipart/form-data">
+<input type="hidden" name="form0" value="form0" />
+<input type="hidden" name="is_mobile_request" />
+<input type="hidden" name="mAuthScopeId" />
+<input type="hidden" id="matrix_form_tid" name="matrix_form_tid" value="18906efc-d371-4781-9dfd-5c5ef9cd0c76" />
+<input type="hidden" id="matrix_form_datagrid_form0" name="matrix_form_datagrid_form0" value="" />
+<div type="hidden" id="form0_hidden_text_div" name="form0_hidden_text_div" style="position:absolute;width:0;height:0;z-index:-9999999999;top:0;left:0;display:none;"></div>
+<input type="hidden" name="javax.matrix.faces.ViewState" id="javax.matrix.faces.ViewState" value="" />
+<input type="hidden" name="mQuerySetConditions" id="mQuerySetConditions" />
+<div class="normal matrixInline"  style="width:0px;height:0px;"><OBJECT id="WebBrowser1" height=0 width=0 classid=CLSID:8856F961-340A-11D0-A96B-00C04FD705A2 name=wb></OBJECT></div><div class="normal matrixInline"  style="width:100%;height:8%;"><div style="width:100%;background-image:url(resource/images/top.png);height:100%;background-size:cover;"></div></div><table id="table001" class="tableLayout" style="width:100%;height:92%;"><tr id="tr001"><td id="td001" class="tdLayout" style="width:100%;height:100%;border:0px;"><table id="table002" class="tableLayout" style="width:100%;height:100%;"><tr id="tr002"><td id="td002" class="tdLayout" colspan="2" style="border: 1px solid #cccccc;width:100%;height:28px;"><script>isc.ToolStripButton.create({ID:"MtoolBarItem001",icon:"/moffice/resource/images/waitsend.png",title: "保存待发",showDisabledIcon:false,showDownIcon:false });MtoolBarItem001.click=function(){Matrix.showMask();var x = eval("waitSend();");if(x!=null && x==false){Matrix.hideMask();return false;}if(!true){Matrix.hideMask();return false;}if(!Mform0.validate()){Matrix.hideMask();return false;}var vituralbuttonHidden = document.getElementById('matrix_command_id');if(vituralbuttonHidden)vituralbuttonHidden.parentNode.removeChild(vituralbuttonHidden);var currentForm = document.getElementById('form0');var buttonHidden = document.createElement('input');buttonHidden.type='hidden';buttonHidden.name='matrix_command_id';buttonHidden.id='matrix_command_id';buttonHidden.value='toolBarItem001';currentForm.appendChild(buttonHidden);var buttonIdHidden = document.createElement('input');buttonIdHidden.type='hidden';buttonIdHidden.name='toolBarItem001';buttonIdHidden.value='toolBarItem001';document.getElementById('form0').appendChild(buttonIdHidden);var _mgr=Matrix.convertDataGridDataOfForm('form0');if(_mgr!=null&&_mgr==false){Matrix.hideMask();return false;}Matrix.convertFormItemValue('form0');document.getElementById('form0').submit();Matrix.hideMask();}</script><script>isc.ToolStripButton.create({ID:"MtoolBarItem002",icon:"/moffice/resource/images/transfertemplate.png",title: "调用模板",showDisabledIcon:false,showDownIcon:false });MtoolBarItem002.click=function(){Matrix.showMask();var x = eval("Matrix.showWindow('Dialog0');");if(x!=null && x==false){Matrix.hideMask();return false;}Matrix.hideMask();}</script><script>isc.ToolStripMenuButton.create({ID:"MtoolBarMenu001",title: "插入",menu: "Mmenu001" });</script><script>isc.ToolStripButton.create({ID:"MtoolBarItem004",icon:"/moffice/resource/images/main.png",title: "正文",showDisabledIcon:false,showDownIcon:false });MtoolBarItem004.click=function(){Matrix.showMask();var x = eval("checkTitle();");if(x!=null && x==false){Matrix.hideMask();return false;}Matrix.hideMask();}</script><script>isc.ToolStripButton.create({ID:"MtoolBarItem006",icon:"/moffice/resource/images/print.png",title: "监控",showDisabledIcon:false,showDownIcon:false });MtoolBarItem006.click=function(){Matrix.showMask();var x = eval("monitor();");if(x!=null && x==false){Matrix.hideMask();return false;}Matrix.hideMask();}</script><script>isc.ToolStripButton.create({ID:"MtoolBarItem005",icon:"/moffice/resource/images/print.png",title: "打印",showDisabledIcon:false,showDownIcon:false });MtoolBarItem005.click=function(){Matrix.showMask();var x = eval("printInfo();");if(x!=null && x==false){Matrix.hideMask();return false;}Matrix.hideMask();}</script><script>isc.ToolStripButton.create({ID:"MtoolBarItem007",icon:"/moffice/resource/images/print.png",title: "附件修改",showDisabledIcon:false,showDownIcon:false });MtoolBarItem007.click=function(){Matrix.showMask();var x = eval("editDocDialog();");if(x!=null && x==false){Matrix.hideMask();return false;}Matrix.hideMask();}</script><div id="toolBar001_div"  style="width:100%;height:28px;overflow:hidden;"  ><script>isc.ToolStrip.create({ID:"MtoolBar001",displayId:"toolBar001_div",width: "100%",height: "100%",position: "relative",members: [ MtoolBarItem001,MtoolBarItem002,MtoolBarMenu001,MtoolBarItem004,MtoolBarItem006,MtoolBarItem005,MtoolBarItem007 ] });isc.Page.setEvent(isc.EH.RESIZE,function(){isc.Page.setEvent(isc.EH.RESIZE,"MtoolBar001.resizeTo(0,0);MtoolBar001.resizeTo('100%','100%');",null);},isc.Page.FIRE_ONCE);</script></div></td>
+</tr>
+<tr id="tr003"><td id="td003" class="maintain_form_label2" rowspan="2" style="width:130px;height:39px;border-right:0px;border-top:0px;border-bottom:0px;background-color:rgb(250,250,250);"><div id="mimgButton001_div" eventProxy="Mform0" class="matrixInline" style=""><script>isc.ImgButton.create({ID:"MmimgButton001",name:"mimgButton001",showDisabled:false,showDisabledIcon:false,showDown:false,showDownIcon:false,displayId:"mimgButton001_div",showRollOver:false,showRollOverIcon:false,position:"relative",width:103,height:39,src:"/moffice/image/send.jpg"}); var mimgButton001_flag = false;MmimgButton001.click=function(){Matrix.showMask();var x = eval("submitFormJS();");if(x!=null && x==false){Matrix.hideMask();return false;}};</script></div></td>
+<td id="td006" class="maintain_form_label2" rowspan="1" style="border-left:0px;width:93%;height:100px;border-bottom: 0px;"><table id="table001" class="tableLayout" style="width:100%;"><tr id="tr001"><td id="td001" class="maintain_form_label2" style="width:8%;border:0px;"><label id="label001" name="label001" id="label001" style="white-space:nowrap;" class="framelabel">
+标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</label></td>
+<td id="td002" class="maintain_form_label2" colspan="5" rowspan="1" style="width:52%;border:0px;text-align:left;"><div id="p_title_div" eventProxy="Mform0" class="matrixInline" style="width:80%;"></div><script> var p_title=isc.TextItem.create({ID:"Mp_title",name:"p_title",editorType:"TextItem",displayId:"p_title_div",position:"relative",autoDraw:false,width:"100%",textBoxStyle:'frametextItem'});Mform0.addField(p_title);</script></td>
+<td id="td007" class="maintain_form_label2" style="width:10%;border:0px;"><div id="button002_div" class="matrixInline" style="padding-left:20px;margin-left:20px;;position:relative;;width:100px;;height:22px;"><script>isc.Button.create({ID:"Mbutton002",name:"button002",title:"查看",displayId:"button002_div",position:"absolute",top:0,left:0,width:"100%",height:"100%",showDisabledIcon:false,showDownIcon:false,showRollOverIcon:false});Mbutton002.click=function(){var x = eval("Matrix.showWindow('Dialog1');");if(x!=null && x==false){Matrix.hideMask();Mbutton002.enable();return false;}};</script></div><div id="MSbutton0012_div" class="matrixInline" style="display:none;;position:relative;;width:100px;;height:22px;"><script>isc.Button.create({ID:"MMSbutton0012",name:"MSbutton0012",title:"按钮",displayId:"MSbutton0012_div",position:"absolute",top:0,left:0,width:"100%",height:"100%",showDisabledIcon:false,showDownIcon:false,showRollOverIcon:false});MMSbutton0012.click=function(){MMSbutton0012.disable();Matrix.showMask();var x = eval("sendPre();");if(x!=null && x==false){Matrix.hideMask();MMSbutton0012.enable();return false;}if(!true){Matrix.hideMask();MMSbutton0012.enable();return false;}if(!Mform0.validate()){Matrix.hideMask();MMSbutton0012.enable();return false;}var vituralbuttonHidden = document.getElementById('matrix_command_id');if(vituralbuttonHidden)vituralbuttonHidden.parentNode.removeChild(vituralbuttonHidden);var currentForm = document.getElementById('form0');var buttonHidden = document.createElement('input');buttonHidden.type='hidden';buttonHidden.name='matrix_command_id';buttonHidden.id='matrix_command_id';buttonHidden.value='MSbutton0012';currentForm.appendChild(buttonHidden);var buttonIdHidden = document.createElement('input');buttonIdHidden.type='hidden';buttonIdHidden.name='MSbutton0012';buttonIdHidden.value='按钮';document.getElementById('form0').appendChild(buttonIdHidden);var _mgr=Matrix.convertDataGridDataOfForm('form0');if(_mgr!=null&&_mgr==false){Matrix.hideMask();return false;}Matrix.convertFormItemValue('form0');document.getElementById('form0').submit();};</script></div></td>
+<td id="td008" class="maintain_form_label2" style="width:10%;border:0px;text-align:right;"><label id="label007" name="label007" id="label007" style="white-space:nowrap;" class="framelabel">
+优先级：</label></td>
+<td id="td009" class="maintain_form_label2" style="width:10%;border:0px;text-align:left;"><div id="emergeDeg_div" eventProxy="Mform0" class="matrixInline" style=""></div><script> var MemergeDeg_VM=[]; var emergeDeg=isc.SelectItem.create({ID:"MemergeDeg",name:"emergeDeg",editorType:"SelectItem",displayId:"emergeDeg_div",autoDraw:false,valueMap:[],value:"1",position:"relative",width:80,textBoxStyle:'frameselectItemText'});Mform0.addField(emergeDeg);MemergeDeg_VM=['1','2','3'];MemergeDeg.displayValueMap={'1':'普通','2':'重要','3':'非常重要'};MemergeDeg.setValueMap(MemergeDeg_VM);MemergeDeg.setValue('1');</script></td>
+<td id="td010" class="maintain_form_label2" style="width:10%;border:0px;">&nbsp;</td>
+</tr>
+<tr id="tr002"><td id="td011" class="maintain_form_label2" style="width:8%;border:0px;"><label id="label002" name="label002" id="label002" style="white-space:nowrap;" class="framelabel">
+流程期限：</label></td>
+<td id="td012" class="maintain_form_label2" colspan="2" rowspan="1" style="width:12%;border:0px;text-align:left;"><div id="dateType_div" eventProxy="Mform0" class="matrixInline" style="width:100%;"></div><script> var MdateType_VM=[]; var dateType=isc.SelectItem.create({ID:"MdateType",name:"dateType",editorType:"SelectItem",displayId:"dateType_div",autoDraw:false,valueMap:[],value:"3",position:"relative",changed:"setDateValue()",textBoxStyle:'frameselectItemText'});Mform0.addField(dateType);MdateType_VM=['1','2','3','4'];MdateType.displayValueMap={'1':'时','2':'天','3':'月','4':'自定义'};MdateType.setValueMap(MdateType_VM);MdateType.setValue('3');</script></td>
+<td id="td014" class="maintain_form_label2" colspan="3" rowspan="1" style="width:32%;border:0px;text-align:left;"><table id="table003" style="width:50%;border:0px;"><tr id="tr006"><td id="td013" style="width:70%;border:0px;"><div id="inputLine_div" eventProxy="Mform0" class="matrixInline" style="width:100%;"></div><script> var inputLine=isc.TextItem.create({ID:"MinputLine",name:"inputLine",editorType:"TextItem",displayId:"inputLine_div",position:"relative",autoDraw:false,validators:[{type:"custom",condition:function(item, validator, value, record){return checkRate(item, validator, value, record);},errorMessage:"请输入数值"}],textBoxStyle:'frametextItem'});Mform0.addField(inputLine);</script><div id="inputDate_div" eventProxy="Mform0" class="matrixInline" style="width:100%;"></div><script> var MinputDate_value=null; var inputDate=isc.DateItem.create({ID:"MinputDate",name:"inputDate",value:MinputDate_value,type:"date",displayId:"inputDate_div",paseDateFun:function(value,formatPattern){return Matrix.parseDate(value,formatPattern);},dateFormatter:function(_1){return Matrix.formatDate(this,MinputDate.formatPattern);},formatPattern:"yyyy-MM-dd",autoDraw:false,useTextField:true,enforceDate:true,position:"relative",validators:[{type:"custom",condition:function(item, validator, value, record){return item.validateDateValue(value);},errorMessage:isc.DateItem.getPrototype().invalidDateStringMessage}],startDate:new Date(1900,0,1),endDate:new Date(2050,0,1),textBoxStyle:'frametextItem'});Mform0.addField(inputDate);</script></td>
+<td id="td015" style="width:30%;border:0px;"><label id="months" name="months" id="months" style="white-space:nowrap;" class="framelabel">
+月</label><label id="days" name="days" id="days" style="white-space:nowrap;" class="framelabel">
+天</label><label id="hours" name="hours" id="hours" style="white-space:nowrap;" class="framelabel">
+时</label></td>
+</tr>
+</table>
+</td>
+<td id="td017" class="maintain_form_label2" style="width:10%;border:0px;"><div id="isTrace_div" eventProxy="Mform0" class="matrixInline" style="width:80%;"></div><script> var isTrace=isc.CheckboxItem.create({ID:"MisTrace",name:"isTrace",title:'跟踪',editorType:"CheckboxItem",displayId:"isTrace_div",valueMap:{"":false,"true":true},position:"relative",width:'80%',autoDraw:false,title:"跟踪",textBoxStyle:'framelabelAnchor'});Mform0.addField(isTrace);Mform0.setValue("isTrace","true");</script></td>
+<td id="td018" class="maintain_form_label2" style="width:10%;border:0px;"><div id="button005_div" class="matrixInline" style="position:relative;;width:100px;;height:22px;"><script>isc.Button.create({ID:"Mbutton005",name:"button005",title:"编辑流程",displayId:"button005_div",position:"absolute",top:0,left:0,width:"100%",height:"100%",showDisabledIcon:false,showDownIcon:false,showRollOverIcon:false});Mbutton005.click=function(){var x = eval("editFlow();");if(x!=null && x==false){Matrix.hideMask();Mbutton005.enable();return false;}};</script></div></td>
+<td id="td019" class="maintain_form_label2" style="width:10%;border:0px;">&nbsp;</td>
+<td id="td020" class="maintain_form_label2" style="width:10%;border:0px;">&nbsp;</td>
+</tr>
+<tr id="tr003"><td id="td021" class="maintain_form_label2" style="width:8%;border:0px;"><label id="label053" name="label053" id="label053" style="white-space:nowrap;" class="framelabel">
+发布部门：</label></td>
+<td id="td022" class="maintain_form_label2" colspan="2" rowspan="1" style="width:20%;border:0px;text-align:left;"><div id="syninput003_div" eventProxy="Mform0" class="matrixInline" style="width:85%;"></div><script> var syninput003=isc.TextItem.create({ID:"Msyninput003",name:"syninput003",editorType:"TextItem",displayId:"syninput003_div",position:"relative",autoDraw:false,value:"产品实施组",width:"100%",click:"Matrix.showWindow(\'DepDialog\');",textBoxStyle:'frametextItem'});Mform0.addField(syninput003);</script></td>
+<td id="td024" class="maintain_form_label2" style="width:8%;border:0px;"><label id="summary" name="summary" id="summary" style="white-space:nowrap; font-size:12px">
+摘要：</label><label id="label004" name="label004" id="label004" style="white-space:nowrap;">
+发布范围：</label></td>
+<td id="td025" class="maintain_form_label2" colspan="2" rowspan="1" style="width:20%;border:0px;text-align:left;"><div id="inputSummary_div" eventProxy="Mform0" class="matrixInline" style="width:85%;"></div><script> var inputSummary=isc.TextItem.create({ID:"MinputSummary",name:"inputSummary",editorType:"TextItem",displayId:"inputSummary_div",position:"relative",autoDraw:false,width:"100%",textBoxStyle:'frametextItem'});Mform0.addField(inputSummary);</script><div id="syninput005_div" eventProxy="Mform0" class="matrixInline" style="width:85%;"></div><script> var syninput005=isc.TextItem.create({ID:"Msyninput005",name:"syninput005",editorType:"TextItem",displayId:"syninput005_div",position:"relative",autoDraw:false,width:"100%",hint:"<点击选择发布范围>",showHintInField:true,click:"showAuthDialog();",textBoxStyle:'frametextItem',canEdit:false});Mform0.addField(syninput005);</script></td>
+<td id="td027" class="maintain_form_label2" style="width:10%;border:0px;"><label id="key" name="key" id="key" style="white-space:nowrap;" class="framelabel">
+关键字：</label></td>
+<td id="td028" class="maintain_form_label2" colspan="2" rowspan="1" style="width:20%;border:0px;text-align:left;"><div id="inputKey_div" eventProxy="Mform0" class="matrixInline" style="width:85%;"></div><script> var inputKey=isc.TextItem.create({ID:"MinputKey",name:"inputKey",editorType:"TextItem",displayId:"inputKey_div",position:"relative",autoDraw:false,width:"100%",textBoxStyle:'frametextItem'});Mform0.addField(inputKey);</script></td>
+<td id="td030" class="maintain_form_label2" style="width:10%;border:0px;">&nbsp;</td>
+</tr>
+<tr id="tr009"><td id="td031" class="maintain_form_label2" colspan="5" rowspan="1" style="width:50%;text-align:left;border:0px;padding-left:30px;"><div id="checkBox001_div" eventProxy="Mform0" class="matrixInline" style=""></div><script> var checkBox001=isc.CheckboxItem.create({ID:"McheckBox001",name:"checkBox001",title:'显示发布人',editorType:"CheckboxItem",displayId:"checkBox001_div",valueMap:{"":false,"true":true},position:"relative",width:134,autoDraw:false,title:"显示发布人",textBoxStyle:'framelabelAnchor'});Mform0.addField(checkBox001);Mform0.setValue("checkBox001","");</script><div id="syncheckBox003_div" eventProxy="Mform0" class="matrixInline" style=""></div><script> var syncheckBox003=isc.CheckboxItem.create({ID:"MsyncheckBox003",name:"syncheckBox003",title:'记录阅读信息',editorType:"CheckboxItem",displayId:"syncheckBox003_div",valueMap:{"":false,"true":true},position:"relative",width:134,autoDraw:false,title:"记录阅读信息",textBoxStyle:'framelabelAnchor'});Mform0.addField(syncheckBox003);Mform0.setValue("syncheckBox003","");</script><div id="checkBox004_div" eventProxy="Mform0" class="matrixInline" style=""></div><script> var checkBox004=isc.CheckboxItem.create({ID:"McheckBox004",name:"checkBox004",title:'图片新闻',editorType:"CheckboxItem",displayId:"checkBox004_div",valueMap:{"":false,"true":true},position:"relative",width:134,autoDraw:false,title:"图片新闻",changed:"setFileTrDisplay()",textBoxStyle:'framelabelAnchor'});Mform0.addField(checkBox004);Mform0.setValue("checkBox004","");</script><div id="syncheckBox002_div" eventProxy="Mform0" class="matrixInline" style=""></div><script> var syncheckBox002=isc.CheckboxItem.create({ID:"MsyncheckBox002",name:"syncheckBox002",title:'打印公告',editorType:"CheckboxItem",displayId:"syncheckBox002_div",valueMap:{"":false,"true":true},position:"relative",width:134,autoDraw:false,title:"打印公告",textBoxStyle:'framelabelAnchor'});Mform0.addField(syncheckBox002);Mform0.setValue("syncheckBox002","");</script></td>
+<td id="tdisShowImage" class="maintain_form_label2" colspan="3" rowspan="1" style="width:30%;border:0px;text-align:left;"><script>function fileUpload001delView(rowId,fileId){RPCManager.sendRequest({httpMethod:"POST",actionURL:'/moffice/uploadFileHelperServlet',params:{entity:'office.info.news.ImageFile',name:'fileName',id:'fileUuid',mappingType:'fileType',type:'delete',idValue:fileId,storeType:'file',filePath:'D%3A%2Fupfile%2Fnews%2Fimage%2F'}});var tabObj = document.getElementById("fileUpload001fileBaseViewTab");for(j=0;j<=tabObj.tBodies[0].rows.length;j++){if(tabObj.tBodies[0].rows[j].id==rowId){tabObj.deleteRow(j);break;}}document.getElementById("fileUpload001uploadFileBaseTabTr0").style.cssText="display:block";}function fileUpload001validateUploadFile(target,vId,maxSize){var vObj = document.getElementById(vId);var filePath = vObj.value;fileType = filePath.substring(filePath.lastIndexOf(".")+1);if(!Matrix.validateUploadFileType(vId,'')){fileUpload001restoreUploadFileBase();isc.warn(fileType+'类型的文件不在允许的上传范围内');}}function fileUpload001showMessage(msg){isc.warn(msg);}function fileUpload001restoreUploadFileBase(){document.getElementById('spanfileUpload001').innerHTML="<input type='file' id ='fileUpload001' name ='fileUpload001' onChange='fileUpload001validateUploadFile(this,\"fileUpload001\", 0)'>";}isc.Page.setEvent("load","if(document.getElementById('fileUpload001fileBaseFileTd')&&document.getElementById('fileUpload001fileBaseFileTd').innerHTML==''){document.getElementById('fileUpload001fileBaseFileTd').style.cssText='display:none;border-width:0px;';}",isc.Page.FIRE_ONCE);</script><div style="width:200px;height:23px;"><table border="0" id="fileUpload001uploadFileBaseTab" cellpadding="0" cellspacing="0" style="width:100%"><tbody><tr id="fileUpload001fileBaseFileTr1"><td id="fileUpload001fileBaseFileTd" style="border-width:0px;hight:0px;" align="left"></td></tr><tr id="fileUpload001uploadFileBaseTabTr0"><td style="border-width:0px"><table border="0"><tr><td style="border-width:0px"><span id="spanfileUpload001"><input id="fileUpload001" name="fileUpload001" type="file" onChange="fileUpload001validateUploadFile(this,'fileUpload001',0)" /><span></td></tr></table></td></tr></tbody></table></div></td>
+<td id="td039" class="maintain_form_label2" style="width:10%;border:0px;">&nbsp;</td>
+<td id="td040" class="maintain_form_label2" style="width:10%;border:0px;">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr id="tr004"><td id="td004" class="maintain_form_label2" colspan="1" style="width:100%;height:32px;  border-top: 0px; border-bottom:0px;  border-left: 0px;"><style> .attachmentShowDelete {border: solid 1px #E0E0E0; background: #FFF;}.line_height180 {  line-height: 180%;}.margin_t_5 {  margin-top: 5px;}.margin_r_5 {  margin-right: 5px;}.ico17 {  display: inline-block;vertical-align: middle; height: 16px;  width: 16px;line-height: 16px;  cursor: pointer; _overflow: hidden;}.align_left {  text-align: left;}.align_right {  text-align: right;}.affix_del_16 { display: inline-block;  vertical-align: middle;  height: 16px;  width: 16px;  line-height: 16px;  background: url(resource/images/deletex.png) no-repeat;  cursor:pointer;}.ico18{display: inline-block;vertical-align: middle;height: 16px; width: 16px;line-height: 16px; background: url(image/icon16.png) no-repeat; cursor: pointer;}	.affix_16 {  background: url(resource/images/attach.png) no-repeat;}.clearfix { zoom: 1;display: block;_height: 1px;}.margin_t_10 {margin-top: 10px;}.txt_16 { background: url(resource/images/txt.png) no-repeat;}.xml_16 { background: url(resource/images/xml.png) no-repeat;}.jpg_16{ background: url(resource/images/jpg.png) no-repeat;}.png_16{ background: url(resource/images/png.png) no-repeat;}.gif_16{ background: url(resource/images/gif.png) no-repeat;}.html_16{ background: url(resource/images/html.png) no-repeat;}.ppt_16{ background: url(resource/images/ppt.png) no-repeat;}.file_16 { background: url(resource/images/file.png) no-repeat;}.exe_16{ background: url(resource/images/exe.png) no-repeat;	}.xls_16, .xlsx_16{ background: url(resource/images/execl.png) no-repeat;}.pdf_16{ background: url(resource/images/pdf.png) no-repeat;}.doc_16, .docx_16{ background: url(resource/images/word.png) no-repeat;	}</style> <script>function deleteFile(uuid,fileName){Matrix.confirm("确定要删除"+"\""+fileName+"\""+"吗？",function(value){if(value){var midValue = Matrix.getFormItemValue('mFlowBizId');var newData = "{'idValue':'"+uuid; newData+="','entity':'office.common.attach.FileBO'";newData+=",'name':'fileName'";newData+=",'id':'uuid'";newData+=",'contents':'fileContent'";newData+=",'mappingType':'fileType'";newData+=",'type':'delete'";newData+=",'storeType':'db'";newData+=",'mProperty':'mFlowBizId'";newData+=",'meetType':'null'";newData+=",'mFlowBizId':'"+midValue;newData+="'}";  var url = "/moffice/FileServlet"; var synJson = isc.JSON.decode(newData);  Matrix.sendRequest(url,synJson,function(data){ var arr = data.data; var obj=eval(arr);   if(arr==""){   document.getElementById("attach_div001").innerHTML="";   return;   } if(obj.length>0){ var n = obj.length;   var html = " <table class='line_height180'>"  ; html+="<tr>"; html+="<td valign=\"top\" nowrap=\"nowrap\" class=\"align_right\">"; html+="  <div>   <span class=\"ico18 affix_16\"></span>";html+=" <span id=\"fileCount\">  ("+n+")</span></div></td>"; html+=" <td   vertical-align=\"inherit\" class=\"align_left\">";for(var i=0;i<obj.length;i++){ var name = obj[i].fileName;var uuid = obj[i].uuid;var type = obj[i].fileType;var size = obj[i].fileSize;html+="<div class='attachmentShowDelete' style=\"float: left;  height: 26px;  line-height: 26px;\" nowrap>"; if("xml"==type||"doc"==type||"pdf"==type||"docx"==type||"exe"==type||"png"==type||"jpg"==type||"gif"==type||"html"==type||"ppt"==type||"xls"==type||"xlsx"==type||"txt"==type){html+="<span class=\"ico18 "+type+"_16 margin_r_5\"></span>";}else{html+="<span class=\"ico18 file_16 margin_r_5\"></span>";}html+=" <span>  <a style=\"font-size:12px;color:#757575;text-decoration:none;\" href=\"javascript:download('"+uuid+"')\">"+name+"("+size+")B)</a></span>"; html+="<span class=\"affix_del_16\" onclick=\"deleteFile('"+uuid+"','"+name+"')\">";  html+=" </span> </div>  ";} html+=" </td>   </tr>   </table>"; document.getElementById("attach_div001").innerHTML=html;  }else{document.getElementById("attach_div001").innerHTML="";}  });  }})   }  function download(uuid){ window.location.href = "/moffice/uploadFileHelperServlet?filePath=D://upfile//flow//&entity=office.common.attach.FileBO&name=fileName&mappingType=fileType&contents=fileContent&id=uuid&idValue="+uuid+"&type=downLoad&storeType=file"; } function deleteDocFile(uuid,title){Matrix.confirm("您确定不再关联"+"\""+title+"\""+"吗？",function(value){if(value){var midValue = Matrix.getFormItemValue('mFlowBizId');var url = webContextPath+'/matrix.rform?matrix_send_request=true&matrix_form_tid='+document.getElementById("matrix_form_tid").value; var newData = "{'uuid':'"+uuid+"','entityName':'office.common.attach.FileBO','mFlowBizId':'"+midValue+"','matrix_user_command':'deleteDocFileById'}";var synJson = isc.JSON.decode(newData);Matrix.sendRequest(url,synJson,function(data){count = data.data;if(count==0)document.getElementById("doc_div001").innerHTML="";else{document.getElementById('docFileCount').innerHTML="("+count+")"; elId="doc_"+uuid;document.getElementById("doctd").removeChild(document.getElementById(elId)); }  });  }});}function lookRelatedDoc(piid,subType){clicked(piid,subType);}</script><table border="0" cellspacing="0" cellpadding="0" width="100%" ><tr><td> <div id="attach_div001"></div></td></tr><tr><td> <div id="doc_div001"></div></td></tr></table></td>
+</tr>
+<tr id="trmsg"><td id="tdmsg" class="tdLayout" colspan="2" rowspan="1" style="border: 1px solid #cccccc;width:100%;background-color:rgb(250,250,250);text-align:center;border-top:none;height:2px;"><label id="labelmsg" name="labelmsg" id="labelmsg" style="white-space:nowrap; color:#42b3e5;" class="framelabel">
+正在发送,请稍后...........................................................</label></td>
+</tr>
+<tr id="tr005"><td id="td005" class="tdLayout" colspan="2" style="border: 1px solid #cccccc;width:100%;height:75%;"><table id="table004" class="tableLayout" style="width:100%;height:100%;"><tr id="tr008"><td id="subForm" class="tdLayout" style="border: 1px solid #cccccc;width:80%;height:100%;background-color:#fff;"><div id="ContainerPanel010_div" style="position:relative;width:100%;height:100%;overflow:auto;background-color: #fff;"><div id="ContainerPanel001_div" style="position:relative;width:100%;height:100%;background:#fff;margin:0 auto;"><table id="table001" class="tableLayout" style="width:100%;height:100%;"><tr id="tr004"><td id="ckeditor" class="tdLayout" style="border: 1px solid #cccccc;width:100%;height:100%;"><div style="width:100%;height:100%;overflow:hidden;"><textarea name='richText001'></textarea><script></script></div></td>
+</tr>
+</table>
+<input id="viewFlag" type="hidden" name="viewFlag" /><input id="ckeditorContent" type="hidden" name="ckeditorContent" /></div></div></td>
+<td id="fuyan" class="tdLayout" style="border: 1px solid #cccccc;width:15%;height:99%;"><table id="table005" class="tableLayout" style="width:100%;height:100%;"><tr id="tr011"><td id="td0fuyan" class="maintain_form_label2" style="width:100%;height:10%;text-align:left;valign:middle;"><div class="normal matrixInline"><div class="arrow_2_r"></div></div><label id="label005" name="label005" id="label005" style="white-space:nowrap;" class="framelabel">
+附言(500个字以内)</label></td>
+</tr>
+<tr id="tr013"><td id="td020" class="maintain_form_label2" style="width:100%;height:90%;"><div id="inputTextArea_div" eventProxy="Mform0" class="matrixInline" style="width:100%;height:100%;"></div><script> var inputTextArea=isc.TextAreaItem.create({ID:"MinputTextArea",name:"inputTextArea",editorType:"TextAreaItem",displayId:"inputTextArea_div",position:"relative",autoDraw:false,width:'100%',height:'100%',showHintInField:true,validators:[{type:"custom",condition:function(item, validator, value, record){return Matrix.validateLength(0,500, value);},errorMessage:"附言最多不能超过500个字符!"}],textBoxStyle:'frametextItem'});Mform0.addField(inputTextArea);</script></td>
+</tr>
+</table>
+</td>
+<td id="addfuyan" class="tdLayout" style="border: 1px solid #cccccc;width:5%;height:99%;"><table id="table007" class="tableLayout" style="width:100%;height:100%;"><tr id="tr018"><td id="td017" class="maintain_form_label2" style="width:100%;valign:middle;text-align:center;"><div class="normal matrixInline"><div class="arrow_2_l"></div></div><label id="label009" name="label009" id="label009" style="white-space:nowrap;" class="framelabel">
+<br></label><label id="label010" name="label010" id="label010" style="white-space:nowrap;" class="framelabel">
+附<br>言</label></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<script>function getParamsForDepDialog(){var params='&';var value;return params;}isc.Window.create({ID:"MDepDialog",id:"DepDialog",name:"DepDialog",autoCenter: true,position:"absolute",height: "50%",width: "50%",title: "请选择部门",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:false,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","closeButton"],getParamsFun:getParamsForDepDialog,initSrc:"/moffice/DepSelectPage.rform",src:"/moffice/DepSelectPage.rform",showFooter: false });</script><script>MDepDialog.hide();</script><script>function getParamsForarea(){var params='&';var value;return params;}isc.Window.create({ID:"Marea",id:"area",name:"area",autoCenter: true,position:"absolute",height: "80%",width: "80%",title: "发布范围选择",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:false,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","closeButton"],getParamsFun:getParamsForarea,initSrc:"/moffice/MixSelect.rform",src:"/moffice/MixSelect.rform",showFooter: false });</script><script>Marea.hide();</script><script>function getParamsForAddFileWin(){var params='&';var value;value=null;try{value=eval("getMflowBizId();");}catch(error){value="getMflowBizId();"}if(value!=null){value="mFlowBizId="+value;params+=value;}return params;}isc.Window.create({ID:"MAddFileWin",id:"AddFileWin",name:"AddFileWin",autoCenter: true,position:"absolute",height: "50%",width: "30%",title: "上传本地文件",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:false,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","closeButton"],getParamsFun:getParamsForAddFileWin,initSrc:"/moffice/AddFilesForm.rform",src:"/moffice/AddFilesForm.rform",showFooter: false });</script><script>MAddFileWin.hide();</script><script>function getParamsForDialog0(){var params='&';var value;value=null;try{value=eval("Matrix.getFormItemValue('sysType')");}catch(error){value="Matrix.getFormItemValue('sysType')"}if(value!=null){value="sysType="+value;params+=value;}return params;}isc.Window.create({ID:"MDialog0",id:"Dialog0",name:"Dialog0",autoCenter: true,position:"absolute",height: "80%",width: "65%",title: "调用模板",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:false,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","closeButton"],getParamsFun:getParamsForDialog0,initSrc:"/moffice/SelectFlow.rform",src:"/moffice/SelectFlow.rform",showFooter: false });</script><script>MDialog0.hide();</script><script>function getParamsForDialog1(){var params='&';var value;value=null;try{value=eval("Matrix.getFormItemValue('formId')");}catch(error){value="Matrix.getFormItemValue('formId')"}if(value!=null){value="formDid="+value;params+=value;}value=null;params+='&';try{value=eval("Matrix.getFormItemValue('flowId');");}catch(error){value="Matrix.getFormItemValue('flowId');"}if(value!=null){value="flowDid="+value;params+=value;}value=null;params+='&';try{value=eval("Matrix.getFormItemValue('desc')");}catch(error){value="Matrix.getFormItemValue('desc')"}if(value!=null){value="templateDesc="+value;params+=value;}value=null;params+='&';value="read";value="auth="+value;params+=value;return params;}isc.Window.create({ID:"MDialog1",id:"Dialog1",name:"Dialog1",autoCenter: true,position:"absolute",height: "80%",width: "65%",title: "查看流程",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:false,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","closeButton"],getParamsFun:getParamsForDialog1,initSrc:"/moffice/FlowTempTabPage.rform",src:"/moffice/FlowTempTabPage.rform",showFooter: false });</script><script>MDialog1.hide();</script><script>function getParamsForWordDialog(){var params='&';var value;value=null;try{value=eval("Matrix.getFormItemValue('templateUuid')");}catch(error){value="Matrix.getFormItemValue('templateUuid')"}if(value!=null){value="uuid="+value;params+=value;}value=null;params+='&';try{value=eval("Matrix.getFormItemValue('flowNodeId')");}catch(error){value="Matrix.getFormItemValue('flowNodeId')"}if(value!=null){value="flowNodeId="+value;params+=value;}value=null;params+='&';try{value=eval("Matrix.getFormItemValue('type')");}catch(error){value="Matrix.getFormItemValue('type')"}if(value!=null){value="type="+value;params+=value;}value=null;params+='&';try{value=eval("Matrix.getFormItemValue('mFlowBizId')");}catch(error){value="Matrix.getFormItemValue('mFlowBizId')"}if(value!=null){value="flowBizId="+value;params+=value;}value=null;params+='&';try{value=eval("Matrix.getFormItemValue('isInitLoad')");}catch(error){value="Matrix.getFormItemValue('isInitLoad')"}if(value!=null){value="isInitLoad="+value;params+=value;}return params;}isc.Window.create({ID:"MWordDialog",id:"WordDialog",name:"WordDialog",autoCenter: true,position:"absolute",height: "80%",width: "65%",title: "正文信息",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:true,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","minimizeButton","maximizeButton","closeButton"],getParamsFun:getParamsForWordDialog,initSrc:"/moffice/WordEditPage.rform",src:"/moffice/WordEditPage.rform",showFooter: false });</script><script>MWordDialog.hide();</script><script>function getParamsForSelectTransitionWin(){var params='&';var value;value=null;try{value=eval("Matrix.getFormItemValue('flowId');");}catch(error){value="Matrix.getFormItemValue('flowId');"}if(value!=null){value="pdid="+value;params+=value;}return params;}isc.Window.create({ID:"MSelectTransitionWin",id:"SelectTransitionWin",name:"SelectTransitionWin",autoCenter: true,position:"absolute",height: "50%",width: "50%",title: "选择流转",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:false,showCloseButton:false,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel"],getParamsFun:getParamsForSelectTransitionWin,initSrc:"/moffice/form/admin/process/flowRoute.jsp",src:"/moffice/form/admin/process/flowRoute.jsp",showFooter: false });</script><script>MSelectTransitionWin.hide();</script><script>function getParamsForOpenDesignWin(){var params='&';var value;value=null;try{value=eval("Matrix.getFormItemValue('pdid');");}catch(error){value="Matrix.getFormItemValue('pdid');"}if(value!=null){value="pdid="+value;params+=value;}value=null;params+='&';value="82932263458";value="adid="+value;params+=value;return params;}isc.Window.create({ID:"MOpenDesignWin",id:"OpenDesignWin",name:"OpenDesignWin",autoCenter: true,position:"absolute",height: "90%",width: "85%",title: "编辑流程",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:true,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","minimizeButton","maximizeButton","closeButton"],getParamsFun:getParamsForOpenDesignWin,initSrc:"/moffice/form/admin/process/openDesigner.jsp",src:"/moffice/form/admin/process/openDesigner.jsp",showFooter: false });</script><script>MOpenDesignWin.hide();</script><script>function getParamsForRelativeFile(){var params='&';var value;return params;}isc.Window.create({ID:"MRelativeFile",id:"RelativeFile",name:"RelativeFile",autoCenter: true,position:"absolute",height: "70%",width: "50%",title: "选择关联文档",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:false,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","closeButton"],getParamsFun:getParamsForRelativeFile,initSrc:"/moffice/RelatedDocumentsForm.rform",src:"/moffice/RelatedDocumentsForm.rform",showFooter: false });</script><script>MRelativeFile.hide();</script><script>function getParamsForAddRelatedDocumentWin(){var params='&';var value;value=null;try{value=eval("getMflowBizId();");}catch(error){value="getMflowBizId();"}if(value!=null){value="mFlowBizId="+value;params+=value;}return params;}isc.Window.create({ID:"MAddRelatedDocumentWin",id:"AddRelatedDocumentWin",name:"AddRelatedDocumentWin",autoCenter: true,position:"absolute",height: "100%",width: "70%",title: "上传关联文档",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:true,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","minimizeButton","maximizeButton","closeButton"],getParamsFun:getParamsForAddRelatedDocumentWin,initSrc:"/moffice/RelatedDocumentsForm.rform",src:"/moffice/RelatedDocumentsForm.rform",showFooter: false });</script><script>MAddRelatedDocumentWin.hide();</script><script>function getParamsForeditDocFileDialog(){var params='&';var value;value=null;try{value=eval("Matrix.getFormItemValue('mFlowBizId');");}catch(error){value="Matrix.getFormItemValue('mFlowBizId');"}if(value!=null){value="mFlowBizId="+value;params+=value;}return params;}isc.Window.create({ID:"MeditDocFileDialog",id:"editDocFileDialog",name:"editDocFileDialog",autoCenter: true,position:"absolute",height: "50%",width: "50%",title: "附件编辑列表",canDragReposition: false,showMinimizeButton:true,showMaximizeButton:true,showCloseButton:true,showModalMask: false,modalMaskOpacity:0,isModal:true,autoDraw: false,headerControls:["headerIcon","headerLabel","minimizeButton","maximizeButton","closeButton"],getParamsFun:getParamsForeditDocFileDialog,initSrc:"/moffice/editFile.rform",src:"/moffice/editFile.rform",showFooter: false });</script><script>MeditDocFileDialog.hide();</script><script>isc.Menu.create({ID:"Mmenu001",autoDraw:false,showShadow:true,shadowDepth:10,data: [ {title:"本地文件",click:"Matrix.showWindow('AddFileWin');",icon:"/moffice/resource/images/attach.png"},{title:"关联文档",click:"Matrix.showWindow('AddRelatedDocumentWin');",icon:"/moffice/resource/images/archivefile.png"} ] });</script><input id="isNoticeOrNews" type="hidden" name="isNoticeOrNews" /><input id="mFlowBizId" type="hidden" name="mFlowBizId" value="51a3dab2-d4ae-4cb7-a035-f1fbc1189c6c" /><input id="templateUuid" type="hidden" name="templateUuid" value="402881895690ce5e015691bc164000c3" /><input id="templateType" type="hidden" name="templateType" value="3" /><input id="trace" type="hidden" name="trace" /><input id="isContainForm" type="hidden" name="isContainForm" value="1" /><input id="wordType" type="hidden" name="wordType" value="3" /><input id="formId" type="hidden" name="formId" value="CkeditorList" /><input id="flowId" type="hidden" name="flowId" value="defaultFlow" /><input id="plateId" type="hidden" name="plateId" /><input id="piid" type="hidden" name="piid" /><input id="completedFlag" type="hidden" name="completedFlag" value="0" /><input id="type" type="hidden" name="type" value="3" /><input id="starterId" type="hidden" name="starterId" value="40288ce1596743aa0159685d35860058" /><input id="starterDepId" type="hidden" name="starterDepId" value="4028849f5d0b11b5015d1bb3a04000c7" /><input id="flowNodeId" type="hidden" name="flowNodeId" /><input id="wordTemp" type="hidden" name="wordTemp" /><input id="vbaTemp" type="hidden" name="vbaTemp" /><input id="isInitLoad" type="hidden" name="isInitLoad" value="0" /><input id="createdDate" type="hidden" name="createdDate" value="2018-01-09 21:35:02" /><input id="uuid" type="hidden" name="uuid" /><input id="curUserName" type="hidden" name="curUserName" value="&#33539;&#26126;&#26126;" /><input id="titleName" type="hidden" name="titleName" value="&#40664;&#35748;&#21327;&#21516;&#27969;&#31243;" /><input id="desc" type="hidden" name="desc" /><input id="oldtitle" type="hidden" name="oldtitle" /><input id="flowStatus" type="hidden" name="flowStatus" value="1" /><input id="from" type="hidden" name="from" /><input id="transitions" type="hidden" name="transitions" /><input id="potentialOwners" type="hidden" name="potentialOwners" /><input id="pdid" type="hidden" name="pdid" value="defaultFlow" /><input id="adid" type="hidden" name="adid" value="432375828421" /><input id="ptid" type="hidden" name="ptid" /><input id="port" type="hidden" name="port" value="http://106.38.71.241:8080/moffice" /><input id="isSupportFlow" type="hidden" name="isSupportFlow" value="1" /><input id="parentId" type="hidden" name="parentId" /><input id="subType" type="hidden" name="subType" /><input id="mFlowBizId2" type="hidden" name="mFlowBizId2" value="a6550f76-f9dd-47b6-b1d3-edbc07ff71e1" /><input id="pubAreaIds" type="hidden" name="pubAreaIds" /><input id="pubDepId" type="hidden" name="pubDepId" value="4028849f5d0b11b5015d1bb3a04000c7" /><input id="content" type="hidden" name="content" /><input id="fromportal" type="hidden" name="fromportal" value="1" /><input id="isImgNews" type="hidden" name="isImgNews" /><input id="tempDateType" type="hidden" name="tempDateType" value="3" /><input id="tempDateValue" type="hidden" name="tempDateValue" /><input id="sysType" type="hidden" name="sysType" value="2" /><input id="baseCode" type="hidden" name="baseCode" /><input id="isSelectTransition" type="hidden" name="isSelectTransition" /><input id="transitionAndOwner" type="hidden" name="transitionAndOwner" /><input id="formFlowTitle" type="hidden" name="formFlowTitle" value="" />
+</form></div><script>Mform0.initComplete=true;Mform0.redraw();isc.Page.setEvent(isc.EH.RESIZE,function(){isc.Page.setEvent(isc.EH.RESIZE,"Mform0.redraw()",null);},isc.Page.FIRE_ONCE);</script><div style='height:240px;'/>
+</body>
+</html>

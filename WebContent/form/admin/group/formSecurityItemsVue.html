@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="../../../resource/html5/js/vue.js"></script>
+    <script src="../../../resource/html5/js/axios.min.js"></script>
+
+    <link href='../../../resource/html5/css/matrix_runtime.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap/dist/css/bootstrap.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/font-awesome.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/flat/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/square/blue.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/bootstrap-select.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/select2.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/clockpicker.css' rel="stylesheet"/>
+    <link href='../../../resource/css/filecss.css' rel="stylesheet"/>
+    <link href='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/google-code-prettify/bin/prettify.min.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/custom.css' rel="stylesheet"/>
+    <link href='../../../resource/html5/css/skin/mCustom_primary.css' rel="stylesheet"/>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.i18n.properties.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/lang/matrix_lang.js'></SCRIPT>
+
+    <SCRIPT SRC='../../../resource/html5/js/jquery.inputmask.bundle.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/bootstrap/dist/js/bootstrap.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/icheck.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-select.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/select2.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/layer.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/autosize.min.js'></SCRIPT>
+    <script src="../../../resource/html5/js/demo.js"></script>
+    <SCRIPT SRC='../../../resource/html5/js/laydate/laydate.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/clockpicker.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/jquery.hotkeys/jquery.hotkeys.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/css/google-code-prettify/src/prettify.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/filejs.js'></SCRIPT>
+    <script src='../../../resource/html5/js/jstree.min.js'></script>
+    <link rel='stylesheet' href='../../../resource/css/themes/default/style.min.css'/>
+    <script src='../../../office/html5/assets/bootstrap-table/src/bootstrap-table.js'></script>
+    <SCRIPT SRC='../../../resource/html5/assets/toastr-master/toastr.min.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/validator.js'></SCRIPT>
+    <SCRIPT SRC='../../../resource/html5/js/matrix_runtime.js'></SCRIPT>
+    <link href='../../../resource/html5/assets/toastr-master/toastr.min.css' rel="stylesheet"/>
+
+    <style>
+        .jstree-default .jstree-hovered {
+            background: none;
+            border-radius: 0px;
+            color: blue;
+            text-decoration: underline;
+            box-shadow: none
+        }
+
+        .jstree-default .jstree-clicked {
+            background: #DDDDDD;
+            border-radius: 0px;
+            box-shadow: none;
+        }
+
+        .jstree-anchor {
+            padding: 0 4px 0 0px;
+        }
+
+        .jstree-default .jstree-node-online {
+            background: url("../../../office/html5/image/openfoldericon.png") no-repeat #fff;
+            background-position: 50% 50%;
+            background-size: auto;
+        }
+
+        .jstree-default .jstree-node-offline {
+            background: url("../../../office/html5/image/foldericon.png") no-repeat #fff;
+            background-position: 50% 50%;
+            background-size: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app" style="position:relative;_layout:flowlayout;width:100%;height:100%;">
+    <div id="horizontalContainer0"
+         class="page page-full animation-fade page-data-tables form-group col-xs-12 col-md-12 formItem"
+         style="height:100%;width:100%;margin-bottom: 0px;">
+        <div id="HorizontalContainer001Panel1" class="page-aside" style="width:22%;height:100%">
+            <div class="page-aside-switch">
+                <i class="icon wb-chevron-left" aria-hidden="true"></i>
+                <i class="icon wb-chevron-right" aria-hidden="true"></i>
+            </div>
+            <div class="page-aside-inner height-full" data-plugin="slimScroll" style="overflow:hidden;">
+                <div class="normal matrixInline innerHtmlCls " style="width:100%;height:30px;">
+                    <div style="background-color:rgb(248, 248, 248);height:30px;">
+                        <div style="height: 30px;padding: 7px;font-weight:bold;padding-left:30px;">表单树</div>
+                    </div>
+                </div>
+                <div id="container"
+                     style="height:calc(100% - 64px); width:100%;overflow: auto;background: #fff; font-size: 12px;">
+                </div>
+            </div>
+        </div>
+        <div id="panelGroup0_div;" class="page-main" style="width:78%;margin-left:22%">
+            <iframe id="iframeContent" v-show="showIframe" style="width:100%;height:100%;" frameborder="0" src=""></iframe>
+            <div id="web1" v-show="showNewPage" style="width: 100%;height: 100%;text-align: center;display:none;">
+                <img src="../../../resource/images/list.jpg" style="width: 300px;height: 200px;margin: 70px auto 0;"/>
+                <div style="padding:38px 0 12px">当前尚无查询配置，如需添加请点击新建添加，然后进行设计</div>
+                <input type="button" class="x-btn ok-btn " value="新建" style="width:110px;height: 36px" @click="createNew">
+            </div>
+        </div>
+        <input type="hidden" id="scopeName"  value="" >
+
+    </div>
+</div>
+</body>
+</html>
+
+
+<script>
+    const app = new Vue({
+        el: "#app",
+        data: {
+            groupId: "",
+            showIframe:false,
+            showNewPage:false
+        },
+        computed: {
+
+        },
+        methods:{
+            createNew: function () {
+                const selectedArr = $('#container').jstree().get_selected(true);
+                if (typeof selectedArr != "undefined" && selectedArr.length>0){
+                    const node = selectedArr[0];
+                    
+                    var formUuid = node.original.formUuid;
+                    
+                    const synJson = new URLSearchParams();
+                    synJson.append('securityGroupId', this.groupId);
+                    synJson.append('formDefUuid', formUuid);
+                    
+                                              
+                    axios.post("/" + location.pathname.split("/")[1] + "/securityGroup/newFormScope",synJson)
+                        .then(data => {
+                            if (data != "") {
+                                const dataJson = data.data;
+                                //
+                                if (dataJson.status) {
+                                    const result = JSON.parse(dataJson.dataStr);
+
+                                    //右侧加载授权范围
+                                    const overWrite = false;
+                                    const src = "../../../form/admin/security/secEmpowerList.html?entrance=SecGroupOperationSet&formUuid=" + formUuid + "&scopeUuid=" + result.scopeItemId + "&overWrite=" + overWrite;
+                                    $("#iframeContent").attr("src", src);
+                                    app.showNewPage = false;
+                                    app.showIframe = true;
+                                    
+                                    const scopeItemName = result.scopeItemName;
+                                    $("#scopeName").val(scopeItemName);
+                                    
+                                } else {
+                                    app.showNewPage = false;
+                                    app.showIframe = false;
+                                    isc.warn(dataJson.msg);
+                                }
+                            }
+                        })
+                }
+            }
+        },
+        mounted() {
+            this.groupId = decodeURIComponent((new RegExp('[?|&]mUuid=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+
+            const _treeCon = function (data){
+                const TreeMenu1 = {
+                    'TreeMenuItem11': {
+                        'label': '刷新',
+                        'separator_before': true,
+                        'separator_after': true,
+                        'icon': '../../../resource/images/matrix/Fresh.png',
+                        'action': function (target) {
+                            $('#container').jstree(true).refresh_node(target.reference[0]);
+
+                        }
+                    }
+                };
+
+                const id = data.original.id
+                /*if (id == 'root'){
+                    return TreeMenu2;
+                }else{
+
+                }*/
+                return TreeMenu1;
+            }
+            const tree = $('#container').jstree({
+                'core': {
+                    'multiple': false,    //设置为多选
+                    "animation": false,   //打开/关闭动画持续时间（以毫秒为单位） - 将此设置false为禁用动画（默认为200）
+                    'dblclick_toggle': false,  //禁止双击（ 默认为true）
+                    'data': {
+                        "url": "/" + location.pathname.split("/")[1] + "/securityGroup/dataSecurityTreeNode",
+                        "data": function (node) {
+                        	let type;
+                        	let mid;
+                        	if(node.original){
+								type = node.original.type;
+								mid = node.original.mid;
+							}
+                            return {
+                                "nodeId": node.id === "#" ? "0" : node.id,
+                               	"entrance": 'formSec',
+                                "type": type,
+                                "mid": mid
+                            };
+                        },
+                        "dataType": "json",
+                        "type": "get"
+                    },
+                    'themes': {
+                        'icons': true
+                    }
+                },
+                "plugins": ["contextmenu","wholerow"],
+                'contextmenu' :{
+                    "items" : _treeCon
+                }
+            });
+            //加载二级菜单
+            $('#container').on('load_node.jstree', function(e, data){
+                $('#container').jstree(true).open_node("formRoot");
+            });
+
+            //点击事件
+            $('#container').on('select_node.jstree',function(e, dataF){
+            	const node = dataF.node;
+            	var formUuid = node.original.formUuid;
+            	let isFormNode = false;
+            	if(formUuid!=null && formUuid.trim().length>0){
+            		isFormNode = true;
+            	}           
+                //加载已经存在的表单授权
+                axios.get("/"+location.pathname.split("/")[1]+"/securityGroup/formScope?securityGroupId="+app.groupId+"&formDefUuid="+formUuid)
+                    .then(data => {
+                        if (data != "" ) {
+                            const dataJson = data.data;
+                            if (dataJson.status) {
+                                const result = JSON.parse(dataJson.dataStr);
+                                if(isFormNode == true){
+                                	if (result.hadSco) {
+                                        // 有已经存在的数据
+                                        const scoUuid = result.scoUuid;
+                                        //右侧加载授权范围
+                                        const overWrite = false;
+                                        const src = "../../../form/admin/security/secEmpowerList.html?entrance=SecGroupOperationSet&formUuid="+formUuid+"&scopeUuid="+scoUuid+"&overWrite="+overWrite;
+                                        $("#iframeContent").attr("src",src);
+                                        app.showNewPage = false;
+                                        app.showIframe = true;
+                                        
+                                        const scoName = result.scoName;
+                                        $("#scopeName").val(scoName);
+                                    }else {
+                                        // 展示提示新建页面
+                                        app.showNewPage = true;
+                                        app.showIframe = false;
+                                    }
+                                }                             
+                            }else {
+                                app.showNewPage = false;
+                                app.showIframe = false;
+                                isc.warn("服务器异常，请联系管理员！");
+                            }
+                        }
+                    })
+            });
+        }
+    })
+
+
+</script>

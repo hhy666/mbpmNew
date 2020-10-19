@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>数据权限窗口列表</title>
+<script type="text/javascript" src="../../../form/html5/admin/html5Head.js"></script>
+
+<script>
+//点击左边授权范围，右边跳转到授权页面
+function linkToSecurity(row, element){
+	$('#DataGrid001_table .changeColor').removeClass('changeColor');//去除之前选中的行的，选中样式
+	$(element).addClass('changeColor');
+	
+	var index = $(element).data('index'); //获得选中的行的index
+	var formUuid = row.formUuid;
+	var scopeUuid = row.uuid;
+	var overWrite = row.overWrite;
+	
+	document.getElementById('scopeUuid').value = row.uuid;
+	document.getElementById('scopeName').value = row.name;
+	
+	//1为继承子表单复制父表单的授权范围
+	if(overWrite == '1'){
+		document.getElementById('MtoolBarItemEditScope').disabled=true;    //修改
+		document.getElementById('MtoolBarItemDelScope').disabled=true;    //删除
+	}else{
+		document.getElementById('MtoolBarItemEditScope').disabled=false;    //修改
+		document.getElementById('MtoolBarItemDelScope').disabled=false;    //删除
+	}
+	
+	//先销毁
+	$('#DataGrid002_table').bootstrapTable('destroy');
+	//加载授权范围子项
+	//第1步，定义要显示的列
+	var columns = [
+	  { 
+		 title: '类型',
+	     field: 'typeName',
+	     width: 80
+	  },
+	  {
+		 title: '授权范围子项',
+	     field: 'value'    	
+	  },
+	  {
+		 uuid: '主键编码',
+		 field: 'uuid',
+		 visible: false
+	  },
+	  {
+		 title: '类型编码',
+		 field: 'type',
+		 visible: false
+	  }
+	];		
+	//第2步，初始化bootstrap table
+	$('#DataGrid002_table').bootstrapTable({
+		classes: 'table table-hover table-no-bordered',
+		method: "post", 
+		contentType : "application/x-www-form-urlencoded",  //必须配置 不然queryParams传参后台获取不到
+		url: webpath + "formSecScopeItem/getSecScopeItemList",
+		search: false,    //是否启用搜索框
+		sortable: false,  //是否启用排序
+		pagination:false, //是否启用分页
+		sidePagination: "server",   //指定服务器端分页
+		queryParams: queryParams,   //传参
+		formatLoadingMessage: function() {
+            return '请稍等，正在加载中...';
+	    },
+		formatNoMatches: function() {
+            return '无符合条件的记录';
+        },
+	    columns: columns,
+	    onClickRow:function(row, element){   //点击行事件 跳转
+	    	$('#DataGrid002_table .changeColor').removeClass('changeColor');//去除之前选中的行的，选中样式
+	    	$(element).addClass('changeColor');
+		}
+	});
+	document.getElementById('scopeItemDiv').style.display = '';
+	document.getElementById('scopeItemDiv').style.height = '200px';
+	document.getElementById('scopeDiv').style.height = 'calc(100% - 200px)';
+	
+	var entrance = document.getElementById('entrance').value;
+	//右侧加载授权范围
+	var src = "../../../form/admin/security/secEmpowerList.html?entrance="+entrance+"&formUuid="+formUuid+"&scopeUuid="+scopeUuid+"&overWrite="+overWrite;
+	document.getElementById('iframeContent').src = src;		
+}
+
+function queryParams(params) {
+    var temp = {   
+       formUuid: document.getElementById('formUuid').value,
+       scopeUuid: document.getElementById('scopeUuid').value
+    };
+    return temp;
+};
+
+//添加权限范围
+function addScope(){
+	var formUuid = document.getElementById('formUuid').value;
+	layer.open({
+    	id:'addScope',
+		type : 2,//iframe 层					
+		shade: [0.1, '#000'],
+		title : ['添加权限范围'],
+		closeBtn : 1,//显示关闭按钮风格1 2  0不显示关闭按钮
+		shadeClose: false, //开启遮罩关闭
+		area : [ '50%', '60%' ],
+		content : '../../../form/admin/security/addSecScopeBasic.html?iframewindowid=addScope&opType=add&formUuid='+formUuid
+	});
+}
+
+//修改权限范围
+function editScope(){
+	var $tr = $('#DataGrid001_table').find('tr.changeColor');   //选中行
+	if($tr!=null && $tr.length==1){
+		var index = $tr.data('index'); //获得选中的行的index
+		var item = Matrix.getGridData('DataGrid001');   //所有数据
+		var record = item[index];  //当前选中行
+		
+		var uuid = record.uuid;
+		var formUuid = record.formUuid;
+		layer.open({
+	    	id:'editScope',
+			type : 2,//iframe 层					
+			shade: [0.1, '#000'],
+			title : ['修改权限范围'],
+			closeBtn : 1,//显示关闭按钮风格1 2  0不显示关闭按钮
+			shadeClose: false, //开启遮罩关闭
+			area : [ '50%', '60%' ],
+			content : '../../../form/admin/security/addSecScopeBasic.html?iframewindowid=editScope&opType=update&index='+index+'&uuid='+uuid+'&formUuid='+formUuid
+		});
+	}else{
+		Matrix.warn("请选择一个授权范围!");
+	}
+}
+
+//复制权限范围
+function copyScope(){
+	Matrix.showMask2();
+	var $tr = $('#DataGrid001_table').find('tr.changeColor');   //选中行
+	if($tr!=null && $tr.length==1){
+		var index = $tr.data('index'); //获得选中的行的index
+		var item = Matrix.getGridData('DataGrid001');   //所有数据
+		var record = item[index];  //当前选中行
+		
+		var url = webpath + 'formSecScope/copySecurityScope';
+		var synJson = {};
+		synJson.uuid = record.uuid;
+		synJson.scopeName = record.name;	
+		synJson.formUuid = record.formUuid;
+		synJson.overWrite = record.overWrite;
+		
+		Matrix.sendRequest(url,synJson,function(data){
+			var jsonData = data.data;
+			//服务端添加成功
+			if(jsonData.message=='true'){
+				var record = {};
+				record.name = jsonData.scopeName;
+				record.uuid = jsonData.scopeUuid;
+				record.formUuid = jsonData.formUuid;												
+				record.overWrite = jsonData.overWrite;
+				$("#DataGrid001_table").bootstrapTable('insertRow',{index:item.length,row:record});
+				Matrix.say("复制成功");
+				//Matrix.refreshDataGridData('DataGrid001');
+						
+			    //加载此范围授权信息
+			    var $element = $('#DataGrid001_table').find('tr').last();	
+			    linkToSecurity(record, $element);
+			    
+			}else if(jsonData.message=='false'){
+				Matrix.warn("复制失败!");	
+			}
+			Matrix.hideMask2();
+		});
+	}else{
+		Matrix.warn("请选择一个授权范围!");
+		Matrix.hideMask2();
+	}
+}
+
+//删除权限范围
+function delScope(){
+	Matrix.showMask2();
+	var $tr = $('#DataGrid001_table').find('tr.changeColor');   //选中行
+	if($tr!=null && $tr.length==1){
+		var index = $tr.data('index'); //获得选中的行的index
+		var item = Matrix.getGridData('DataGrid001');   //所有数据
+		var record = item[index];  //当前选中行
+		
+		var url = webpath + 'formSecScope/deleteSecScopeBasic';
+		var synJson = {};
+		synJson.uuid = record.uuid;
+		synJson.formUuid = record.formUuid;
+		
+		Matrix.sendRequest(url,synJson,function(data){
+			var jsonData = data.data;
+			if(jsonData.message=='true'){
+				Matrix.say("删除成功");
+				var ids = new Array(1)
+				ids[0] = record.uuid;
+				$("#DataGrid001_table").bootstrapTable('remove',{field:'uuid',values:ids});
+				//Matrix.refreshDataGridData('DataGrid001');
+				//权限范围子项隐藏
+				document.getElementById('scopeItemDiv').style.display = 'none';
+				document.getElementById('scopeItemDiv').style.height = '0px';
+				document.getElementById('scopeDiv').style.height = '100%';
+			    ///将右侧范围列表页 设置为占位页面
+			    document.getElementById('iframeContent').src = '../../../form/admin/security/listSecEmpower_Blank.html'			   	
+			  		    
+			}else if(jsonData.message=='false'){
+				Matrix.warn("删除失败!");	
+			}
+			Matrix.hideMask2();
+		});
+	}else{
+		Matrix.warn("请选择一个授权范围!");
+		Matrix.hideMask2();
+	}
+}
+
+//添加权限范围子项
+function addScopeItem(){
+	var formUuid = document.getElementById('formUuid').value;
+	var scopeUuid = document.getElementById('scopeUuid').value;
+	layer.open({
+    	id:'addScopeItem',
+		type : 2,//iframe 层					
+		shade: [0.1, '#000'],
+		title : ['添加权限范围子项'],
+		closeBtn : 1,//显示关闭按钮风格1 2  0不显示关闭按钮
+		shadeClose: false, //开启遮罩关闭
+		area : [ '70%', '85%' ],
+		content : '../../../form/admin/security/addSecScopeItem.html?iframewindowid=addScopeItem&opType=add&formUuid='+formUuid+'&scopeUuid='+scopeUuid
+	});
+}
+
+//编辑权限范围子项
+function editScopeItem(){
+	var $tr = $('#DataGrid002_table').find('tr.changeColor');   //选中行
+	if($tr!=null && $tr.length==1){
+		var index = $tr.data('index'); //获得选中的行的index
+		var item = Matrix.getGridData('DataGrid002');   //所有数据
+		var record = item[index];  //当前选中行
+		
+		var type = record.type;
+		if(type == '6'){
+			Matrix.warn("权限组类型不可编辑!");
+			return false;
+		}
+		var uuid = record.uuid;
+		var formUuid = document.getElementById('formUuid').value;
+		var scopeUuid = document.getElementById('scopeUuid').value;
+		layer.open({
+	    	id:'editScopeItem',
+			type : 2,//iframe 层					
+			shade: [0.1, '#000'],
+			title : ['编辑权限范围子项'],
+			closeBtn : 1,//显示关闭按钮风格1 2  0不显示关闭按钮
+			shadeClose: false, //开启遮罩关闭
+			area : [ '70%', '85%' ],
+			content : '../../../form/admin/security/addSecScopeItem.html?iframewindowid=editScopeItem&opType=update&index='+index+'&uuid='+uuid+'&formUuid='+formUuid+'&scopeUuid='+scopeUuid
+		});
+	}else{
+		Matrix.warn("请选择一个授权范围子项!");
+	}
+}
+
+//删除权限范围子项
+function delScopeItem(){
+	Matrix.showMask2();
+	var $tr = $('#DataGrid002_table').find('tr.changeColor');   //选中行
+	if($tr!=null && $tr.length==1){
+		var index = $tr.data('index'); //获得选中的行的index
+		var item = Matrix.getGridData('DataGrid002');   //所有数据
+		var record = item[index];  //当前选中行
+		
+		var url = webpath + 'formSecScopeItem/deleteSecScopeItem';
+		var synJson = {};
+		synJson.uuid = record.uuid;
+		synJson.formUuid = document.getElementById('formUuid').value;
+		synJson.scopeUuid = document.getElementById('scopeUuid').value;
+		
+		Matrix.sendRequest(url,synJson,function(data){
+			var jsonData = data.data;
+			if(jsonData.message=='true'){
+				Matrix.say("删除成功");
+				var ids = new Array(1)
+				ids[0] = record.uuid;
+				$("#DataGrid002_table").bootstrapTable('remove',{field:'uuid',values:ids});
+				//Matrix.refreshDataGridData('DataGrid002');
+				
+			}else if(jsonData.message=='false'){
+				Matrix.warn("删除失败!");	
+			}
+			Matrix.hideMask2();
+		});
+	}else{
+		Matrix.warn("请选择一个授权范围子项!");
+		Matrix.hideMask2();
+	}
+}
+
+var winObj = null;  //记录一级弹窗对象
+//选用户回调
+function onselectUserClose(data){
+	winObj.onselectUserClose(data);
+}	  
+</script>
+</head>
+<body>
+	<div id="matrixMask" name="matrixMask" class="matrixMask" style="width: 100%; height: 100%; position: absolute;top: 1;left: 1;z-index: 9999999999999;display: none;"> </div>
+	<!-- 当前选中的授权范围的主键 -->
+   	<input type="hidden" id="scopeUuid" name="scopeUuid">
+	<!-- 当前选中的授权范围的名称 -->
+   	<input type="hidden" id="scopeName" name="scopeName">
+   	<!-- 当前表单编码主键 -->
+   	<input type="hidden" id="formUuid" name="formUuid">
+   	<!-- 当前入口activity:从流程设计中的活动入口进入设置权限        designer:从设计开发下的表单列表入口进入设置权限   formSec:权限组表单控件授权操作设置高级条件入口进入设置权限    否则是从表单设计器中数据权限按钮进入 -->
+   	<input type="hidden" id="entrance" name="entrance">
+   	
+   	
+	<div id="box" style="height:100%;">
+	 	 <div id="left" style="height: 100%;width:300px;float:left;overflow: auto;">
+   	 	   		<div id="scopeDiv" style="width:100%;height:100%;">
+   	 	   			<div style="height: 35px;line-height: 35px;width: 100%;background: #F8F8F8;">
+			   	 		<button type="button" class="btn btn-default toolBarItem" id="MtoolBarItemAddScope" style="padding-left:5px;padding-right:5px;margin:0px;border:0;" onclick="addScope();">
+							<img src="../../../resource/images/new.png" style="padding-right: 2px;">添加
+						</button>
+						<button type="button" class="btn btn-default toolBarItem" id="MtoolBarItemEditScope" style="padding-left:5px;padding-right:5px;margin:0px;border:0;" onclick="editScope();">
+							<img src="../../../resource/images/edit.png" style="padding-right: 2px;">修改
+						</button>
+						<button type="button" class="btn btn-default toolBarItem" id="MtoolBarItemCopyScope" style="padding-left:5px;padding-right:5px;margin:0px;border:0;" onclick="copyScope();">
+							<img src="../../../resource/images/relatarc.png" style="padding-right: 2px;">复制
+						</button>
+						<button type="button" class="btn btn-default toolBarItem" id="MtoolBarItemDelScope" style="padding-left:5px;padding-right:5px;margin:0px;border:0;" onclick="delScope();">
+							<img src="../../../resource/images/deletex.png" style="padding-right: 4px;">删除
+						</button>	
+		   	 		</div>
+   	 	   			<table id="DataGrid001_table" style="width: 100%;height: calc(100% - 35px);"></table>
+   	 	   		</div>
+	   	 		<div id="scopeItemDiv" style="width:100%;height:0px;overflow: auto;display: none;">
+	   	 			<div style="height: 35px;line-height: 35px;width: 100%;background: #F8F8F8;">
+		   	 			<button type="button" class="btn btn-default toolBarItem" id="MtoolBarItemAddScopeItem" style="padding-left:5px;padding-right:5px;margin:0px;border:0;" onclick="addScopeItem();">
+							<img src="../../../resource/images/new.png" style="padding-right: 2px;">添加
+						</button>
+						<button type="button" class="btn btn-default toolBarItem" id="MtoolBarItemEditScopeItem" style="padding-left:5px;padding-right:5px;margin:0px;border:0;" onclick="editScopeItem();">
+							<img src="../../../resource/images/edit.png" style="padding-right: 2px;">编辑
+						</button>
+						<button type="button" class="btn btn-default toolBarItem" id="MtoolBarItemDelScopeItem" style="padding-left:5px;padding-right:5px;margin:0px;border:0;" onclick="delScopeItem();">
+							<img src="../../../resource/images/deletex.png" style="padding-right: 4px;">删除
+						</button>	
+					</div>
+	   	 			<table id="DataGrid002_table" style="width: 100%;height: calc(100% - 35px);"></table>
+	   	 		</div>
+	   	 			 		
+				<script>
+					$(document).ready(function() {
+						var formUuid = getUrlParam("formUuid");				
+						document.getElementById('formUuid').value = formUuid;
+						
+						var entrance = getUrlParam("entrance");				
+						document.getElementById('entrance').value = entrance;
+						
+						$("#DataGrid001_table").bootstrapTable({         
+							classes: 'table table-hover table-no-bordered',
+							method: "post", 
+							contentType : "application/x-www-form-urlencoded",  //必须配置 不然queryParams传参后台获取不到
+							url: webpath+"formSecScope/getSecScopeList?formUuid="+formUuid,
+							search: false,    //是否启用搜索框
+							sortable: false,  //是否启用排序
+							pagination: false, //是否启用分页
+							sidePagination: "server",   //指定服务器端分页
+							//clickToSelect: true,    //设置true 将在点击行时,自动选择radiobox 和 checkbox
+							//uniqueId: "uuid",
+							formatLoadingMessage: function() {
+					            return '请稍等，正在加载中...';
+						    },
+							formatNoMatches: function() {
+					            return '无符合条件的记录';
+					        },
+						    columns: [       //列配置项							 											
+						        {title:"授权范围",field:"name",sortable:true,clickToSelect:true,editorType:'Text',type:'text'},
+						        {title:"主键编码",field:"uuid",sortable:true,clickToSelect:true,editorType:'Text',type:'text',visible:false},
+						        {title:"表单编码",field:"formUuid",sortable:true,clickToSelect:true,editorType:'Text',type:'text',visible:false},
+						        {title:"是否继承",field:"overWrite",sortable:true,clickToSelect:true,editorType:'Text',type:'text',visible:false}						     
+						    ],
+						    //singleSelect:true,   //设置true将禁止多选
+						    onClickRow:function(row, $element){   //点击行事件 跳转
+						    	linkToSecurity(row, $element);
+							},
+						});
+				     });						
+				</script>	
+	   	  </div>
+	   	  <div id="line" style="height: 100%;width: 3px;overflow: hidden;float:left;background: #ebebeb;cursor: w-resize;"></div>
+	   	  <div id="right" style="height: 100%;width: calc(100% - 303px);float:right;">
+  	 	  	 <iframe id="iframeContent" style="width:100%;height:100%;" frameborder="0" src="../../../form/admin/security/listSecEmpower_Blank.html"/>
+  	     </div>
+	 </div>
+</body>
+</html>

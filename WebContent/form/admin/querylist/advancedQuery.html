@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>高级查询设置</title>
+<script src="../../../resource/html5/js/vue.js"></script>
+<script src="../../../resource/html5/js/axios.min.js"></script>
+<script type="text/javascript" src="../../../form/html5/admin/html5Head.js"></script>
+
+<style type="text/css">
+   	body, ul{
+	    margin: 0;
+	    padding: 0;
+	    font-size: 14px;
+	}
+	div, ul{
+		box-sizing: border-box;
+	}
+	label {
+	    min-width: 30px;
+	    font-weight: 700;
+	}
+	.item-label{
+		float: left;
+		height: 100%;
+		width: 10%;
+		line-height: 50px;
+		text-align: right;
+		//background-color:#efefef;
+		border: 0px solid #ddd;
+		border-right: 0px;
+	}
+	.item-field{
+		float: left;
+		height: 100%;
+		width: 20%;
+		padding: 7px;
+		text-align:center;
+		border: 0px solid #ddd;
+		border-right: 0px;
+	}
+	.item-operation{
+		float: left;
+		height: 100%;
+		width: 12%;
+		padding: 7px;
+		text-align:center;
+		border: 0px solid #ddd;
+		border-right: 0px;
+	}
+	.item-value{
+		float: left;
+		height: 100%;
+		width: 20%;
+		padding: 7px;
+		text-align:center;
+		border: 0px solid #ddd;
+		border-right: 0px;
+	}
+	.item-connector{
+		float: left;
+		height: 100%;
+		width: 10%;
+		padding: 7px;
+		text-align:center;
+		border: 0px solid #ddd;
+		border-right: 0px;
+	}
+	.item-tools{
+		float: left;
+		height: 100%;
+		width: 8%;
+		border: 0px solid #ddd;
+		display: flex;
+    	align-items: center;
+    	justify-content: flex-start;
+    	padding-left: 10px;
+	}
+	
+	.ico16 {
+		background: rgba(0, 0, 0, 0) url("../../../resource/images/icon16.png") no-repeat scroll 0 0;
+		cursor: pointer;
+		display: inline-block;
+		height: 16px;
+		line-height: 16px;
+		vertical-align: middle;
+		width: 16px;
+	}
+	.oprate_reduce_16 {
+		background-position: -192px -16px;
+	}
+	
+	.oprate_plus_16 {
+		background-position: -176px -16px;
+	}
+	.valueWidth{
+		width: 90%;
+	}
+	
+	[v-cloak] {
+ 		display: none;
+	}
+</style>
+<script type="text/javascript">
+	let queryItemObj;
+	//弹出单选人员窗口
+	function openSinglePerson(queryItem){
+		queryItemObj = queryItem;
+		layer.open({
+			    id:'singlePerson',
+				type : 2,				
+				title : ['请选择'],
+				//closeBtn : 2,//显示关闭按钮风格1 2  0不显示关闭按钮
+				shadeClose: false, //开启遮罩关闭
+				area : [ '95%', '95%' ],
+				content : webpath + "office/html5/select/SingleSelectPerson.jsp?iframewindowid=singlePerson"
+		}); 
+	}	
+	//单选用户回调
+	function onsinglePersonClose(data){
+		debugger;
+		if(data!=null){
+			var ids = data.ids;
+			var names = data.names;
+			queryItemObj.value = ids;
+			queryItemObj.showName = names;		
+		}
+	}
+	
+	//弹出单选部门窗口
+	function openSingleDep(queryItem){
+		queryItemObj = queryItem;
+		layer.open({
+		    id:'singleDep',
+			type : 2,				
+			title : ['请选择'],
+			//closeBtn : 2,//显示关闭按钮风格1 2  0不显示关闭按钮
+			shadeClose: false, //开启遮罩关闭
+			area : [ '95%', '95%' ],
+			content : webpath + "office/html5/select/SingleSelectDep.jsp?iframewindowid=singleDep"
+		}); 
+	}	
+	//单选用户回调
+	function onsingleDepClose(data){
+		if(data!=null){
+			var ids = data.ids;
+			var names = data.names;
+			queryItemObj.value = ids;
+			queryItemObj.showName = names;
+		}
+	 }
+</script>
+</head>
+<body>
+	<div id="app" style="position: absolute;height: 100%;width: 100%;background: #f8f8f8;padding: 0 20px;" v-cloak>
+		<div style="height:calc(100% - 54px);">
+			<ul id="TabContainer001" style="height: 40px;background-color: #FFFFFF;" class="nav nav-tabs disable container-bottom">
+				<li class="active"><a href="#TabPanel001" data-toggle="tab">基本信息条件</a></li>
+				<li v-if="isRelatedServiceItem"><a href="#TabPanel002" data-toggle="tab">服务项条件</a></li>
+			</ul>
+			<div id="content-main" class="tab-content container-bottom" style="height: calc(100% - 81px);width: 100%;background: #FFFFFF;border-radius: 2px;overflow:auto;">
+				<div class="tab-pane fade in active" id="TabPanel001" style="height:100%;">
+					<div style="position: relative;height: 50px;" v-for="(queryItem,index) in queryList" :key="index">
+						<div class="item-label"><label class="control-label">字段</label></div>
+						<div class="item-field">
+							<div> 						
+								<select class="selectpicker form-control" title="请选择" data-live-search ="true" data-none-results-text="没有找到匹配的记录" v-model="queryItem.id" @change="selectField($event,queryItem,index);">
+									<option v-for="(field,fieldIndex) in fieldList" :key="fieldIndex" :value="field.id" selected="field.fieldPath==queryItem.fieldPath?selected:false">{{field.prefixStr}}{{ field.name }}</option>		
+								</select>
+							</div>				
+						</div>
+						<div class="item-label"><label class="control-label">操作</label></div>
+						<div class="item-operation">
+							<div> 
+								<select class="selectpicker form-control" title="请选择" v-model="queryItem.operator" :id="getOperationId(index)">
+									<template v-if="queryItem.uiType == 1">   <!-- 文本框 -->
+										 <option value="equals">等于</option>  
+				                         <option value="like">包含</option>
+				                         <option value="isNull">为空</option>
+				                   		 <option value="notNull">不为空</option>			                         
+									</template>									
+									<template v-else-if="queryItem.uiType == 2 || queryItem.uiType == 3 || queryItem.uiType == 4">   <!-- 日期框  时间框  数字框-->
+										 <option value="equals">等于</option>
+										 <option value="isNull">为空</option>
+				                   		 <option value="notNull">不为空</option>		
+										 <option value=">">大于</option>
+				                         <option value="<">小于</option>
+				                         <option value=">=">大于或等于</option>
+				                         <option value="<=">小于或等于</option>
+									</template>
+			                        <template v-else-if="queryItem.uiType == 6 || queryItem.uiType == 7 || queryItem.uiType == 8 
+			                        || queryItem.uiType == 5 || queryItem.uiType == 9 || queryItem.uiType == 11
+			                        || queryItem.uiType == 23 || queryItem.uiType == 25">   <!-- 单选按钮  复选框  单选按钮组    下拉框    复选按钮组 列表框  单选人员  单选部门 -->
+			                        	 <option value="equals">等于</option>
+			                        </template>
+			                        <template v-else-if="queryItem.uiType == 22 || queryItem.uiType == 24 || queryItem.uiType == 26">   <!-- 多选下拉框  多选人员  多选部门-->
+			                        	 <option value="like">包含</option>
+			                        </template>
+			                        <template v-else>
+			                        	 <option value="equals">等于</option>  
+				                         <option value="like">包含</option>
+				                         <option value="isNull">为空</option>
+				                   		 <option value="notNull">不为空</option>			
+			                        </template>
+			                    </select> 
+			                </div>
+				        </div>
+						<div class="item-label"><label class="control-label">值</label></div>
+						<div class="item-value">
+							 <div class="valueWidth" v-show="queryItem.uiType == 1">   <!-- 文本框 -->
+							 	<input type="text" class="form-control" v-model="queryItem.value"/>
+							 </div>
+							 <div class="valueWidth" v-show="queryItem.uiType == 2">   <!-- 日期框 -->
+							 	<div class="input-group">
+					                <input class="form-control layer-date" style="width:100%;" :id="getInputDateId(index)" :value="queryItem.value"/>
+					                <span class="input-group-addon addon-udSelect udSelect"><i class="fa fa-calendar"></i></span>
+				                </div>
+							 </div>
+							 <div class="valueWidth" v-show="queryItem.uiType == 3">   <!-- 时间框 -->
+							 	<div class="input-group clockpicker" :id="getInputTimeId(index)">
+					                <input class="form-control" style="width:100%;" :value="queryItem.value"/>
+					                <span class="input-group-addon addon-udSelect udSelect"><i class="fa fa-clock-o"></i></span>
+				                </div>
+							 </div>
+							 <div class="valueWidth" v-show="queryItem.uiType == 4">   <!-- 数字框 -->
+							 	<div class="input-group">
+				               		<input type="number" class="form-control" style="width:100%;" v-model="queryItem.value">
+				               	</div>
+							 </div>
+							 <div class="valueWidth" v-show="queryItem.uiType == 6 || queryItem.uiType == 7">   <!-- 单选按钮  复选框 -->			
+							 	<div>
+				                    <select class="selectpicker form-control" title="请选择" v-model="queryItem.value" :id="getInputValueId(index)">  
+				                        <option value="1">是</option>  
+				                        <option value="0">否</option>  
+				                    </select>  
+				                </div>
+							 </div>
+							 <div class="valueWidth" v-show="queryItem.uiType == 8 || queryItem.uiType == 5 || queryItem.uiType == 9 || queryItem.uiType == 22 || queryItem.uiType == 11">   <!-- 单选按钮组     下拉框    复选按钮组     多选下拉框   列表框-->					  
+			                    <div>
+				                    <select class="selectpicker form-control" title="请选择" v-model="queryItem.value" :id="getInputValueId(index)">
+				                    	<option v-for="(optionItem,optionIndex) in filterOptions(queryItem.fieldPath)" :key="optionIndex" :value="optionItem.id" 
+				                    	selected="optionItem.id==queryItem.value?selected:false">{{ optionItem.name }}</option>				
+				                    </select>  
+			                    </div>
+							 </div>
+							 <div class="valueWidth" v-show="queryItem.uiType == 23 || queryItem.uiType == 24">   <!-- 单选人员  多选人员 -->
+							  	<div class="input-group">
+									 <input type="text" class="form-control" style="width:100%;" v-model="queryItem.showName">
+				            		 <span class="input-group-addon addon-udSelect udSelect" @click="openSinglePerson($event,queryItem);"><i class="fa fa-user" style="padding: 0 2px;"></i></span>
+				            		 <input type="text" v-show="false" v-model="queryItem.value"/>
+								</div>
+							 </div>
+							 <div class="valueWidth" v-show="queryItem.uiType == 25 || queryItem.uiType == 26">   <!-- 单选部门  多选部门 -->
+							  	<div class="input-group">
+									 <input type="text" class="form-control" style="width:100%;" v-model="queryItem.showName">
+				            		 <span class="input-group-addon addon-udSelect udSelect" @click="openSingleDep($event,queryItem);"><i class="fa fa-th-large" style="padding: 0 1px;"></i></span>
+				            		 <input type="text" v-show="false" v-model="queryItem.value"/>
+								</div>
+							 </div>
+							 <div class="valueWidth" v-show="isOtherType(queryItem.uiType)">
+							 	 <input type="text" class="form-control" v-model="queryItem.value"/>
+							 </div>
+						</div>
+						<div class="item-connector">
+							<div v-show="queryList.length>1 && index!=queryList.length-1">
+								<select class="selectpicker form-control" title="请选择" v-model="queryItem.connector" :id="getConnectorId(index)">  
+			                        <option value="and" selected="queryItem.connector=='and'?selected:false">并且</option>  
+			                        <option value="or" selected="queryItem.connector=='or'?selected:false">或者</option>
+		                   		 </select> 
+							</div>			
+						</div>
+						<div class="item-tools">
+							<span class="item-icon" style="margin-right: 5px;font-size:16px;color: #3377FF;cursor:pointer;" title="添加" @click="addRow(queryList,queryItem,index);"><i class="fa fa-plus"></i></span>
+							<span class="item-icon" style="font-size:16px;color: #d84636;cursor:pointer;" title="删除" @click="delRow(index);"><i class="fa fa-minus"></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="TabPanel002" style="height:100%;" v-if="isRelatedServiceItem">
+					<div style="height: 72px;line-height: 72px;padding-left: 20px;">
+				   		<button type="button" class="x-btn ok-btn" @click="addServiceItems();">添加</button>
+				    </div>
+					<div style="height: calc(100% - 72px);overflow: auto;">
+						<template v-if="serviceQueryList.length>0">		   
+						   <div style="position: relative;height: 50px;" v-for="(serviceQueryItem,serviceIndex) in serviceQueryList" :key="serviceIndex">
+								<div class="item-label"><label class="control-label">字段</label></div>
+								<div class="item-field">
+									<div> 
+										<input type="text" class="form-control" v-model="serviceQueryItem.fieldName" readonly="readonly"/>
+										<input type="text" v-show="false" v-model="serviceQueryItem.id"/>
+									</div>				
+								</div>
+								<div class="item-label"><label class="control-label">操作</label></div>
+								<div class="item-operation">
+									<div> 
+										<input type="text" class="form-control" :value="formatOperator(serviceQueryItem.operator)" readonly="readonly"/>
+										<input type="text" v-show="false" v-model="serviceQueryItem.operator"/> 
+					                </div>
+						        </div>
+						        <div class="item-label"><label class="control-label">值</label></div>
+								<div class="item-value">					
+									 <input type="text" class="form-control valueWidth" v-model="serviceQueryItem.value" readonly="readonly"/>
+								</div>
+								<div class="item-connector">
+									<div v-show="serviceQueryList.length>1 && serviceIndex!=serviceQueryList.length-1">
+										<input type="text" class="form-control" :value="formatConnector(serviceQueryItem.connector)" readonly="readonly"/>
+										<input type="text" v-show="false" v-model="serviceQueryItem.connector"/>
+									</div>			
+								</div>
+								<div class="item-tools">
+									<!--  
+									<span class="item-icon" style="margin-right: 5px;font-size:16px;color: #3377FF;cursor:pointer;" title="添加" @click="addServiceItems(serviceIndex);"><i class="fa fa-plus"></i></span>
+									-->
+									<span class="item-icon" style="font-size:16px;color: #d84636;cursor:pointer;" title="删除" @click="delServiceRow(serviceIndex);"><i class="fa fa-minus"></i></span>	
+								</div>
+						   </div>
+					  </template>
+					  <template v-else>
+						   <div style="position: relative;height: 50px;">
+						   		<div class="item-label"><label class="control-label">字段</label></div>
+								<div class="item-field">
+									<div> 
+										<input type="text" class="form-control" readonly="readonly"/>
+									</div>				
+								</div>
+								<div class="item-label"><label class="control-label">操作</label></div>
+								<div class="item-operation">
+									<div> 
+										<input type="text" class="form-control" readonly="readonly"/>
+					                </div>
+						        </div>
+						        <div class="item-label"><label class="control-label">值</label></div>
+								<div class="item-value">					
+									 <input type="text" class="form-control valueWidth" readonly="readonly"/>
+								</div>
+								<div class="item-connector">
+		
+								</div>
+						   </div>
+					  </template>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cmdLayout" style="text-align:right;padding-right:20px;width:100%;bottom:0px;">
+		   <input type="button" class="x-btn ok-btn" name="确定" value="确定" @click="submitByButton">
+		   <input type="button" class="x-btn cancel-btn" name="取消" value="取消" @click="closeByButton">
+		</div>
+	</div>
+	
+	<script type="text/javascript">			
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				fTid: '',    //当前表单发布编码
+				queryList: [ 
+					{
+						id: '',
+						uiType: 1,    //默认文本框
+						operator: '',
+						showName: '',  //选人选部门时  显示名称
+						value: '',
+						connector: '',
+						tableName: '',
+						entityId: '',
+						fieldPath: ''
+					}				 
+				],
+				serviceQueryList: [		//服务项查询条件
+				    /*       		
+                  	{
+				    	id: '',
+				    	fieldName: '',
+					    operator: '',
+					    value: '',
+					    connector: ''				
+				    }                  	
+				    {
+				    	id: 'field1',
+				    	fieldName: '服务项字段1',
+					    operator: 'like',
+					    value: '258',
+					    connector: 'and'				
+				    } 
+				    */
+				],   
+				fieldList: [],   //高级查询字段信息
+				optionsList: [],		//字段数据字典信息
+				inputDateIndexArr: [],    //记录值是日期控件的所在的index
+				inputTimeIndexArr: [],    //记录值是时间控件的所在的index
+				dataGridId: '',   //记录的数据表格编码
+				queryListDefId: '',	
+				businessId: '',	   //记录的当前选中的业务编码
+				selectedOrgId: '',   //记录的当前选中的机构编码
+				isRelatedServiceItem: false,   //是否关联服务项条件
+			},
+			watch: {
+	            /**
+	             * 监听后端的返回结果集
+	             */
+	            fieldList:function () {
+	                this.plugInInit();
+	            }
+	        },
+	        computed: {
+	        	getOperationId(){
+	        		return function (index) {
+	        			return "operation_" + index
+	        		}
+	        	},
+	        	getInputValueId(){
+	        		return function (index) {
+	        			return "inputValue_" + index
+	        		}
+	        	},
+	        	getConnectorId(){
+	        		return function (index) {
+	        			return "connector_" + index
+	        		}
+	        	},
+	        	getInputDateId(){
+	        		return function (index) {
+	        			if(this.inputDateIndexArr.includes(index) == false){   //不存在
+	        				this.inputDateIndexArr.push(index);
+	        			}
+	        			return "laydate_" + index
+	                }	
+	        	},
+	        	getInputTimeId(){
+	        		return function (index) {
+	        			if(this.inputTimeIndexArr.includes(index) == false){   //不存在
+	        				this.inputTimeIndexArr.push(index);
+	        			}
+	        			return "clockPicker_" + index
+	                }	
+	        	},
+	        	filterOptions: function () {
+	        		return function (fieldPath) {
+	        			for(let obj of this.optionsList){
+	        				if(fieldPath == obj.fieldPath){
+	        					return obj.options;
+	        				}
+	        			}        			
+	        		} 
+	            }
+	        },
+			methods: {
+				plugInInit(){     //下拉框  日期 时间等插件初始化
+					var $vue = this; // 当前的vue对象		
+					this.$nextTick(function () {
+						
+						//刷新初始下拉框插件
+	                	$(".selectpicker").selectpicker('refresh');
+						
+	                	//初始日期插件
+	                	for(let inputDateIndex of this.inputDateIndexArr){
+	                		laydate.render({
+		               			elem: '#laydate_'+inputDateIndex,   //指定元素 绑定laydate的元素，即id= laydate的那个input
+		               			format: 'yyyy-MM-dd',
+		               			done: function (value) { // value 是laydate选择的日期
+		               				$vue.queryList[inputDateIndex].value = value; // vue对象的属性设置为当前的日期
+		                        },
+		               		});
+	                	}
+	               			           
+	                	//初始时间插件
+	                	for(let inputTimeIndex of this.inputTimeIndexArr){
+	                		$('#clockPicker_'+inputTimeIndex).clockpicker({
+							    autoclose: true
+							});                	
+	                		$('#clockPicker_'+inputTimeIndex).clockpicker().find('input').change(function(){     //时间改变
+	                			$vue.queryList[inputTimeIndex].value = this.value; // vue对象的属性设置为当前的时间
+		               	    });
+	                	}              		
+	                })
+				},
+				formatOperator(operator){   //格式化操作符
+					let operatorName = '';
+					if(operator == 'equals'){
+						operatorName = '等于';
+					}else if(operator == 'like'){
+						operatorName = '包含';
+					}else if(operator == 'isNull'){
+						operatorName = '为空';
+					}else if(operator == 'notNull'){
+						operatorName = '不为空';
+					}else if(operator == '>'){
+						operatorName = '大于';
+					}else if(operator == '<'){
+						operatorName = '小于';
+					}else if(operator == '>='){
+						operatorName = '大于或等于';
+					}else if(operator == '<='){
+						operatorName = '小于或等于';
+					}
+					return operatorName;
+				},
+				formatConnector(connector){	 //格式化连接符
+					let connectorName = '';
+					if(connector == 'and'){
+						connectorName = '并且';
+					}else if(connector == 'or'){
+						connectorName = '或者';
+					}
+					return connectorName;
+				},
+				isOtherType(uiType){   //其他类型默认为文本框
+					let flag = false;
+					if(!(uiType == 1 || uiType == 2 || uiType == 2 || uiType == 3 || uiType == 4 || uiType == 5 || uiType == 6 || uiType == 7 || uiType == 8 || uiType == 9
+							|| uiType == 11 || uiType == 22 || uiType == 23 || uiType == 24 || uiType == 25 || uiType == 26)){
+						flag = true;
+					}
+					return flag;
+				},
+				loadAdvancedFieldInfo(){   //加载高级查询字段信息					
+					const synJson = new URLSearchParams();
+					
+		            synJson.append('fTid', this.fTid);   //当前表单编码主键
+		            synJson.append('queryListDefId', this.queryListDefId);
+		            synJson.append('businessId', this.businessId);
+		            synJson.append('selectedOrgId', this.selectedOrgId);
+		            
+		            axios.post(webpath + 'queryListSet/loadAdvancedFieldInfo',
+						synJson
+					)
+		               .then(res => {
+		                	if(res.data){
+		                		if(res.data.fieldJsonStr){
+		                			this.isRelatedServiceItem = res.data.isRelatedServiceItem;
+		                			this.fieldList = res.data.fieldJsonStr;
+		                			this.optionsList = res.data.optionsJsonStr;
+		                			
+		                			console.log(this.fieldList);
+		                			console.log(this.optionsList);
+		                		}		            
+		                    }
+		               })
+		               .catch(function (error) { // 请求失败处理
+					        console.log(error);
+		               });
+				},
+				selectField(event,queryItem,index){   //字段下拉框改变
+					let selectedIndex = event.target.selectedIndex;
+					let field = this.fieldList[selectedIndex - 1];
+					
+					queryItem.uiType = field.uiType;
+					if(queryItem.uiType == 6 || queryItem.uiType == 7 || queryItem.uiType == 8 
+	                        || queryItem.uiType == 5 || queryItem.uiType == 9 || queryItem.uiType == 11
+	                        || queryItem.uiType == 23 || queryItem.uiType == 25){     //单选按钮  复选框  单选按钮组    下拉框    复选按钮组 列表框  单选人员  单选部门
+						queryItem.operator = 'equals';       //操作符是等于
+						
+					}else if(queryItem.uiType == 22 || queryItem.uiType == 24 || queryItem.uiType == 26){  //多选下拉框  多选人员  多选部门
+						queryItem.operator = 'like';       //操作符是包含
+						
+					}else{
+						queryItem.operator = '';
+					}		    	
+					queryItem.value = '';
+					queryItem.showName = '';				
+					//queryItem.connector = '';    不改变连接符
+					queryItem.tableName = field.tableName;
+					queryItem.entityId = field.entityId;
+					queryItem.fieldPath = field.fieldPath;
+									
+					this.plugInInit();
+				},
+				addRow(queryList,queryItem,index){   //添加查询行
+					let newQueryItem = {};		
+					newQueryItem.id = '';
+					newQueryItem.uiType = 1;
+					newQueryItem.operator = '';					
+					newQueryItem.showName = '';
+					newQueryItem.value = '';
+					newQueryItem.connector = '';					
+					if(queryList.length>1 && index!=queryList.length-1){    //如果当前行存在连接符选项  直接在新行添加一个
+						newQueryItem.connector = 'and';
+					}else{
+						queryItem.connector = 'and';
+					}				
+					newQueryItem.tableName = '';
+					newQueryItem.entityId = '';
+					newQueryItem.fieldPath = '';
+					
+					this.queryList.splice(index+1, 0, newQueryItem);
+					
+					this.plugInInit();
+				},
+				delRow(index){	 //刪除查询行
+					if(this.queryList.length != 1){
+						 this.queryList.splice(index, 1);
+							
+						 this.plugInInit();
+					}				  
+				},
+				submitByButton(){   //确定
+					let queryListDefId = this.queryListDefId;
+					if(queryListDefId!=null && queryListDefId.length>0){
+						//先校验是否有填写基本信息条件
+						let isWriteBase = false;
+						for(i=0;i<this.queryList.length;i++){
+							let queryItem = this.queryList[i];
+							if(queryItem.id != '' && queryItem.id.trim().length > 0){
+								isWriteBase = true;
+								break;
+							}
+							if(queryItem.operator != '' && queryItem.operator.trim().length > 0){
+								isWriteBase = true;
+								break;
+							}
+							if(queryItem.value != '' && queryItem.value.trim().length > 0){
+								isWriteBase = true;
+								break;
+							}
+						}
+						let isWriteService = false;
+						for(i=0;i<this.serviceQueryList.length;i++){
+							let serviceQueryItem = this.serviceQueryList[i];
+							if(serviceQueryItem.id != '' && serviceQueryItem.id.trim().length > 0){
+								isWriteService = true;
+								break;
+							}
+							if(serviceQueryItem.operator != '' && serviceQueryItem.operator.trim().length > 0){
+								isWriteService = true;
+								break;
+							}
+							if(serviceQueryItem.value != '' && serviceQueryItem.value.trim().length > 0){
+								isWriteService = true;
+								break;
+							}
+						}
+						if(!isWriteBase && !isWriteService){
+							Matrix.warn("请填写条件");
+	     				    return false;
+						}else{
+							if(isWriteBase){
+								 for(i=0;i<this.queryList.length;i++){
+					        	    let queryItem = this.queryList[i];
+					        	    if(queryItem.id == '' || queryItem.id.trim().length == 0){
+				        	    		Matrix.warn("请选择第"+(i+1)+"行的字段");
+				     				    return false;
+				        	    	}
+				        	    	if(queryItem.operator == '' || queryItem.operator.trim().length == 0){
+				        	    		Matrix.warn("请选择第"+(i+1)+"行的操作");
+				     				    return false;
+				        	    	}
+				        	    	if(queryItem.value == '' || queryItem.value.trim().length == 0){
+				        	    		Matrix.warn("请填写第"+(i+1)+"行的值");
+				     				    return false;
+				        	    	}
+								 }
+							}
+						}
+						
+						
+						//基本信息条件
+						var str = '[';
+		        	    let isFirst = true;
+		        	    for(i=0;i<this.queryList.length;i++){
+		        	    	let queryItem = this.queryList[i];
+		        	   
+		        	    	if(!isFirst){
+		        	    		str = str + ',';
+		        	    	}
+		        	    	str = str + '{';
+		        		 	str = str + '"id":"'+queryItem.id+'",';
+		        		 	str = str + '"uiType":"'+queryItem.uiType+'",';		        		 	
+		        		 	str = str + '"operator":"'+queryItem.operator+'",';
+		        		 	str = str + '"showName":"'+queryItem.showName+'",';
+		        		 	str = str + '"value":"'+queryItem.value+'",';
+		        		 	str = str + '"connector":"'+queryItem.connector+'",';
+		        		 	str = str + '"tableName":"'+queryItem.tableName+'",';
+		        		 	str = str + '"entityId":"'+queryItem.entityId+'",';
+		        		 	str = str + '"fieldPath":"'+queryItem.fieldPath+'"';
+		        		 	
+		        		 	str = str + '}';
+		        		 	 
+		        		 	isFirst = false;
+		        	    }
+		        	    str = str + ']';
+					   
+					    //服务项条件
+		        	    var str2 = '[';
+		        	    let isFirst2 = true;
+		        	    this.serviceQueryList.forEach(function(serviceQueryItem,index){
+		        	    	if(!isFirst2){
+		        	    		str2 = str2 + ',';
+		        	    	}
+		        	    	str2 = str2 + '{';
+		        	    	str2 = str2 + '"id":"'+serviceQueryItem.id+'",';		        	    	
+		        	    	str2 = str2 + '"fieldName":"'+serviceQueryItem.fieldName+'",';
+		        	    	str2 = str2 + '"operator":"'+serviceQueryItem.operator+'",';
+		        	    	str2 = str2 + '"value":"'+serviceQueryItem.value+'",';
+		        	    	str2 = str2 + '"connector":"'+serviceQueryItem.connector+'"';
+		        	    	str2 = str2 + '}';
+		        		 	 
+		        	    	isFirst2 = false;
+		        	    });
+		        	    str2 = str2 + ']';
+					
+		        	    var data = {};
+		      		    data.advanceQueryValue = str;
+		      		    data.serviceQueryValue = str2;
+		      		    data.dataGridId = this.dataGridId;
+		      		   
+					}else{
+						var str = '[';
+		        	    let isFirst = true;
+		        	    for(i=0;i<this.queryList.length;i++){
+		        	    	let queryItem = this.queryList[i];
+		        	    	if(queryItem.id == '' || queryItem.id.trim().length == 0){
+		        	    		Matrix.warn("请选择第"+(i+1)+"行的字段");
+		     				    return false;
+		        	    	}
+		        	    	if(queryItem.operator == '' || queryItem.operator.trim().length == 0){
+		        	    		Matrix.warn("请选择第"+(i+1)+"行的操作");
+		     				    return false;
+		        	    	}
+		        	    	if(queryItem.value == '' || queryItem.value.trim().length == 0){
+		        	    		Matrix.warn("请填写第"+(i+1)+"行的值");
+		     				    return false;
+		        	    	}
+		        	    	if(!isFirst){
+		        	    		str = str + ',';
+		        	    	}
+		        	    	str = str + '{';
+		        		 	str = str + '"fieldName":"'+queryItem.id+'",';
+		        		 	str = str + '"operator":"'+queryItem.operator+'",';
+		        		 	str = str + '"value":"'+queryItem.value+'",';
+		        		 	str = str + '"connector":"'+queryItem.connector+'"';
+		        		 	str = str + '}';
+		        		 	 
+		        		 	isFirst = false;
+		        	    }
+		        	    str = str + ']';
+						
+						var data = {};
+			      		data.advanceQueryValue = str;
+			      		data.dataGridId = this.dataGridId;
+					}      		 
+	      		    console.log(data);
+	      		    Matrix.closeLayerWindow(data);    		   
+				},
+				closeByButton(){   //取消
+					Matrix.closeLayerWindow();
+				},
+				openSinglePerson(event,queryItem){
+					openSinglePerson(queryItem);
+				},
+				openSingleDep(event,queryItem){
+					openSingleDep(queryItem);
+				},
+				/*
+				addServiceItems(serviceIndex){	//添加服务项条件
+					debugger;
+					let newServiceQueryItem = {};		
+					newServiceQueryItem.id = 'field2';
+					newServiceQueryItem.fieldName = '服务项字段2';
+					newServiceQueryItem.operator = 'like';
+					newServiceQueryItem.value = '369';
+					newServiceQueryItem.connector = 'or';
+					
+					this.serviceQueryList.splice(serviceIndex+1, 0, newServiceQueryItem);
+				},
+				*/
+				addServiceItems(){	//添加服务项条件
+					debugger;
+					let newServiceQueryItem = {};		
+					newServiceQueryItem.id = 'field2';
+					newServiceQueryItem.fieldName = '服务项字段2';
+					newServiceQueryItem.operator = 'like';
+					newServiceQueryItem.value = '369';
+					newServiceQueryItem.connector = 'or';
+					
+					this.serviceQueryList.push(newServiceQueryItem);
+				},
+				delServiceRow(index){	 //刪除服务项查询行
+					if(this.serviceQueryList.length != 1){
+						this.serviceQueryList.splice(index, 1);
+					}				   
+				}
+			},
+			created() {
+				this.dataGridId = getUrlParam("dataGridId");				
+				if(parent.document.getElementById("matrix_form_tid")){
+					this.fTid = parent.document.getElementById("matrix_form_tid").value;
+				}				
+				if(parent.document.getElementById(this.dataGridId + "_queryListDefId")){
+					this.queryListDefId = parent.document.getElementById(this.dataGridId + "_queryListDefId").value;
+				}
+				if(parent.document.getElementById(this.dataGridId + "_businessId")){
+					this.businessId = parent.document.getElementById(this.dataGridId + "_businessId").value;
+				}
+				if(parent.document.getElementById(this.dataGridId + "_selectedOrgId")){
+					this.selectedOrgId = parent.document.getElementById(this.dataGridId + "_selectedOrgId").value;
+				}
+				if(parent.document.getElementById(this.dataGridId + "_mfilter")){				
+					var advanceQueryJson = parent.Matrix.getFormItemValue(""+this.dataGridId+"_mfilter");   //基本查询条件json字符串
+					if(advanceQueryJson){
+						this.queryList = JSON.parse(advanceQueryJson);
+					}				
+				}					
+				if(parent.document.getElementById(this.dataGridId + "_servicequery")){
+					var serviceQueryJson = parent.Matrix.getFormItemValue(""+this.dataGridId+"_servicequery");   //服务型查询条件json字符串
+					if(serviceQueryJson){
+						this.serviceQueryList = JSON.parse(serviceQueryJson);
+					}				
+				}
+				console.log(this.queryList);
+				
+				this.loadAdvancedFieldInfo();
+			},
+			updated(){
+				
+			},
+			mounted(){
+
+			}			
+		})
+	</script>
+</body>
+</html>
